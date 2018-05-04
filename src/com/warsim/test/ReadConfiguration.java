@@ -13,7 +13,7 @@ import java.util.Map;
 public class ReadConfiguration {
 
 
-    public static void LoadConfig(
+    public static void loadConfig(
             HashMap<String, MissileLauncher> missileLaunchersDB,
             HashMap<String, Missile> missilesDB,
             HashMap<String, MissileLauncherDestructor> missileLauncherDestructorsDB,
@@ -80,7 +80,7 @@ public class ReadConfiguration {
                                 String missileId = (String) ((Map) mis.get(j)).get("id");
                                 int destructAfterLaunch = Integer.parseInt((String) ((Map) mis.get(j)).get("destructAfterLaunch"));
 
-                                destructor.AddDestructMissle(missileId, destructAfterLaunch);
+                                destructor.addDestructMissle(missileId, destructAfterLaunch);
                                 missileDestructorsDB.put(id, destructor);
                             }
                         }
@@ -106,7 +106,7 @@ public class ReadConfiguration {
                                 String launcherId = (String) ((Map) mis.get(j)).get("id");
                                 int destructTime = Integer.parseInt((String) ((Map) mis.get(j)).get("destructTime"));
 
-                                missileLauncherDestructor.AddDestructedLauncher(launcherId, destructTime);
+                                missileLauncherDestructor.addDestructedLauncher(launcherId, destructTime);
                                 missileLauncherDestructorsDB.put(missileLauncherDestructor.getId(), missileLauncherDestructor);
                             }
 

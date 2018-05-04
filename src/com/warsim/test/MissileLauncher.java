@@ -18,7 +18,7 @@ public class MissileLauncher {
         this.missiles = missiles;
     }
 
-    public boolean IsHidden(){
+    public boolean isHidden(){
         return isHidden;
     }
 

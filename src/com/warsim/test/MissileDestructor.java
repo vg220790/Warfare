@@ -13,7 +13,7 @@ public class MissileDestructor {
         destructMissile = new HashMap<>();
     }
 
-    public void AddDestructMissle(String missleId, int destructAfterLaunch){
+    public void addDestructMissle(String missleId, int destructAfterLaunch){
         destructMissile.put(missleId, destructAfterLaunch);
     }
 
