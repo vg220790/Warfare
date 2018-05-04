@@ -1,34 +1,33 @@
 package com.warsim.test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ConsoleVersion implements SystemInterface{
-    HashMap<String, MissleLauncher> missleLaunchers;
-    HashMap<String,MissleLauncherDestructor> missleLauncherDestructors;
-    HashMap<String,MissleDestructor> missleDestructors;
+
 
 	public static void main(String[] args) {
-
-
-		System.out.println("System Starts..");
+        ReadConfiguration.LoadConfig();
 
 	}
 
 	@Override
 	public void AddMissleLauncher(String id,MissleLauncher missleLauncher) {
-        missleLaunchers.put(id,missleLauncher);
+		ReadConfiguration.missleLaunchersDB.put(id,missleLauncher);
 
 	}
 
     @Override
     public void AddMissleLauncherDestructor(String id, MissleLauncherDestructor missleLauncherDestructor) {
-        missleLauncherDestructors.put(id, missleLauncherDestructor);
+        ReadConfiguration.missleLauncherDestructorsDB.put(id, missleLauncherDestructor);
     }
 
     @Override
+	public void AddMissle(String id, Missle missle){
+        ReadConfiguration.misslesDB.put(id,missle);
+	}
+
+    @Override
     public void AddMissleDestructor(String id, MissleDestructor missleDestructor) {
-        missleDestructors.put(id, missleDestructor);
+        ReadConfiguration.missleDestructorsDB.put(id, missleDestructor);
     }
 
 	@Override

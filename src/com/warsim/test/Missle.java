@@ -7,7 +7,7 @@ public class Missle {
     private String destination;
     private int damage;
 
-    public Missle(String id, int launchTime, int flyTime, String destination, int damage){
+    public Missle(String id, String destination, int launchTime, int flyTime, int damage){
         this.id = id;
         this.launchTime = launchTime;
         this.flyTime = flyTime;

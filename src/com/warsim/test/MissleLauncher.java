@@ -2,23 +2,29 @@ package com.warsim.test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MissleLauncher {
     private String id;
     private boolean isHidden;
-    private HashMap<String, Missle> missles;
+    private List<Missle> missle;
 
     public MissleLauncher(String id, boolean isHidden){
         this.id = id;
         this.isHidden = isHidden;
+        missle = new ArrayList<>();
+    }
+
+    public void addMIssles(List<Missle> missle){
+        this.missle = missle;
     }
 
     public boolean IsHidden(){
         return isHidden;
     }
 
-    public void AddMissle(String missleId, Missle missle){
-        missles.put(missleId, missle);
+    public void addMissle(Missle m){
+        missle.add(m);
     }
 
 }
