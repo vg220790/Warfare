@@ -1,58 +1,79 @@
 package com.warsim.test;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class ConsoleVersion implements SystemInterface{
-    HashMap<String, MissleLauncher> missleLaunchers;
-    HashMap<String,MissleLauncherDestructor> missleLauncherDestructors;
-    HashMap<String,MissleDestructor> missleDestructors;
+	private static HashMap<String, MissileLauncher> missileLaunchersDB;
+	private static HashMap<String, Missile> missilesDB;
+	private static HashMap<String, MissileLauncherDestructor> missileLauncherDestructorsDB;
+	private static HashMap<String, MissileDestructor> missileDestructorsDB;
 
 	public static void main(String[] args) {
+		missileLauncherDestructorsDB = new HashMap<>();
+		missilesDB = new HashMap<>();
+		missileLaunchersDB = new HashMap<>();
+		missileDestructorsDB = new HashMap<>();
+
+		System.out.println("System Start...");
 
 
-		System.out.println("System Starts..");
+        ReadConfiguration.loadConfig(missileLaunchersDB,missilesDB,missileLauncherDestructorsDB,missileDestructorsDB);
 
+		boolean systemRuns = true;
+
+		//while(systemRuns){
+
+		//}
+
+
+
+		System.out.println("System Out..");
 	}
 
 	@Override
-	public void AddMissleLauncher(String id,MissleLauncher missleLauncher) {
-        missleLaunchers.put(id,missleLauncher);
+	public void addMissileLauncher(String id,MissileLauncher missileLauncher) {
+		missileLaunchersDB.put(id, missileLauncher);
 
 	}
 
     @Override
-    public void AddMissleLauncherDestructor(String id, MissleLauncherDestructor missleLauncherDestructor) {
-        missleLauncherDestructors.put(id, missleLauncherDestructor);
+    public void addMissileLauncherDestructor(String id, MissileLauncherDestructor missileLauncherDestructor) {
+        missileLauncherDestructorsDB.put(id, missileLauncherDestructor);
     }
 
     @Override
-    public void AddMissleDestructor(String id, MissleDestructor missleDestructor) {
-        missleDestructors.put(id, missleDestructor);
+	public void addMissile(String id, Missile missile){
+        missilesDB.put(id, missile);
+	}
+
+    @Override
+    public void addMissileDestructor(String id, MissileDestructor missileDestructor) {
+        missileDestructorsDB.put(id, missileDestructor);
     }
 
 	@Override
-	public void LaunchMissle(String destination, int damage, int flyTime) {
+	public void launchMissile(String destination, int damage, int flyTime) {
 
 	}
 
 	@Override
-	public void DestroyMissleLauncher() {
+	public void destroyMissileLauncher() {
 
 	}
 
 	@Override
-	public void DestroyMissle() {
+	public void destroyMissile() {
 
 	}
 
 	@Override
-	public void ShowStats() {
+	public void showStats() {
 
 	}
 
 	@Override
-	public void Exit() {
+	public void exit() {
 
 	}
 }

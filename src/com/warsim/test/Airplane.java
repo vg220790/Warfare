@@ -1,8 +1,8 @@
 package com.warsim.test;
 
-public class Airplane extends MissleLauncherDestructor {
+public class Airplane extends MissileLauncherDestructor {
 
-    public Airplane(String id){
-        super(id);
+    public Airplane(){
+        super();
     }
 }

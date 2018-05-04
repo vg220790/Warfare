@@ -2,12 +2,13 @@ package com.warsim.test;
 
 public interface SystemInterface {
 
-    public void AddMissleLauncher(String id, MissleLauncher missleLauncher);
-    public void AddMissleLauncherDestructor(String id, MissleLauncherDestructor missleLauncherDestructor);
-    public void AddMissleDestructor(String id, MissleDestructor missleDestructor);
-    public void LaunchMissle(String destination, int damage, int flyTime);
-    public void DestroyMissleLauncher();
-    public void DestroyMissle();
-    public void ShowStats();
-    public void Exit();
+    public void addMissileLauncher(String id, MissileLauncher missileLauncher);
+    public void addMissileLauncherDestructor(String id, MissileLauncherDestructor missileLauncherDestructor);
+    public void addMissileDestructor(String id, MissileDestructor missileDestructor);
+    public void addMissile(String id, Missile missile);
+    public void launchMissile(String destination, int damage, int flyTime);
+    public void destroyMissileLauncher();
+    public void destroyMissile();
+    public void showStats();
+    public void exit();
 }
