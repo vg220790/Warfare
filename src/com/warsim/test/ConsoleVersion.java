@@ -10,38 +10,38 @@ public class ConsoleVersion implements SystemInterface{
 	}
 
 	@Override
-	public void AddMissleLauncher(String id,MissleLauncher missleLauncher) {
-		ReadConfiguration.missleLaunchersDB.put(id,missleLauncher);
+	public void AddMissileLauncher(String id,MissileLauncher missileLauncher) {
+		ReadConfiguration.missileLaunchersDB.put(id, missileLauncher);
 
 	}
 
     @Override
-    public void AddMissleLauncherDestructor(String id, MissleLauncherDestructor missleLauncherDestructor) {
-        ReadConfiguration.missleLauncherDestructorsDB.put(id, missleLauncherDestructor);
+    public void AddMissileLauncherDestructor(String id, MissileLauncherDestructor missileLauncherDestructor) {
+        ReadConfiguration.missileLauncherDestructorsDB.put(id, missileLauncherDestructor);
     }
 
     @Override
-	public void AddMissle(String id, Missle missle){
-        ReadConfiguration.misslesDB.put(id,missle);
+	public void AddMissile(String id, Missile missile){
+        ReadConfiguration.missilesDB.put(id, missile);
 	}
 
     @Override
-    public void AddMissleDestructor(String id, MissleDestructor missleDestructor) {
-        ReadConfiguration.missleDestructorsDB.put(id, missleDestructor);
+    public void AddMissileDestructor(String id, MissileDestructor missileDestructor) {
+        ReadConfiguration.missileDestructorsDB.put(id, missileDestructor);
     }
 
 	@Override
-	public void LaunchMissle(String destination, int damage, int flyTime) {
+	public void LaunchMissile(String destination, int damage, int flyTime) {
 
 	}
 
 	@Override
-	public void DestroyMissleLauncher() {
+	public void DestroyMissileLauncher() {
 
 	}
 
 	@Override
-	public void DestroyMissle() {
+	public void DestroyMissile() {
 
 	}
 

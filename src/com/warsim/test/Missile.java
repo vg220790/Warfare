@@ -1,13 +1,13 @@
 package com.warsim.test;
 
-public class Missle {
+public class Missile {
     private String id;
     private int flyTime;
     private int launchTime;
     private String destination;
     private int damage;
 
-    public Missle(String id, String destination, int launchTime, int flyTime, int damage){
+    public Missile(String id, String destination, int launchTime, int flyTime, int damage){
         this.id = id;
         this.launchTime = launchTime;
         this.flyTime = flyTime;

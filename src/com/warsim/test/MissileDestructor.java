@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MissleDestructor {
+public class MissileDestructor {
     private String id;
     private Map<String, Integer> destructMissile;
 
-    public MissleDestructor(String id){
+    public MissileDestructor(String id){
         this.id = id;
         destructMissile = new HashMap<>();
     }

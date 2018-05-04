@@ -3,12 +3,12 @@ package com.warsim.test;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class MissleLauncherDestructor {
+public abstract class MissileLauncherDestructor {
     private static int idInc = 0;
     private String id;
     private HashMap<Integer, String> destructedLaunches;
 
-    public MissleLauncherDestructor(){
+    public MissileLauncherDestructor(){
         this.id = "LD10" + (1 + idInc++);
         destructedLaunches = new HashMap<>();
     }

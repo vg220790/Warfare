@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadConfiguration {
-    public static HashMap<String, MissleLauncher> missleLaunchersDB;
-    public static HashMap<String, Missle> misslesDB;
-    public static HashMap<String, MissleLauncherDestructor> missleLauncherDestructorsDB;
-    public static HashMap<String, MissleDestructor> missleDestructorsDB;
+    public static HashMap<String, MissileLauncher> missileLaunchersDB;
+    public static HashMap<String, Missile> missilesDB;
+    public static HashMap<String, MissileLauncherDestructor> missileLauncherDestructorsDB;
+    public static HashMap<String, MissileDestructor> missileDestructorsDB;
 
     public static void LoadConfig() {
-        missleLauncherDestructorsDB = new HashMap<>();
-        misslesDB = new HashMap<>();
-        missleLaunchersDB = new HashMap<>();
-        missleDestructorsDB = new HashMap<>();
+        missileLauncherDestructorsDB = new HashMap<>();
+        missilesDB = new HashMap<>();
+        missileLaunchersDB = new HashMap<>();
+        missileDestructorsDB = new HashMap<>();
 
         System.out.println("System Starts..");
 
@@ -32,10 +32,10 @@ public class ReadConfiguration {
 
             if (war.containsKey("war")) {
                 Map<String, Object> initialConfiguration = (Map) war.get("war");
-                if (initialConfiguration.containsKey("missleLaunchers")) {
-                    Map<String, Object> missleLaunchers = (Map) initialConfiguration.get("missleLaunchers");
-                    if (missleLaunchers.containsKey("launcher")) {
-                        ArrayList<Object> arr = (ArrayList) missleLaunchers.get("launcher");
+                if (initialConfiguration.containsKey("missileLaunchers")) {
+                    Map<String, Object> missileLaunchers = (Map) initialConfiguration.get("missileLaunchers");
+                    if (missileLaunchers.containsKey("launcher")) {
+                        ArrayList<Object> arr = (ArrayList) missileLaunchers.get("launcher");
                         for (int i = 0; i < arr.size(); i++) {
                             String id = (String) ((Map) arr.get(i)).get("id");
                             String hidden = (String) ((Map) arr.get(i)).get("isHidden");
@@ -44,72 +44,72 @@ public class ReadConfiguration {
                                 isHidden = false;
                             else
                                 isHidden = true;
-                            List<Missle> missles = new ArrayList<>();
-                            List<Object> mis = (List) ((Map) arr.get(i)).get("missle");
+                            List<Missile> missiles = new ArrayList<>();
+                            List<Object> mis = (List) ((Map) arr.get(i)).get("missile");
                             for (int j = 0; j < mis.size(); j++) {
-                                String missleId = (String) ((Map) mis.get(j)).get("id");
+                                String missileId = (String) ((Map) mis.get(j)).get("id");
                                 String destination = (String) ((Map) mis.get(j)).get("destination");
 
                                 int launchTime = Integer.parseInt((String) ((Map) mis.get(j)).get("launchTime"));
                                 int flyTime = Integer.parseInt((String) ((Map) mis.get(j)).get("flyTime"));
                                 int damage = Integer.parseInt((String) ((Map) mis.get(j)).get("damage"));
 
-                                Missle missle = new Missle(missleId, destination, launchTime, flyTime, damage);
-                                misslesDB.put(missleId, missle);
-                                missles.add(missle);
+                                Missile missile = new Missile(missileId, destination, launchTime, flyTime, damage);
+                                missilesDB.put(missileId, missile);
+                                missiles.add(missile);
                             }
 
-                            MissleLauncher missleLauncher = new MissleLauncher(id, isHidden);
-                            missleLauncher.addMIssles(missles);
-                            missleLaunchersDB.put(id, missleLauncher);
-                            System.out.println(missleLauncher);
+                            MissileLauncher missileLauncher = new MissileLauncher(id, isHidden);
+                            missileLauncher.addMissiles(missiles);
+                            missileLaunchersDB.put(id, missileLauncher);
+                            System.out.println(missileLauncher);
 
 
                         }
                     }
 
                 }
-                if (initialConfiguration.containsKey("missleDestructors")) {
-                    Map<String, Object> ob = (Map) initialConfiguration.get("missleDestructors");
+                if (initialConfiguration.containsKey("missileDestructors")) {
+                    Map<String, Object> ob = (Map) initialConfiguration.get("missileDestructors");
                     if (ob.containsKey("destructor")) {
                         ArrayList<Object> arr = (ArrayList) ob.get("destructor");
                         for (int i = 0; i < arr.size(); i++) {
                             String id = (String) ((Map) arr.get(i)).get("id");
 
-                            MissleDestructor destructor = new MissleDestructor(id);
-                            List<Object> mis = (List) ((Map) arr.get(i)).get("destructedMissle");
+                            MissileDestructor destructor = new MissileDestructor(id);
+                            List<Object> mis = (List) ((Map) arr.get(i)).get("destructdMissile");
                             for (int j = 0; j < mis.size(); j++) {
-                                String missleId = (String) ((Map) mis.get(j)).get("id");
+                                String missileId = (String) ((Map) mis.get(j)).get("id");
                                 int destructAfterLaunch = Integer.parseInt((String) ((Map) mis.get(j)).get("destructAfterLaunch"));
 
-                                destructor.AddDestructMissle(missleId, destructAfterLaunch);
-                                missleDestructorsDB.put(id, destructor);
+                                destructor.AddDestructMissle(missileId, destructAfterLaunch);
+                                missileDestructorsDB.put(id, destructor);
                             }
                         }
                     }
                 }
-                if (initialConfiguration.containsKey("missleLauncherDestructors")) {
-                    Map<String, Object> ob = (Map) initialConfiguration.get("missleLauncherDestructors");
+                if (initialConfiguration.containsKey("missileLauncherDestructors")) {
+                    Map<String, Object> ob = (Map) initialConfiguration.get("missileLauncherDestructors");
                     if (ob.containsKey("destructor")) {
                         ArrayList<Object> arr = (ArrayList) ob.get("destructor");
                         for (int i = 0; i < arr.size(); i++) {
                             String type = (String) ((Map) arr.get(i)).get("type");
 
-                            MissleLauncherDestructor missleLauncherDestructor;
+                            MissileLauncherDestructor missileLauncherDestructor;
                             if (type.equals("plane")) {
-                                missleLauncherDestructor = new Airplane();
+                                missileLauncherDestructor = new Airplane();
                             } else {
-                                missleLauncherDestructor = new Ship();
+                                missileLauncherDestructor = new Ship();
                             }
 
 
-                            List<Object> mis = (List) ((Map) arr.get(i)).get("destructedLauncher");
+                            List<Object> mis = (List) ((Map) arr.get(i)).get("destructedLanucher");
                             for (int j = 0; j < mis.size(); j++) {
                                 String launcherId = (String) ((Map) mis.get(j)).get("id");
                                 int destructTime = Integer.parseInt((String) ((Map) mis.get(j)).get("destructTime"));
 
-                                missleLauncherDestructor.AddDestructedLauncher(launcherId, destructTime);
-                                missleLauncherDestructorsDB.put(missleLauncherDestructor.getId(), missleLauncherDestructor);
+                                missileLauncherDestructor.AddDestructedLauncher(launcherId, destructTime);
+                                missileLauncherDestructorsDB.put(missileLauncherDestructor.getId(), missileLauncherDestructor);
                             }
 
 
