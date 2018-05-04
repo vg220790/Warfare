@@ -11,18 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadConfiguration {
-    public static HashMap<String, MissileLauncher> missileLaunchersDB;
-    public static HashMap<String, Missile> missilesDB;
-    public static HashMap<String, MissileLauncherDestructor> missileLauncherDestructorsDB;
-    public static HashMap<String, MissileDestructor> missileDestructorsDB;
 
-    public static void LoadConfig() {
-        missileLauncherDestructorsDB = new HashMap<>();
-        missilesDB = new HashMap<>();
-        missileLaunchersDB = new HashMap<>();
-        missileDestructorsDB = new HashMap<>();
 
-        System.out.println("System Starts..");
+    public static void LoadConfig(
+            HashMap<String, MissileLauncher> missileLaunchersDB,
+            HashMap<String, Missile> missilesDB,
+            HashMap<String, MissileLauncherDestructor> missileLauncherDestructorsDB,
+            HashMap<String, MissileDestructor> missileDestructorsDB) {
+
+
+        System.out.println("Data Load Starts..");
 
 
         try {
