@@ -1,4 +1,4 @@
-package com.warsim.test;
+package com.afekawar.bl.base;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

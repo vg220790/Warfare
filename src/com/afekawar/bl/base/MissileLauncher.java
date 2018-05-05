@@ -1,5 +1,6 @@
 package com.afekawar.bl.base;
 
+import java.util.PriorityQueue;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -9,7 +10,7 @@ public class MissileLauncher implements Runnable {
      * ************************************************************* */
     private String id;
     private Logger logger;
-    private Vector<Missile> missiles;
+    private PriorityQueue<Missile> missiles;
     private boolean isAlive;
     private boolean isHidden;
 
@@ -29,11 +30,11 @@ public class MissileLauncher implements Runnable {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-    public Vector<Missile> getMissiles() {
+    public PriorityQueue<Missile> getMissiles() {
 
         return missiles;
     }
-    public void setMissiles(Vector<Missile> missiles) {
+    public void setMissiles(PriorityQueue<Missile> missiles) {
         this.missiles = missiles;
     }
     public Logger getLogger() {
