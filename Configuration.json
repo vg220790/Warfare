@@ -14,6 +14,13 @@
               "damage": "1500"
             },
             {
+              "id": "M12",
+              "destination": "Sderot",
+              "launchTime": "22",
+              "flyTime": "12",
+              "damage": "1500"
+            },
+            {
               "id": "M2",
               "destination": "Beer-Sheva",
               "launchTime": "5",
