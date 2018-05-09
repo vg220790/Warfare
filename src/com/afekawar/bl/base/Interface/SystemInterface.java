@@ -9,7 +9,6 @@ public interface SystemInterface {
     public void addMissileLauncherDestructor(String id, MissileLauncherDestructor missileLauncherDestructor);
     public void addMissileDestructor(String id, MissileDestructor missileDestructor);
     public void addMissile(String id, Missile missile);
-    public void addTarget(String id, Target target);
     public Target getTargetById(String id);
     public void launchMissile(String destination, int damage, int flyTime);
     public void destroyMissileLauncher(String id);

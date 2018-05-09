@@ -16,7 +16,7 @@ public class ReadConfiguration {
 
 
         System.out.println("Data Load Starts..");
-
+        StaticTargets targets = new StaticTargets();
 
         try {
             Map<String, Object> war = new Gson().fromJson(new JsonReader(new FileReader("Configuration.json")), Map.class);
@@ -45,13 +45,9 @@ public class ReadConfiguration {
                                 String destination = (String) ((Map) mis.get(j)).get("destination");
 
 
-                                // TODO - remove after targets database fix..
-                                Target target = new Target(destination);
-                                data.addTarget(target.getName(),target);
-                                // TODO --
 
+                                Target target = targets.getTargetByName(destination);
 
-                              //  Target target = data.getTargetById(destination);   // TODO - use after targets database is constant.....
 
 
                                 int launchTime = Integer.parseInt((String) ((Map) mis.get(j)).get("launchTime"));
@@ -70,7 +66,6 @@ public class ReadConfiguration {
 
 
 
-                           // System.out.println(missileLauncher);
 
 
                         }
@@ -129,3 +124,5 @@ public class ReadConfiguration {
         }
     }
 }
+
+// TODO - Fix a bug where the parser does read only arrays, and not single objects ( currently I've changed the provided .json to make it work).

@@ -1,18 +1,24 @@
 package com.afekawar.bl.base.Entities;
 
-public class Target implements Runnable{
+public class Target{
     private String name;
+    private int x;
+    private int y;
 
-    public Target(String name){
+    public Target(String name, int x, int y){
+
         this.name = name;
+        this.x = x;
+        this.y = y;
     }
 
     public String getName(){
         return name;
     }
-
-    @Override
-    public void run() {
-
+    public int getX(){
+        return x;
+    }
+    public int getY(){
+        return y;
     }
 }

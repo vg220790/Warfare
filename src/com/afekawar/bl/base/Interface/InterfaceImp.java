@@ -56,10 +56,7 @@ public class InterfaceImp implements SystemInterface {
         entities.put(id,missile);
     }
 
-    @Override
-    public void addTarget(String id, Target target){
-        entities.put(id,target);
-    }
+
 
     @Override
     public Target getTargetById(String id){
