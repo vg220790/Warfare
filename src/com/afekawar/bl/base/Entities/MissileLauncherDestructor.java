@@ -1,6 +1,9 @@
 package com.afekawar.bl.base.Entities;
 
+import com.afekawar.bl.base.Interface.InterfaceImp;
+
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -15,10 +18,11 @@ public class MissileLauncherDestructor implements Runnable {
     private Type type;
     private Logger logger;
     private boolean isAlive;
-    private TreeMap<Integer,String> targetMissileLaunchers; // Will try to destroy target missile if not null
+    private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target missile if not null
+    private InterfaceImp data;
 
-    public MissileLauncherDestructor(String type){
-        this.id = "LD0" + (1 + idInc++);
+    public MissileLauncherDestructor(String type, InterfaceImp data){
+        this.id = "LD30" + (1 + idInc++);
         if(type.equals("plane")){
             this.type = Type.AIRCRAFT;
         }
@@ -27,6 +31,7 @@ public class MissileLauncherDestructor implements Runnable {
         }
         isAlive = true;
         targetMissileLaunchers = new TreeMap<>();
+        this.data = data;
     }
 
     /* *************************************************************
@@ -50,6 +55,10 @@ public class MissileLauncherDestructor implements Runnable {
 
         return id;
     }
+
+    public void stopThread(){
+        isAlive = false;
+    }
     public void setId(String id) {
         this.id = id;
     }
@@ -59,8 +68,8 @@ public class MissileLauncherDestructor implements Runnable {
     public void setType(Type type) {
         this.type = type;
     }
-    public void addDestructedLauncher(int time, String launcherId){
-        targetMissileLaunchers.put(time,launcherId);
+    public void addDestructedLauncher(int time, MissileLauncher launcher){
+        targetMissileLaunchers.put(time,launcher);
     }
 
     /* *************************************************************
@@ -68,6 +77,35 @@ public class MissileLauncherDestructor implements Runnable {
      * ************************************************************* */
     @Override
     public void run() {
-        System.out.println("Missile Launcher Destructor n` " + id + " Started...");
+            System.out.println("Missile Launcher Destructor n` " + id + " Started...");
+
+            Long startTime = System.nanoTime();
+
+            Iterator it = targetMissileLaunchers.keySet().iterator();
+
+            while (it.hasNext()) {
+                int destructTime = (int) it.next();
+                MissileLauncher launcher = targetMissileLaunchers.get(destructTime);
+                Long currentTime = ((System.nanoTime() - startTime) / 1000000000);
+                if (currentTime < destructTime) {
+                    System.out.println("Missile Launcher Destructor n` " + id + " awaiting for " + (destructTime - currentTime) + " seconds...");
+                    try {
+                        Thread.sleep((destructTime - currentTime) * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println(type.toString() + " n` " + id + " Attempting to destroy Missle Launcher n` " + launcher.getId());
+                data.destroyMissileLauncher(launcher.getId());
+
+
+            }
+
+
+            System.out.println("Missile Launcher Destructor n` " + id + " Ended...");
+
+
     }
+
+
 }

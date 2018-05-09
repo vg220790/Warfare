@@ -15,6 +15,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     private int damage;
     private Logger logger;
     private State state;
+    private boolean isAlive;
 
     public Missile(String id,Target target, int launchTime, int flyTime,int damage, String launcherId){
         this.id = id;
@@ -24,6 +25,8 @@ public class Missile implements Runnable, Comparable<Missile> {
         this.damage = damage;
         this.state = State.LOADED;
         this.launcherId = launcherId;
+        isAlive = true;
+
 
     }
 
@@ -81,27 +84,31 @@ public class Missile implements Runnable, Comparable<Missile> {
      * ************************************************************* */
     @Override
     public void run() {
-        state = State.INAIR;
 
-        Long startTime = System.nanoTime()/1000000000;
-        System.out.println("Missile n` " + id + " launched towards " + target.getName());
-        try {
-            synchronized (MissileDestructor.class) {
-                MissileDestructor.class.wait(flyTime*1000);                     // Sleep until missile reaches destination, or being destructed.
-            }
-        } catch (InterruptedException e){
-            System.out.println("Missile n` " + id + " Died too early....");
-        }
 
-        Long deathTime = (System.nanoTime()/1000000000-startTime) + launchTime;
-        System.out.println("Missile n` " + id + " died at " + deathTime + " seconds");
-        if(deathTime < launchTime + flyTime) {
-            System.out.println("Missile n` " + id + " has been destroyed by Missile Destructor n` ");
+            state = State.INAIR;
+
+            Long startTime = System.nanoTime() / 1000000000;
+            System.out.println("Missile n` " + id + " launched towards " + target.getName());
+            try {
+                synchronized (MissileDestructor.class) {
+                    MissileDestructor.class.wait(flyTime * 1000);                     // Sleep until missile reaches destination, or being destructed.
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Missile n` " + id + " Died too early....");
+                isAlive = false;
             }
-        else {
-            System.out.println("Missile n` " + id + " Reached it's destination (" + target.getName() + ") at " + deathTime + " seconds");
-        }
-        this.state = State.DEAD;
+
+            Long deathTime = (System.nanoTime() / 1000000000 - startTime) + launchTime;
+            System.out.println("Missile n` " + id + " died at " + deathTime + " seconds");
+            if (deathTime < launchTime + flyTime) {
+                System.out.println("Missile n` " + id + " has been destroyed by Missile Destructor n` ");
+            } else {
+                System.out.println("Missile n` " + id + " Reached it's destination (" + target.getName() + ") at " + deathTime + " seconds");
+            }
+            this.state = State.DEAD;
+
+
 
     }
 

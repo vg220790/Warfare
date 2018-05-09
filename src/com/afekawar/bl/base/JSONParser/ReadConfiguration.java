@@ -103,16 +103,17 @@ public class ReadConfiguration {
                         for (int i = 0; i < arr.size(); i++) {
                             String type = (String) ((Map) arr.get(i)).get("type");
 
-                            MissileLauncherDestructor missileLauncherDestructor = new MissileLauncherDestructor(type);
+                            MissileLauncherDestructor missileLauncherDestructor = new MissileLauncherDestructor(type, data);
 
                             List<Object> mis = (List) ((Map) arr.get(i)).get("destructedLanucher");
                             for (int j = 0; j < mis.size(); j++) {
                                 String launcherId = (String) ((Map) mis.get(j)).get("id");
                                 int destructTime = Integer.parseInt((String) ((Map) mis.get(j)).get("destructTime"));
 
-                                missileLauncherDestructor.addDestructedLauncher(destructTime, launcherId);
-                                data.addMissileLauncherDestructor(missileLauncherDestructor.getId(), missileLauncherDestructor);
+                                missileLauncherDestructor.addDestructedLauncher(destructTime, (MissileLauncher)data.getEntityById(launcherId));
+
                             }
+                            data.addMissileLauncherDestructor(missileLauncherDestructor.getId(), missileLauncherDestructor);
 
 
                         }

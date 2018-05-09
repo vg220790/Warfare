@@ -73,9 +73,12 @@ public class InterfaceImp implements SystemInterface {
 
     @Override
     public void destroyMissileLauncher(String id) {
-        entities.remove(id);
-        threads.get(id).interrupt();
-        threads.remove(id);
+        if(!((MissileLauncher)entities.get(id)).isHidden()) {
+            entities.remove(id);
+            threads.get(id).interrupt();
+          //  threads.remove(id);
+
+        }
     }
 
     @Override
