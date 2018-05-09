@@ -95,7 +95,7 @@ public class MissileLauncherDestructor implements Runnable {
                         e.printStackTrace();
                     }
                 }
-                System.out.println(type.toString() + " n` " + id + " Attempting to destroy Missle Launcher n` " + launcher.getId());
+                System.out.println(type.toString() + " n` " + id + " Attempting to destroy Missile Launcher n` " + launcher.getId());
                 data.destroyMissileLauncher(launcher.getId());
 
 

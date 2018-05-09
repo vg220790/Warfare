@@ -13,7 +13,7 @@ public interface SystemInterface {
     public Target getTargetById(String id);
     public void launchMissile(String destination, int damage, int flyTime);
     public void destroyMissileLauncher(String id);
-    public void destroyMissile(String launcherId, String missleId);
+    public void destroyMissile(String launcherId, String missileId);
     public void showStats();
     public void exit();
 

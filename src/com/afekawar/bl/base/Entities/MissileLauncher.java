@@ -46,7 +46,10 @@ public class MissileLauncher implements Runnable {
         return missiles;
     }
     public void stopThread(){
+        System.out.println("Missile Launcher n` " + id + " Got destroyed....");
+        activeMissileThread.interrupt();
         isAlive = false;
+        missiles.clear();
     }
     public Thread getActiveMissileThread(){
         return activeMissileThread;
@@ -96,12 +99,9 @@ public class MissileLauncher implements Runnable {
                         System.out.println("Launcher n` " + id + " Waiting " + waitTime + " seconds till next Missile..");
                         Thread.sleep(waitTime * 1000);
                     } catch (InterruptedException e) {
-                        System.out.println("Missile Launcher n` " + id + " Got destroyed....");
-                        isAlive = false;
-                        activeMissileThread.interrupt();
-                        missiles.clear();
+                    e.printStackTrace();
                     }
-                    if(isAlive) {                              
+                    if(isAlive) {
                         System.out.println("Missile n` " + m.getId() + " From Launcher n` " + id + " Launched at " + ((System.nanoTime() - time) / 1000000000) + " seconds");
                         Thread missileThread = new Thread((Runnable) m);
                         missileThread.setName(m.getId());
