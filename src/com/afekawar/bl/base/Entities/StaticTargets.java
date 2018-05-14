@@ -1,7 +1,6 @@
 package com.afekawar.bl.base.Entities;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class StaticTargets {
@@ -26,11 +25,9 @@ public class StaticTargets {
 
 
     public Target getTargetByName(String name){
-        Iterator<Target> it = targets.iterator();
-        while(it.hasNext()){
-            Target tmp = it.next();
-            if(tmp.getName().equals(name))
-                    return tmp;
+        for(Target target:targets) {
+            if(target.getName().equals(name))
+                    return target;
         }
         return null;
     }

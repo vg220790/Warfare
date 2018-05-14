@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ConsoleVersion implements Runnable{
     public Map<String,Runnable> entities = new HashMap<>();
-    public Map<String,Thread> threads = new HashMap<>();
+    private Map<String,Thread> threads = new HashMap<>();
 
 
     @Override

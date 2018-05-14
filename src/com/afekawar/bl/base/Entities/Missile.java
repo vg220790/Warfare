@@ -1,6 +1,6 @@
 package com.afekawar.bl.base.Entities;
 
-import java.util.logging.Logger;
+// import java.util.logging.Logger;
 
 public class Missile implements Runnable, Comparable<Missile> {
     /* *************************************************************
@@ -13,7 +13,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     private int launchTime;
     private int flyTime;
     private int damage;
-    private Logger logger;
+   // private Logger logger;
     private State state;
 
     public Missile(String id,Target target, int launchTime, int flyTime,int damage, String launcherId){
@@ -32,49 +32,41 @@ public class Missile implements Runnable, Comparable<Missile> {
     /* *************************************************************
      * ******************** Getters and Setters ********************
      * ************************************************************* */
-    public int getDamage() {
-        return damage;
-    }
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-    public int getFlyTime() {
-
-        return flyTime;
-    }
-    public String getLauncherId(){
-        return launcherId;
-    }
-    public void setFlyTime(int flyTime) {
-        this.flyTime = flyTime;
-    }
-    public Target getTarget() {
-
-        return target;
-    }
-    public void setTarget(Target target) {
-        this.target = target;
-    }
     public String getId() {
-
         return id;
     }
-    public void setId(String id) {
-        this.id = id;
+    public int getFlyTime() {
+        return flyTime;
     }
-    public Logger getLogger() {
-        return logger;
+    String getLauncherId(){
+        return launcherId;
     }
-    public void setLogger(Logger logger) {
-        this.logger = logger;
+    public Target getTarget() {
+        return target;
     }
     public State getState() {
         return state;
     }
+    /*
+    public int getDamage() {
+        return damage;
+    }
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+    */
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setState(String state) {
         this.state = State.valueOf(state);
     }
-    public int getLaunchTime(){
+    int getLaunchTime(){
         return launchTime;
     }
 

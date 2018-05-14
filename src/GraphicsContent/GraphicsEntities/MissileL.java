@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 
 
 public class MissileL extends GameObject {
-    static Image icon = new Image("GraphicsContent/Resources/missileLauncher.png");
+    private static Image icon = new Image("GraphicsContent/Resources/missileLauncher.png");
     public MissileL(String id, Point2D coordinates) {
         super(id, coordinates,icon);
         getView().setScaleX(0.6);

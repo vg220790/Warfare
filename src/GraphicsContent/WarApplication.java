@@ -10,8 +10,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -93,10 +91,12 @@ public class WarApplication extends Application {
                 }
 
                 if(!((MissileLauncher) r).getMissiles().isEmpty()) {
-                    if (((MissileLauncher) r).getAlive() && ((MissileLauncher) r).getMissiles().peek().getState() == Missile.State.READY) {
-                        Missile temp;
-                        temp = ((MissileLauncher) r).getMissiles().peek();
+                    Missile temp = ((MissileLauncher) r).getMissiles().peek();
+                    if(temp != null)
+                        if (((MissileLauncher) r).getAlive() && temp.getState() == Missile.State.READY) {
+
                         temp.setState("INAIR");
+
 
 
                         missileLaunchers.get(((MissileLauncher) r).getId()).setHidden(false);   // Unhide missile launcher when launching a missile
@@ -171,7 +171,7 @@ public class WarApplication extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage){
         mainProgram = new ConsoleVersion();
         Thread mainThread = new Thread(mainProgram);
         mainThread.start();
@@ -194,7 +194,7 @@ public class WarApplication extends Application {
         launch(args);
     }
 
-    private void addGameObject(String id, GameObject object, double x, double y){
+    private void addGameObject(GameObject object, double x, double y){
         object.getView().setX(x);
         object.getView().setY(y);
         root.getChildren().add(object.getView());
@@ -207,28 +207,28 @@ public class WarApplication extends Application {
 
     private void addMissileLauncher(String id, GameObject missileLauncher,double x, double y){
         missileLaunchers.put(id, missileLauncher);
-        addGameObject(id,missileLauncher,x,y);
+        addGameObject(missileLauncher,x,y);
 
     }
     private void addMissileDestructor(String id,GameObject missileDestructor,double x, double y){
         missileDestructors.put(id,missileDestructor);
-        addGameObject(id,missileDestructor,x,y);
+        addGameObject(missileDestructor,x,y);
 
     }
 
     private void addMissileLauncherDestructor(String id, GameObject missileLauncherDestructor,double x, double y){
         missileLauncherDestructors.put(id, missileLauncherDestructor);
-        addGameObject(id,missileLauncherDestructor,x,y);
+        addGameObject(missileLauncherDestructor,x,y);
 
     }
     private void addMissile(String id, GameObject missile,double x, double y){
         missiles.put(id, missile);
-        addGameObject(id,missile,x,y);
+        addGameObject(missile,x,y);
 
     }
     private void addAntiMissile(String id, GameObject missile,double x, double y){
         antiMissiles.put(id, missile);
-        addGameObject(id,missile,x,y);
+        addGameObject(missile,x,y);
 
     }
 

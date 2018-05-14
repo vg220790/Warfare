@@ -1,15 +1,12 @@
 package GraphicsContent.GraphicsEntities;
 
-import GraphicsContent.GraphicsEntities.GameObject;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 
 
 public class AntiMissileInstance extends GameObject {
-    static Image icon = new Image("GraphicsContent/Resources/missile.png");
+    private static Image icon = new Image("GraphicsContent/Resources/missile.png");
     private Point2D velocity;
-    private double speed;
-    private double distance;
     public AntiMissileInstance(Point2D coordinates, Point2D targetCoordinates, int flyTime) {
         super("AntiMissile", coordinates,icon);
 
@@ -17,13 +14,10 @@ public class AntiMissileInstance extends GameObject {
         getView().setScaleX(0.2);
         getView().setScaleY(0.2);
 
+        double distance = Math.sqrt((targetCoordinates.getY()-coordinates.getY())*(targetCoordinates.getY()-coordinates.getY()) + (targetCoordinates.getX()-coordinates.getX())*(targetCoordinates.getX()-coordinates.getX()) );
+        double speed = distance / flyTime;
 
-
-        distance = Math.sqrt((targetCoordinates.getY()-coordinates.getY())*(targetCoordinates.getY()-coordinates.getY()) + (targetCoordinates.getX()-coordinates.getX())*(targetCoordinates.getX()-coordinates.getX()) );
-
-        speed = distance / flyTime;
-
-        speed/=60;
+        speed/=60;                                   // To be on same scale with framerate ( 60 fps ).
 
         double angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX());
 
@@ -33,12 +27,6 @@ public class AntiMissileInstance extends GameObject {
     @Override
     public Point2D getVelocity(){
         return velocity;
-    }
-    public double getSpeed(){
-        return speed;
-    }
-    public double getDistance(){
-        return distance;
     }
 
     @Override

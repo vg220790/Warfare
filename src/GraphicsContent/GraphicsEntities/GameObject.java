@@ -37,7 +37,7 @@ public class GameObject {
     }
 
 
-    public GameObject(String id, Point2D coordinates, Image icon){
+    GameObject(String id, Point2D coordinates, Image icon){
         this.view = new ImageView(icon);
         this.coordinates = coordinates;
         nameView = new Text(id);

@@ -1,13 +1,11 @@
 package GraphicsContent.GraphicsEntities;
 
-import GraphicsContent.GraphicsEntities.GameObject;
 import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class MissileLD extends GameObject {
-    static Image icon = new Image("GraphicsContent/Resources/battleship.png");
+    private static Image icon = new Image("GraphicsContent/Resources/battleship.png");
     private Point2D velocity;
     private float angle;
     private MissileLauncherDestructor.Type type;

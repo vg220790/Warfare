@@ -1,19 +1,18 @@
 package com.afekawar.bl.base.Entities;
 
-import com.afekawar.bl.base.Entities.Missile;
 import com.afekawar.bl.base.Interface.InterfaceImp;
 import javafx.geometry.Point2D;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Logger;
+// import java.util.logging.Logger;
 
 public class MissileDestructor implements Runnable {
     /* *************************************************************
      * ******************** Fields and Properties ******************
      * ************************************************************* */
     private String id;
-    private Logger logger;                      // TODO - Implement Logger
+  //  private Logger logger;                      // TODO - Implement Logger
     private TreeMap<Integer, Missile> targetMissiles; // Will try to destroy target missile if not null
     private InterfaceImp data;
     private Point2D coordinates;
@@ -40,29 +39,23 @@ public class MissileDestructor implements Runnable {
     public Point2D getCoordinates(){
         return coordinates;
     }
-    public int getDestTime(String missileId){
-        for(int key:targetMissiles.keySet()){
-            if(targetMissiles.get(key).getId().equals(missileId)){
-                return key;
-            }
-        }
-        return 0;
-    }
     public int getDestructLengh(){
         return destructLengh;
-    }
-    public Logger getLogger() {
-        return logger;
     }
     public Missile getActiveDestMissile(){
         return activeDestMissile;
     }
-
-    public void setId(String id) {
-        this.id = id;
+    /*
+    public Logger getLogger() {
+        return logger;
     }
+
     public void setLogger(Logger logger) {
         this.logger = logger;
+    }
+    */
+    public void setId(String id) {
+        this.id = id;
     }
     public void setActiveDestMissile(Missile activeDestMissile){
         this.activeDestMissile = activeDestMissile;
@@ -82,10 +75,7 @@ public class MissileDestructor implements Runnable {
         System.out.println("Missile Destructor n` " + id + " Started...");
         Long startTime = System.nanoTime();
 
-        Iterator it = targetMissiles.keySet().iterator();
-
-        while (it.hasNext()) {
-            int destructTime = (int) it.next();
+        for(int destructTime: targetMissiles.keySet()) {
             Missile m = targetMissiles.get(destructTime);
             Long currentTime = ((System.nanoTime() - startTime) / 1000000000);
             if (currentTime + destructLengh < destructTime) {
@@ -125,7 +115,7 @@ public class MissileDestructor implements Runnable {
 
     }
 
-    public void launchAntiMissile(String id, long startTime){
+    private void launchAntiMissile(String id, long startTime){
         System.out.println("Missile Destructor n` " + this.id + " Launched anti missile rocket towards Missile n` " + id + " at " + (System.nanoTime() - startTime)/1000000000 + " seconds..");
     }
 
