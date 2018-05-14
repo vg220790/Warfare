@@ -50,6 +50,19 @@ public class WarApplication extends Application {
                         missile.getName().setVisible(false);
                     }
                 }
+
+                for(GameObject missileLauncher:missileLaunchers.values()){
+                    if(missileLauncher.isHidden()){
+                        missileLauncher.getView().setOpacity(0.25);
+                    }
+                    else{
+                        missileLauncher.getView().setOpacity(1);
+                    }
+                }
+
+                for(GameObject missileLD:missileLauncherDestructors.values()){
+                    missileLD.update();
+                }
             }
         };
         timer.start();
@@ -61,16 +74,14 @@ public class WarApplication extends Application {
         for(Runnable r : ((ConsoleVersion) mainProgram).entities.values()){
 
             if(r instanceof MissileLauncher){
-                if(!((MissileLauncher) r).getHidden() && missileLaunchers.get(((MissileLauncher) r).getId()) == null) {
+                if(missileLaunchers.get(((MissileLauncher) r).getId()) == null) {
                     ImageView icon = new ImageView(new Image("GraphicsContent/resources/missileLauncher.png"));
                     icon.setScaleX(0.6);
                     icon.setScaleY(0.6);
                     MissileL launcher = new MissileL(((MissileLauncher) r).getId(),((MissileLauncher) r).getCoordinates(), icon);
+                    if(((MissileLauncher) r).isHidden())
+                        launcher.setHidden(true);
                     addMissileLauncher(((MissileLauncher) r).getId(),launcher, ((MissileLauncher) r).getCoordinates().getX() - icon.getImage().getWidth() / 2, ((MissileLauncher) r).getCoordinates().getY() - icon.getImage().getHeight() / 2);
-                    //root.getChildren().add(name);
-
-
-
                 }
 
                 if(!((MissileLauncher) r).getMissiles().isEmpty()) {
@@ -81,6 +92,8 @@ public class WarApplication extends Application {
                         ImageView missileIcon = new ImageView(new Image("GraphicsContent/resources/missile.png"));
                         missileIcon.setScaleX(0.4);
                         missileIcon.setScaleY(0.4);
+
+                        missileLaunchers.get(((MissileLauncher) r).getId()).setHidden(false);   // Unhide missile launcher when launching a missile
 
                         double angle = Math.atan2(temp.getTarget().getCoordinates().getY() - ((MissileLauncher) r).getCoordinates().getY(), temp.getTarget().getCoordinates().getX() - ((MissileLauncher) r).getCoordinates().getX()) * 180 / Math.PI +90;
 
@@ -93,36 +106,42 @@ public class WarApplication extends Application {
                 }
 
                 if(!((MissileLauncher) r).isAlive()){
-
-                    missileLaunchers.get(((MissileLauncher) r).getId()).getView().setVisible(false);
-                    missileLaunchers.get(((MissileLauncher) r).getId()).getName().setVisible(false);
+                    missileLaunchers.get(((MissileLauncher) r).getId()).destroy();
 
                 }
                 if(((MissileLauncher) r).getActiveMissileThread() != null){                                         // Check if missile died and remove it from views.
                     if(!((MissileLauncher) r).getActiveMissileThread().isAlive()){
                         missiles.get(((MissileLauncher) r).getActiveMissileThread().getName()).setAlive(false);
+                        if(((MissileLauncher) r).isAlive() && !(((MissileLauncher) r).getMissiles().isEmpty()))
+                            missileLaunchers.get(((MissileLauncher) r).getId()).setHidden(true);                        // Hide launcher again, once there's no missiles in air
                     }
                 }
 
+
+
                 }
             else if(r instanceof MissileDestructor){
-                ImageView icon = new ImageView(new Image("GraphicsContent/resources/missileDestructor.png"));
-                icon.setScaleX(0.7);
-                icon.setScaleY(0.7);
-                MissileD destructor = new MissileD(((MissileDestructor) r).getId(),((MissileDestructor) r).getCoordinates(),icon);
-                addMissileDestructor(((MissileDestructor) r).getId(),destructor,((MissileDestructor) r).getCoordinates().getX() - icon.getImage().getWidth()/2 ,((MissileDestructor) r).getCoordinates().getY() - icon.getImage().getHeight()/2);
+                if(missileDestructors.get(((MissileDestructor) r).getId()) == null) {
+                    ImageView icon = new ImageView(new Image("GraphicsContent/resources/missileDestructor.png"));
+                    icon.setScaleX(0.7);
+                    icon.setScaleY(0.7);
+                    MissileD destructor = new MissileD(((MissileDestructor) r).getId(), ((MissileDestructor) r).getCoordinates(), icon);
+                    addMissileDestructor(((MissileDestructor) r).getId(), destructor, ((MissileDestructor) r).getCoordinates().getX() - icon.getImage().getWidth() / 2, ((MissileDestructor) r).getCoordinates().getY() - icon.getImage().getHeight() / 2);
+                }
             }
             else if(r instanceof MissileLauncherDestructor){
-                ImageView icon;
-                if (((MissileLauncherDestructor) r).getType() == MissileLauncherDestructor.Type.BATTLESHIP)
-                   icon = new ImageView(new Image("GraphicsContent/resources/battleship.png"));
-                else
-                    icon = new ImageView(new Image("GraphicsContent/resources/aircraft.png"));
-                icon.setScaleX(0.6);
-                icon.setScaleY(0.6);
-                MissileLD launcherDestructor = new MissileLD(((MissileLauncherDestructor) r).getId(),((MissileLauncherDestructor) r).getCoordinates(),icon);
-                addMissileLauncherDestructor(((MissileLauncherDestructor) r).getId(), launcherDestructor,((MissileLauncherDestructor) r).getCoordinates().getX() - icon.getImage().getWidth()/2,((MissileLauncherDestructor) r).getCoordinates().getY() - icon.getImage().getHeight()/2);
-            }
+                if(missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()) == null) {
+                    ImageView icon;
+                    if (((MissileLauncherDestructor) r).getType() == MissileLauncherDestructor.Type.BATTLESHIP)
+                        icon = new ImageView(new Image("GraphicsContent/resources/battleship.png"));
+                    else
+                        icon = new ImageView(new Image("GraphicsContent/resources/aircraft.png"));
+                    icon.setScaleX(0.6);
+                    icon.setScaleY(0.6);
+                    MissileLD launcherDestructor = new MissileLD(((MissileLauncherDestructor) r).getId(), ((MissileLauncherDestructor) r).getCoordinates(), icon, ((MissileLauncherDestructor) r).getType());
+                    addMissileLauncherDestructor(((MissileLauncherDestructor) r).getId(), launcherDestructor, ((MissileLauncherDestructor) r).getCoordinates().getX() - icon.getImage().getWidth() / 2, ((MissileLauncherDestructor) r).getCoordinates().getY() - icon.getImage().getHeight() / 2);
+                }
+                }
 
 
 
@@ -154,8 +173,8 @@ public class WarApplication extends Application {
     }
 
     private void addGameObject(String id, GameObject object, double x, double y){
-        object.getView().setTranslateX(x);
-        object.getView().setTranslateY(y);
+        object.getView().setX(x);
+        object.getView().setY(y);
         root.getChildren().add(object.getView());
         root.getChildren().add(object.getName());
 
@@ -185,53 +204,6 @@ public class WarApplication extends Application {
         addGameObject(id,missile,x,y);
 
     }
-
-
-
-    private static class MissileL extends GameObject{
-
-        public MissileL(String id, Point2D coordinates, ImageView icon) {
-            super(id,icon, coordinates);
-
-        }
-
-    }
-    private static class MissileInstance extends GameObject{
-        private Point2D velocity;
-        public MissileInstance(String id,Point2D coordinates, ImageView icon, Point2D targetCoordinates, int flyTime) {
-            super(id,icon, coordinates);
-
-            double distance = Math.sqrt((targetCoordinates.getY()-coordinates.getY())*(targetCoordinates.getY()-coordinates.getY()) + (targetCoordinates.getX()-coordinates.getX())*(targetCoordinates.getX()-coordinates.getX()) );
-
-            double speed = distance / flyTime;
-
-            speed/=60;
-
-            double angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX());
-
-            velocity = new Point2D(Math.cos(angle) * speed, Math.sin(angle) * speed);
-        }
-
-        public void update(){
-            this.getView().setTranslateX(this.getView().getTranslateX() + velocity.getX());
-            this.getView().setTranslateY(this.getView().getTranslateY() + velocity.getY());
-            this.getName().setTranslateX(this.getName().getTranslateX() + velocity.getX());
-            this.getName().setTranslateY(this.getName().getTranslateY() + velocity.getY());
-        }
-    }
-    private static class MissileLD extends GameObject{
-        public MissileLD(String id,Point2D coordinates,ImageView icon) {
-            super(id,icon, coordinates);
-
-        }
-    }
-    private static class MissileD extends GameObject{
-        public MissileD(String id, Point2D coordinates, ImageView icon) {
-            super(id,icon, coordinates);
-
-        }
-    }
-
 
 }
 

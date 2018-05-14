@@ -46,6 +46,13 @@
               "launchTime": "9",
               "flyTime": "7",
               "damage": "1000"
+            },
+            {
+              "id": "M7",
+              "destination": "Rahat",
+              "launchTime": "18",
+              "flyTime": "3",
+              "damage": "1500"
             }
           ]
         }

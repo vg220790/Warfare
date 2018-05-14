@@ -1,17 +1,18 @@
 package GraphicsContent;
 
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 
 
 public class GameObject {
-    private Node view;
+    private ImageView view;
     private Point2D coordinates;
-    private Text name;
+    private Text nameView;
     private boolean isAlive = true;
+    private boolean isHidden = false;
 
     public void update(){
     }
@@ -25,36 +26,31 @@ public class GameObject {
         this.isAlive = isAlive;
     }
 
-    public Node getView(){
+    public ImageView getView(){
         return view;
+    }
+
+    public void destroy(){
+
     }
 
 
     public GameObject(String id, ImageView view, Point2D coordinates){
         this.view = view;
         this.coordinates = coordinates;
-        name = new Text(id);
-        name.setX(coordinates.getX() + view.getImage().getWidth()/3);
-        name.setY(coordinates.getY());
-        name.setStyle("-fx-font: bold 18px \"Serif\"");
+        nameView = new Text(id);
+        nameView.setX(coordinates.getX() + view.getImage().getWidth()/3);
+        nameView.setY(coordinates.getY());
+        nameView.setStyle("-fx-font: bold 18px \"Serif\"");
     }
-
+    public boolean isHidden(){
+        return isHidden;
+    }
+    public void setHidden(boolean isHidden){
+        this.isHidden = isHidden;
+    }
     public Text getName(){
-        return name;
-    }
-    public double getRotate() {
-        return view.getRotate();
+        return nameView;
     }
 
-    public void rotateRight(){
-        view.setRotate(view.getRotate() + 5);
-    }
-
-    public void rotateLeft(){
-        view.setRotate(view.getRotate() - 5);
-    }
-
-    public Point2D getCoordinates(){
-        return coordinates;
-    }
 }
