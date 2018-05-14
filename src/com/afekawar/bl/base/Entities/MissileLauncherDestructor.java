@@ -1,10 +1,12 @@
 package com.afekawar.bl.base.Entities;
 
 import com.afekawar.bl.base.Interface.InterfaceImp;
+import javafx.geometry.Point2D;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
 
@@ -20,6 +22,7 @@ public class MissileLauncherDestructor implements Runnable {
     private boolean isAlive;
     private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target missile if not null
     private InterfaceImp data;
+    private Point2D coordinates;
 
     public MissileLauncherDestructor(String type, InterfaceImp data){
         this.id = "LD30" + (1 + idInc++);
@@ -32,6 +35,8 @@ public class MissileLauncherDestructor implements Runnable {
         isAlive = true;
         targetMissileLaunchers = new TreeMap<>();
         this.data = data;
+        coordinates = new Point2D(ThreadLocalRandom.current().nextInt(300, 680 + 1),ThreadLocalRandom.current().nextInt(26, 150 + 1));  // Set Random coordinate Outside Gaza Strip Border
+
     }
 
     /* *************************************************************
@@ -54,6 +59,9 @@ public class MissileLauncherDestructor implements Runnable {
     public String getId() {
 
         return id;
+    }
+    public Point2D getCoordinates(){
+        return coordinates;
     }
 
     public void stopThread(){

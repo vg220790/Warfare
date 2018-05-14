@@ -30,7 +30,7 @@ public class StaticTargets {
         while(it.hasNext()){
             Target tmp = it.next();
             if(tmp.getName().equals(name))
-                    return it.next();
+                    return tmp;
         }
         return null;
     }

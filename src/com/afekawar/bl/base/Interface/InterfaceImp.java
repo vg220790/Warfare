@@ -72,7 +72,7 @@ public class InterfaceImp implements SystemInterface {
     public void destroyMissileLauncher(String id) {
         if(!((MissileLauncher)entities.get(id)).isHidden()) {
             ((MissileLauncher)entities.get(id)).stopThread();
-            entities.remove(id);
+            //entities.remove(id);
             //threads.remove(id);             // TODO - Removing thread from total thread collection, causes ConcurrentModificationException
                                               // when trying to .join threads in main loop, need a workaround.
 

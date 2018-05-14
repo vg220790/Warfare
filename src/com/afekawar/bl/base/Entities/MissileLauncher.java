@@ -1,9 +1,11 @@
 package com.afekawar.bl.base.Entities;
 
 import com.afekawar.bl.base.Entities.Missile;
+import javafx.geometry.Point2D;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MissileLauncher implements Runnable {
     /* *************************************************************
@@ -11,18 +13,30 @@ public class MissileLauncher implements Runnable {
      * ************************************************************* */
     private String id;
     private Logger logger;
-    private Queue<?> missiles;
+    private Queue<Missile> missiles;
     private boolean isAlive;
     private boolean isHidden;
     private Thread activeMissileThread;
+    private Point2D coordinates;
 
 
     public MissileLauncher(String id, boolean isHidden){
+        int randomNumbersMinX[] = {680,740,610,450};
+        int randomNumbersMaxX[] = {760,870,660,620};
+
+        int randomNumbersMinY[] = {140,40,220,400};
+        int randomNumbersMaxY[] = {210,125,300,500};
+
+        int index = ThreadLocalRandom.current().nextInt(0,4);
+
+
         this.id = id;
         this.isHidden = isHidden;
         this.isAlive = true;
         missiles = new PriorityQueue<>();
         activeMissileThread = null;
+        coordinates = new Point2D(ThreadLocalRandom.current().nextInt(randomNumbersMinX[index], randomNumbersMaxX[index] + 1),ThreadLocalRandom.current().nextInt(randomNumbersMinY[index], randomNumbersMaxY[index] + 1));  // Set Random coordinate within Gaza Strip
+
     }
 
     /* *************************************************************
@@ -34,6 +48,9 @@ public class MissileLauncher implements Runnable {
     public void setHidden(boolean hidden) {
         isHidden = hidden;
     }
+    public boolean getHidden(){
+        return isHidden;
+    }
     public boolean isAlive() {
 
         return isAlive;
@@ -41,7 +58,7 @@ public class MissileLauncher implements Runnable {
     public void setAlive(boolean alive) {
         isAlive = alive;
     }
-    public Queue<?> getMissiles() {
+    public Queue<Missile> getMissiles() {
 
         return missiles;
     }
@@ -54,7 +71,7 @@ public class MissileLauncher implements Runnable {
     public Thread getActiveMissileThread(){
         return activeMissileThread;
     }
-    public void setMissiles(Queue<?> missiles) {
+    public void setMissiles(Queue<Missile> missiles) {
         this.missiles = missiles;
     }
     public Logger getLogger() {
@@ -67,6 +84,9 @@ public class MissileLauncher implements Runnable {
     public String getId() {
 
         return id;
+    }
+    public Point2D getCoordinates(){
+        return coordinates;
     }
     public void setId(String id) {
         this.id = id;
@@ -92,16 +112,18 @@ public class MissileLauncher implements Runnable {
                 missiles.clear();
             }
             while (!missiles.isEmpty()) {
-                Missile m = (Missile) missiles.poll();
+                Missile m = (Missile) missiles.peek();
                 Long waitTime = m.getLaunchTime() - ((System.nanoTime() - time) / 1000000000);     // Check if the next missle's launch time is later than earlier missile finished it's fly...
                 if (waitTime > 0)
                     try {
+                        isHidden = true;
                         System.out.println("Launcher n` " + id + " Waiting " + waitTime + " seconds till next Missile..");
                         Thread.sleep(waitTime * 1000);
                     } catch (InterruptedException e) {
                     e.printStackTrace();
                     }
                     if(isAlive) {
+                        isHidden = false;
                         System.out.println("Missile n` " + m.getId() + " From Launcher n` " + id + " Launched at " + ((System.nanoTime() - time) / 1000000000) + " seconds");
                         Thread missileThread = new Thread((Runnable) m);
                         missileThread.setName(m.getId());
