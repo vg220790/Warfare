@@ -70,7 +70,7 @@ public class InterfaceImp implements SystemInterface {
 
     @Override
     public void destroyMissileLauncher(String id) {
-        if(!((MissileLauncher)entities.get(id)).isHidden()) {
+        if(!((MissileLauncher)entities.get(id)).getHidden()) {
             ((MissileLauncher)entities.get(id)).stopThread();
             //entities.remove(id);
             //threads.remove(id);             // TODO - Removing thread from total thread collection, causes ConcurrentModificationException

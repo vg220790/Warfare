@@ -36,8 +36,8 @@
             {
               "id": "M3",
               "destination": "Ofakim",
-              "launchTime": "4",
-              "flyTime": "3",
+              "launchTime": "2",
+              "flyTime": "5",
               "damage": "5000"
             },
             {
@@ -50,7 +50,7 @@
             {
               "id": "M7",
               "destination": "Rahat",
-              "launchTime": "18",
+              "launchTime": "6",
               "flyTime": "3",
               "damage": "1500"
             }
@@ -65,11 +65,11 @@
           "destructdMissile": [
             {
               "id": "M1",
-              "destructAfterLaunch": "4"
+              "destructAfterLaunch": "7"
             },
             {
               "id": "M3",
-              "destructAfterLaunch": "8"
+              "destructAfterLaunch": "5"
             },
             {
               "id": "M4",
@@ -96,7 +96,7 @@
           "destructedLanucher": [
             {
             "id": "L101",
-            "destructTime": "4"
+            "destructTime": "15"
           }
             ]
         },

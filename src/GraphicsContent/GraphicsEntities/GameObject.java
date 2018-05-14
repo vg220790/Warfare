@@ -1,7 +1,8 @@
-package GraphicsContent;
+package GraphicsContent.GraphicsEntities;
 
 import javafx.geometry.Point2D;
 
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
@@ -30,18 +31,20 @@ public class GameObject {
         return view;
     }
 
-    public void destroy(){
-
+    public void destroy(){ }
+    public Point2D getVelocity(){
+        return null;
     }
 
 
-    public GameObject(String id, ImageView view, Point2D coordinates){
-        this.view = view;
+    public GameObject(String id, Point2D coordinates, Image icon){
+        this.view = new ImageView(icon);
         this.coordinates = coordinates;
         nameView = new Text(id);
         nameView.setX(coordinates.getX() + view.getImage().getWidth()/3);
         nameView.setY(coordinates.getY());
         nameView.setStyle("-fx-font: bold 18px \"Serif\"");
+
     }
     public boolean isHidden(){
         return isHidden;
@@ -51,6 +54,9 @@ public class GameObject {
     }
     public Text getName(){
         return nameView;
+    }
+    public Point2D getCoordinates(){
+        return new Point2D(coordinates.getX() + getView().getTranslateX(),coordinates.getY() + getView().getTranslateY());
     }
 
 }

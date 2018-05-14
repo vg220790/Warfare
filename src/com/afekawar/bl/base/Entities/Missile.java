@@ -91,7 +91,7 @@ public class Missile implements Runnable, Comparable<Missile> {
             System.out.println("Missile n` " + id + " launched towards " + target.getName());
             try {
                 synchronized (this) {
-                    wait(flyTime * 1000);                     // Sleep until missile reaches destination, or being destructed.
+                    Thread.sleep(flyTime * 1000);                     // Sleep until missile reaches destination, or being destructed.
                 }
             } catch (InterruptedException e) {
                 this.state = State.DEAD;
