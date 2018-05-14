@@ -34,7 +34,7 @@ public class WarApplication extends Application {
         root.setPrefSize(1500,948);
         root.setId("pane");
         Scene scene = new Scene(root);
-        scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("resources/style.css").toExternalForm());
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -57,7 +57,7 @@ public class WarApplication extends Application {
 
             if(r instanceof MissileLauncher){
                 if(!((MissileLauncher) r).getHidden() && missileLaunchers.get(((MissileLauncher) r).getId()) == null) {
-                    ImageView icon = new ImageView(new Image("GraphicsContent/missileLauncher.png"));
+                    ImageView icon = new ImageView(new Image("GraphicsContent/resources/missileLauncher.png"));
                     icon.setScaleX(0.6);
                     icon.setScaleY(0.6);
                     MissileL launcher = new MissileL(((MissileLauncher) r).getCoordinates(), icon);
@@ -73,7 +73,7 @@ public class WarApplication extends Application {
                         Missile temp;
                         temp = ((MissileLauncher) r).getMissiles().peek();
                         temp.setState("INAIR");
-                        ImageView missileIcon = new ImageView(new Image("GraphicsContent/missile.png"));
+                        ImageView missileIcon = new ImageView(new Image("GraphicsContent/resources/missile.png"));
                         missileIcon.setScaleX(0.4);
                         missileIcon.setScaleY(0.4);
 
@@ -102,7 +102,7 @@ public class WarApplication extends Application {
 
                 }
             else if(r instanceof MissileDestructor){
-                ImageView icon = new ImageView(new Image("GraphicsContent/missileDestructor.png"));
+                ImageView icon = new ImageView(new Image("GraphicsContent/resources/missileDestructor.png"));
                 icon.setScaleX(0.7);
                 icon.setScaleY(0.7);
                 MissileD destructor = new MissileD(((MissileDestructor) r).getCoordinates(),icon);
@@ -111,9 +111,9 @@ public class WarApplication extends Application {
             else if(r instanceof MissileLauncherDestructor){
                 ImageView icon;
                 if (((MissileLauncherDestructor) r).getType() == MissileLauncherDestructor.Type.BATTLESHIP)
-                   icon = new ImageView(new Image("GraphicsContent/battleship.png"));
+                   icon = new ImageView(new Image("GraphicsContent/resources/battleship.png"));
                 else
-                    icon = new ImageView(new Image("GraphicsContent/aircraft.png"));
+                    icon = new ImageView(new Image("GraphicsContent/resources/aircraft.png"));
                 icon.setScaleX(0.6);
                 icon.setScaleY(0.6);
                 MissileLD launcherDestructor = new MissileLD(((MissileLauncherDestructor) r).getCoordinates(),icon);
