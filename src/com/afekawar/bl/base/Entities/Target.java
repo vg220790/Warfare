@@ -1,24 +1,21 @@
 package com.afekawar.bl.base.Entities;
 
+import javafx.geometry.Point2D;
+
 public class Target{
     private String name;
-    private int x;
-    private int y;
+    private Point2D coordinates;
 
     public Target(String name, int x, int y){
 
         this.name = name;
-        this.x = x;
-        this.y = y;
+        coordinates = new Point2D(x,y);
     }
 
     public String getName(){
         return name;
     }
-    public int getX(){
-        return x;
-    }
-    public int getY(){
-        return y;
+    public Point2D getCoordinates(){
+        return coordinates;
     }
 }

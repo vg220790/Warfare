@@ -6,7 +6,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     /* *************************************************************
      * ******************** Fields and Properties ******************
      * ************************************************************* */
-    public enum State { LOADED, INAIR, DEAD }
+    public enum State { LOADED, READY, INAIR, DEAD }
     private String id;
     private String launcherId;
     private Target target;
@@ -85,7 +85,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     public void run() {
 
 
-            state = State.INAIR;
+            state = State.READY;
 
             Long startTime = System.nanoTime() / 1000000000;
             System.out.println("Missile n` " + id + " launched towards " + target.getName());
@@ -94,6 +94,7 @@ public class Missile implements Runnable, Comparable<Missile> {
                     wait(flyTime * 1000);                     // Sleep until missile reaches destination, or being destructed.
                 }
             } catch (InterruptedException e) {
+                this.state = State.DEAD;
                 System.out.println("Missile n` " + id + " Died too early....");
             }
 
