@@ -10,7 +10,7 @@ public class ConsoleVersion implements Runnable{
     public Map<String,Runnable> entities = new HashMap<>();
     public Map<String,Thread> threads = new HashMap<>();
 
-    
+
     @Override
     public void run() {
         System.out.println("System starts");
