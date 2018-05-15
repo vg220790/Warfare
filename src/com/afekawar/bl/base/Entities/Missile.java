@@ -62,7 +62,9 @@ public class Missile implements Runnable, Comparable<Missile> {
     public void setId(String id) {
         this.id = id;
     }
-
+    public void setLaunchTime(int launchTime){
+        this.launchTime = launchTime;
+    }
     public void setState(String state) {
         this.state = State.valueOf(state);
     }
@@ -80,7 +82,7 @@ public class Missile implements Runnable, Comparable<Missile> {
             state = State.READY;
 
             Long startTime = System.nanoTime() / 1000000000;
-            System.out.println("Missile n` " + id + " launched towards " + target.getName());
+            System.out.println("Missile n` " + id + " launched towards " + target.getName() + " at " + launchTime + " seconds");
             try {
                 synchronized (this) {
                     Thread.sleep(flyTime * 1000);                     // Sleep until missile reaches destination, or being destructed.

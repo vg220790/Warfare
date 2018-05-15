@@ -113,11 +113,14 @@ public class MissileLauncher implements Runnable {
                             isHidden = true;
                             System.out.println("Launcher n` " + id + " Waiting " + waitTime + " seconds till next Missile..");
                             Thread.sleep(waitTime * 1000);
+
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     isHidden = false;
-                    System.out.println("Missile n` " + m.getId() + " From Launcher n` " + id + " Launched at " + ((System.nanoTime() - time) / 1000000000) + " seconds");
+                    int launchTime = (int)((System.nanoTime() - time)/1000000000);
+                    m.setLaunchTime(launchTime);
+                    System.out.println("Missile n` " + m.getId() + " From Launcher n` " + id + " Launched at " + launchTime + " seconds");
                     Thread missileThread = new Thread(m);
                     missileThread.setName(m.getId());
                     missileThread.start();

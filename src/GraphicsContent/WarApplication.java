@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class WarApplication extends Application {
     private Runnable mainProgram;
 
     private Map<String,GameObject> antiMissiles = new HashMap<>();
+    private Map<String,GameObject> antiMissileLaunchers = new HashMap<>();
     private Map<String,GameObject> missiles = new HashMap<>();
     private Map<String,GameObject> missileLaunchers = new HashMap<>();
     private Map<String,GameObject> missileLauncherDestructors = new HashMap<>();
@@ -32,14 +34,22 @@ public class WarApplication extends Application {
         root = new Pane();
         root.setPrefSize(1500,948);
         root.setId("pane");
+        Text time = new Text("");
+        time.setStyle("-fx-font: bold 18px \"Serif\"");
+        time.setX(10);
+        time.setY(20);
         Scene scene = new Scene(root);
+        double startTime = System.nanoTime();
         scene.getStylesheets().addAll(this.getClass().getResource("Resources/style.css").toExternalForm());
-
+        root.getChildren().add(time);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 onUpdate();
-
+                double currentTime = (System.nanoTime()-startTime)/1000000000;
+                currentTime = (int)(currentTime*100);
+                currentTime = currentTime/100;
+                time.setText(String.valueOf(currentTime));
 
                 for(GameObject missile:missiles.values()){
                     if(missile.isAlive())
@@ -68,6 +78,14 @@ public class WarApplication extends Application {
                     else{
                         antiMissile.getView().setVisible(false);
                         antiMissile.getName().setVisible(false);
+                    }
+                }
+                for(GameObject antiMissileLauncher:antiMissileLaunchers.values()){
+                    if(antiMissileLauncher.isAlive())
+                        antiMissileLauncher.update();
+                    else{
+                        antiMissileLauncher.getView().setVisible(false);
+                        antiMissileLauncher.getName().setVisible(false);
                     }
                 }
 
@@ -114,6 +132,7 @@ public class WarApplication extends Application {
 
                 if(!((MissileLauncher) r).getAlive()){
                     missileLaunchers.get(((MissileLauncher) r).getId()).destroy();
+                    antiMissileLaunchers.get(((MissileLauncher) r).getId()).setAlive(false);
 
                 }
                 if(((MissileLauncher) r).getActiveMissileThread() != null){                                         // Check if missile died and remove it from views.
@@ -138,7 +157,7 @@ public class WarApplication extends Application {
                 if(((MissileDestructor) r).getActiveDestMissile() != null){
                     Missile targetMissile = ((MissileDestructor) r).getActiveDestMissile();
                     if(missiles.get(targetMissile.getId()) != null) {
-                        Point2D collisionPoint = new Point2D(missiles.get(targetMissile.getId()).getCoordinates().getX() + 60*((MissileDestructor) r).getDestructLengh()*missiles.get(targetMissile.getId()).getVelocity().getX(), missiles.get(targetMissile.getId()).getCoordinates().getY() + 60*((MissileDestructor) r).getDestructLengh()*missiles.get(targetMissile.getId()).getVelocity().getY());
+                        Point2D collisionPoint = new Point2D(missiles.get(targetMissile.getId()).getCoordinates().getX() + 60*((MissileDestructor) r).getDestructLength()*missiles.get(targetMissile.getId()).getVelocity().getX(), missiles.get(targetMissile.getId()).getCoordinates().getY() + 60*((MissileDestructor) r).getDestructLength()*missiles.get(targetMissile.getId()).getVelocity().getY());
 
 
 
@@ -147,7 +166,7 @@ public class WarApplication extends Application {
 
 
 
-                    AntiMissileInstance antiMissileI = new AntiMissileInstance(((MissileDestructor) r).getCoordinates(), collisionPoint, ((MissileDestructor) r).getDestructLengh());
+                    AntiMissileInstance antiMissileI = new AntiMissileInstance(((MissileDestructor) r).getCoordinates(), collisionPoint, ((MissileDestructor) r).getDestructLength());
                         antiMissileI.getView().setRotate(angle);
 
                     addAntiMissile(targetMissile.getId(), antiMissileI, ((MissileDestructor) r).getCoordinates().getX() - antiMissileI.getView().getImage().getWidth() / 2, ((MissileDestructor) r).getCoordinates().getY() - antiMissileI.getView().getImage().getHeight() / 2);
@@ -162,6 +181,31 @@ public class WarApplication extends Application {
 
                     MissileLD launcherDestructor = new MissileLD(((MissileLauncherDestructor) r).getId(), ((MissileLauncherDestructor) r).getCoordinates(), ((MissileLauncherDestructor) r).getType());
                     addMissileLauncherDestructor(((MissileLauncherDestructor) r).getId(), launcherDestructor, ((MissileLauncherDestructor) r).getCoordinates().getX() - launcherDestructor.getView().getImage().getWidth() / 2, ((MissileLauncherDestructor) r).getCoordinates().getY() - launcherDestructor.getView().getImage().getHeight() / 2);
+                }
+                if(((MissileLauncherDestructor) r).getActiveDestLauncher() != null){
+                    MissileLauncher targetMissileLauncher = ((MissileLauncherDestructor) r).getActiveDestLauncher();
+                    if(missileLaunchers.get(targetMissileLauncher.getId()) != null) {
+                        Point2D collisionPoint = new Point2D(targetMissileLauncher.getCoordinates().getX(), targetMissileLauncher.getCoordinates().getY());
+
+
+
+                        double angle = Math.atan2(collisionPoint.getY() - (missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getY()), collisionPoint.getX() - (missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getX())) * 180 / Math.PI +90;
+
+
+
+
+                        AntiMissileLauncherInstance antiMissileLauncherI = new AntiMissileLauncherInstance(missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates(), collisionPoint, ((MissileLauncherDestructor) r).getDestructLength());
+                        antiMissileLauncherI.getView().setRotate(angle);
+
+                        addAntiMissileLauncher(targetMissileLauncher.getId(), antiMissileLauncherI, missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getX() - antiMissileLauncherI.getView().getImage().getWidth() / 2, missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getY() - antiMissileLauncherI.getView().getImage().getHeight() / 2);
+
+
+                    }
+                    ((MissileLauncherDestructor) r).setActiveDestLauncher(null);
+
+
+
+
                 }
                 }
 
@@ -228,6 +272,11 @@ public class WarApplication extends Application {
     }
     private void addAntiMissile(String id, GameObject missile,double x, double y){
         antiMissiles.put(id, missile);
+        addGameObject(missile,x,y);
+
+    }
+    private void addAntiMissileLauncher(String id, GameObject missile,double x, double y){
+        antiMissileLaunchers.put(id, missile);
         addGameObject(missile,x,y);
 
     }

@@ -16,10 +16,12 @@ public class MissileLauncherDestructor implements Runnable {
     public enum Type { AIRCRAFT, BATTLESHIP }
     private String id;
     private Type type;
+    private int destructLength;           // Time takes to destroy a Missile Launcher.
    // private Logger logger;
     private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target missile if not null
     private InterfaceImp data;
     private Point2D coordinates;
+    private MissileLauncher activeDestLauncher;
 
     public MissileLauncherDestructor(String type, InterfaceImp data){
         this.id = "LD30" + (1 + idInc++);
@@ -32,7 +34,8 @@ public class MissileLauncherDestructor implements Runnable {
         targetMissileLaunchers = new TreeMap<>();
         this.data = data;
         coordinates = new Point2D(ThreadLocalRandom.current().nextInt(300, 680 + 1),ThreadLocalRandom.current().nextInt(26, 150 + 1));  // Set Random coordinate Outside Gaza Strip Border
-
+        destructLength = 2;
+        activeDestLauncher = null;
     }
 
     /* *************************************************************
@@ -56,13 +59,19 @@ public class MissileLauncherDestructor implements Runnable {
     public Point2D getCoordinates(){
         return coordinates;
     }
-
+    public int getDestructLength(){
+        return destructLength;
+    }
+    public MissileLauncher getActiveDestLauncher(){
+        return activeDestLauncher;
+    }
 
     public void setId(String id) {
         this.id = id;
     }
-
-
+    public void setActiveDestLauncher(MissileLauncher activeDestLauncher) {
+        this.activeDestLauncher = activeDestLauncher;
+    }
     public void addDestructedLauncher(int time, MissileLauncher launcher){
         targetMissileLaunchers.put(time,launcher);
     }
@@ -80,17 +89,29 @@ public class MissileLauncherDestructor implements Runnable {
             for(int destructTime:targetMissileLaunchers.keySet()){
                 MissileLauncher launcher = targetMissileLaunchers.get(destructTime);
                 Long currentTime = ((System.nanoTime() - startTime) / 1000000000);
-                if (currentTime < destructTime) {
-                    System.out.println("Missile Launcher Destructor n` " + id + " awaiting for " + (destructTime - currentTime) + " seconds...");
+                if (currentTime + destructLength < destructTime) {
+                    System.out.println("Missile Launcher Destructor n` " + id + " awaiting for " + (destructTime - destructLength - currentTime) + " seconds...");
                     try {
-                        Thread.sleep((destructTime - currentTime) * 1000);
+                        Thread.sleep((destructTime - destructLength - currentTime) * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                System.out.println(type.toString() + " n` " + id + " Attempting to destroy Missile Launcher n` " + launcher.getId());
-                data.destroyMissileLauncher(launcher.getId());
 
+                if(launcher.getAlive()){
+                    try {
+                        launchAntiMissileLauncher(launcher.getId(), startTime);
+                        activeDestLauncher = launcher;
+                        Thread.sleep(destructLength * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (launcher.getAlive()) {
+                        data.destroyMissileLauncher(launcher.getId());
+                    }
+
+                }
 
             }
 
@@ -99,6 +120,8 @@ public class MissileLauncherDestructor implements Runnable {
 
 
     }
-
+    private void launchAntiMissileLauncher(String id, long startTime){
+        System.out.println(type + " n` " + this.id + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + (System.nanoTime() - startTime)/1000000000 + " seconds..");
+    }
 
 }

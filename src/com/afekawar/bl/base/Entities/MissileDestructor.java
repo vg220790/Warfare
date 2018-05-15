@@ -16,7 +16,7 @@ public class MissileDestructor implements Runnable {
     private TreeMap<Integer, Missile> targetMissiles; // Will try to destroy target missile if not null
     private InterfaceImp data;
     private Point2D coordinates;
-    private int destructLengh;           // Time takes to destroy a missile.
+    private int destructLength;           // Time takes to destroy a missile.
     private Missile activeDestMissile;
 
 
@@ -26,7 +26,7 @@ public class MissileDestructor implements Runnable {
         targetMissiles = new TreeMap<>();
         this.data = data;
         coordinates = new Point2D(ThreadLocalRandom.current().nextInt(800, 1100 + 1),ThreadLocalRandom.current().nextInt(200, 660 + 1));  // Set Random coordinate within Israel Defense Border
-        destructLengh = 2;
+        destructLength = 2;
         activeDestMissile = null;
     }
 
@@ -39,8 +39,8 @@ public class MissileDestructor implements Runnable {
     public Point2D getCoordinates(){
         return coordinates;
     }
-    public int getDestructLengh(){
-        return destructLengh;
+    public int getDestructLength(){
+        return destructLength;
     }
     public Missile getActiveDestMissile(){
         return activeDestMissile;
@@ -78,10 +78,10 @@ public class MissileDestructor implements Runnable {
         for(int destructTime: targetMissiles.keySet()) {
             Missile m = targetMissiles.get(destructTime);
             Long currentTime = ((System.nanoTime() - startTime) / 1000000000);
-            if (currentTime + destructLengh < destructTime) {
-                System.out.println("Missile Destructor n` " + id + " awaiting for " + (destructTime - destructLengh - currentTime) + " seconds...");
+            if (currentTime + destructLength < destructTime) {
+                System.out.println("Missile Destructor n` " + id + " awaiting for " + (destructTime - destructLength - currentTime) + " seconds...");
                 try {
-                    Thread.sleep((destructTime - destructLengh - currentTime) * 1000);
+                    Thread.sleep((destructTime - destructLength - currentTime) * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -91,7 +91,7 @@ public class MissileDestructor implements Runnable {
                 try {
                     launchAntiMissile(m.getId(), startTime);
                     activeDestMissile = m;
-                    Thread.sleep(destructLengh * 1000);
+                    Thread.sleep(destructLength * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
