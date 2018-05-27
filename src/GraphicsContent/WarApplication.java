@@ -6,6 +6,8 @@ import com.afekawar.bl.base.Entities.Missile;
 import com.afekawar.bl.base.Entities.MissileDestructor;
 import com.afekawar.bl.base.Entities.MissileLauncher;
 import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
+import com.afekawar.bl.base.Interface.Time.MyTime;
+import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -21,6 +23,7 @@ import java.util.Map;
 public class WarApplication extends Application {
     private Pane root;
     private Runnable mainProgram;
+    private SystemTime time;
 
     private Map<String,GameObject> antiMissiles = new HashMap<>();
     private Map<String,GameObject> antiMissileLaunchers = new HashMap<>();
@@ -34,22 +37,18 @@ public class WarApplication extends Application {
         root = new Pane();
         root.setPrefSize(1500,948);
         root.setId("pane");
-        Text time = new Text("");
-        time.setStyle("-fx-font: bold 18px \"Serif\"");
-        time.setX(10);
-        time.setY(20);
+        Text timeView = new Text("");
+        timeView.setStyle("-fx-font: bold 18px \"Serif\"");
+        timeView.setX(10);
+        timeView.setY(20);
         Scene scene = new Scene(root);
-        double startTime = System.nanoTime();
         scene.getStylesheets().addAll(this.getClass().getResource("Resources/style.css").toExternalForm());
-        root.getChildren().add(time);
+        root.getChildren().add(timeView);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 onUpdate();
-                double currentTime = (System.nanoTime()-startTime)/1000000000;
-                currentTime = (int)(currentTime*100);
-                currentTime = currentTime/100;
-                time.setText(String.valueOf(currentTime));
+                timeView.setText(String.valueOf(time.getTime()));
 
                 for(GameObject missile:missiles.values()){
                     if(missile.isAlive())
@@ -216,7 +215,11 @@ public class WarApplication extends Application {
 
     @Override
     public void start(Stage primaryStage){
-        mainProgram = new ConsoleVersion();
+        time = new MyTime();
+        Thread timeThread = new Thread(time);
+        timeThread.start();
+
+        mainProgram = new ConsoleVersion(time);
         Thread mainThread = new Thread(mainProgram);
         mainThread.start();
 

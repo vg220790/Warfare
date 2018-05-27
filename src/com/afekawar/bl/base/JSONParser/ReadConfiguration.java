@@ -1,8 +1,8 @@
 package com.afekawar.bl.base.JSONParser;
 
 import com.afekawar.bl.base.Entities.*;
-import com.afekawar.bl.base.Interface.InterfaceImp;
 import com.afekawar.bl.base.Interface.SystemInterface;
+import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -13,7 +13,7 @@ import java.util.*;
 public class ReadConfiguration {
 
 
-    public static void loadConfig(SystemInterface data) {
+    public static void loadConfig(SystemInterface data, SystemTime time) {
 
 
         System.out.println("Data Load Starts..");
@@ -55,12 +55,12 @@ public class ReadConfiguration {
                                 int flyTime = Integer.parseInt((String) ((Map) mis.get(j)).get("flyTime"));
                                 int damage = Integer.parseInt((String) ((Map) mis.get(j)).get("damage"));
 
-                                Missile missile = new Missile(missileId, target, launchTime, flyTime, damage,id);
+                                Missile missile = new Missile(missileId, target, launchTime, flyTime, damage,id,time);
                                 data.addMissile(missileId, missile);
                                 missiles.offer(missile);
                             }
 
-                            MissileLauncher missileLauncher = new MissileLauncher(id, isHidden);
+                            MissileLauncher missileLauncher = new MissileLauncher(id, isHidden,time);
                             missileLauncher.setMissiles(missiles);
                             data.addMissileLauncher(id, missileLauncher);
 
@@ -80,7 +80,7 @@ public class ReadConfiguration {
                         for (int i = 0; i < arr.size(); i++) {
                             String id = (String) ((Map) arr.get(i)).get("id");
 
-                            MissileDestructor destructor = new MissileDestructor(id,data);
+                            MissileDestructor destructor = new MissileDestructor(id,data,time);
                             List<Object> mis = (List) ((Map) arr.get(i)).get("destructdMissile");
                             for (int j = 0; j < mis.size(); j++) {
                                 String missileId = (String) ((Map) mis.get(j)).get("id");
@@ -99,7 +99,7 @@ public class ReadConfiguration {
                         for (int i = 0; i < arr.size(); i++) {
                             String type = (String) ((Map) arr.get(i)).get("type");
 
-                            MissileLauncherDestructor missileLauncherDestructor = new MissileLauncherDestructor(type, data);
+                            MissileLauncherDestructor missileLauncherDestructor = new MissileLauncherDestructor(type, data,time);
 
                             List<Object> mis = (List) ((Map) arr.get(i)).get("destructedLanucher");
                             for (int j = 0; j < mis.size(); j++) {

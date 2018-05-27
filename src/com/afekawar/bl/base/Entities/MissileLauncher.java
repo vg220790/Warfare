@@ -1,5 +1,6 @@
 package com.afekawar.bl.base.Entities;
 
+import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,9 +16,9 @@ public class MissileLauncher implements Runnable {
     private boolean isHidden;
     private Thread activeMissileThread;            // TODO - Implement proper Stop Thread to Missile Class and replace this with Reference to the Runnable Object
     private Point2D coordinates;
+    private SystemTime time;
 
-
-    public MissileLauncher(String id, boolean isHidden){
+    public MissileLauncher(String id, boolean isHidden, SystemTime time){
 
         int randomNumbersMinX[] = {680,740,610,450};
         int randomNumbersMaxX[] = {760,870,660,620};
@@ -30,6 +31,7 @@ public class MissileLauncher implements Runnable {
         this.id = id;
         this.isHidden = isHidden;
         this.isAlive = true;
+        this.time = time;
         missiles = new PriorityQueue<>();
         activeMissileThread = null;
         coordinates = new Point2D(ThreadLocalRandom.current().nextInt(randomNumbersMinX[index], randomNumbersMaxX[index] + 1),ThreadLocalRandom.current().nextInt(randomNumbersMinY[index], randomNumbersMaxY[index] + 1));  // Set Random coordinate within Gaza Strip
@@ -76,7 +78,7 @@ public class MissileLauncher implements Runnable {
 
 
     public void stopThread(){                                                       // Missile launcher destroy func
-        System.out.println("Missile Launcher n` " + id + " Got destroyed....");
+        System.out.println("Missile Launcher n` " + id + " Got destroyed at " + time.getTime() + " seconds");
         if(activeMissileThread != null)
             activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
         isAlive = false;
@@ -93,7 +95,6 @@ public class MissileLauncher implements Runnable {
      * ************************************************************* */
     @Override
     public void run() {
-            Long startTime = System.nanoTime();// Current nanosec value              // TODO - Add global time thread
             System.out.println("Missile Launcher n` " + id + " Started...");
 
             while (!missiles.isEmpty()) {
@@ -108,7 +109,7 @@ public class MissileLauncher implements Runnable {
                 if (isAlive && !missiles.isEmpty()) {
                     Missile m = missiles.peek();
                     if (m != null){
-                        Long waitTime = m.getLaunchTime() - ((System.nanoTime() - startTime) / 1000000000);     // Check if the next missile's launch time is later than earlier missile finished it's fly...
+                        int waitTime = m.getLaunchTime() - time.getTime();     // Check if the next missile's launch time is later than earlier missile finished it's fly...
                     if (waitTime > 0)
                         try {
                             isHidden = true;
@@ -119,7 +120,7 @@ public class MissileLauncher implements Runnable {
                             e.printStackTrace();
                         }
                     isHidden = false;
-                    int launchTime = (int)((System.nanoTime() - startTime)/1000000000);           // Missile's actual launch time might change, if the launcher was busy with another missile.
+                    int launchTime = time.getTime();           // Missile's actual launch time might change, if the launcher was busy with another missile.
                     m.setLaunchTime(launchTime);
                     System.out.println("Missile n` " + m.getId() + " From Launcher n` " + id + " Launched at " + launchTime + " seconds");
                     Thread missileThread = new Thread(m);
@@ -133,7 +134,7 @@ public class MissileLauncher implements Runnable {
             }
 
             if(isAlive)
-                System.out.println("Missile Launcher n` " + id + " All missiles out after " + ((System.nanoTime() - startTime) / 1000000000) + " seconds");
+                System.out.println("Missile Launcher n` " + id + " All missiles out after " + time.getTime() + " seconds");
         }
 
 }

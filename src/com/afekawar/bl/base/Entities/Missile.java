@@ -2,6 +2,8 @@ package com.afekawar.bl.base.Entities;
 
 // import java.util.logging.Logger;
 
+import com.afekawar.bl.base.Interface.Time.SystemTime;
+
 public class Missile implements Runnable, Comparable<Missile> {
     /* *************************************************************
      * ******************** Fields and Properties ******************
@@ -13,10 +15,11 @@ public class Missile implements Runnable, Comparable<Missile> {
     private int launchTime;
     private int flyTime;
     private int damage;
+    private SystemTime time;
    // private Logger logger;
     private State state;
 
-    public Missile(String id,Target target, int launchTime, int flyTime,int damage, String launcherId){
+    public Missile(String id,Target target, int launchTime, int flyTime,int damage, String launcherId, SystemTime time){
         this.id = id;
         this.target = target;
         this.launchTime = launchTime;
@@ -24,7 +27,7 @@ public class Missile implements Runnable, Comparable<Missile> {
         this.damage = damage;
         this.state = State.LOADED;
         this.launcherId = launcherId;
-
+        this.time = time;
 
 
     }
@@ -81,7 +84,6 @@ public class Missile implements Runnable, Comparable<Missile> {
 
             state = State.READY;
 
-            Long startTime = System.nanoTime() / 1000000000;
             System.out.println("Missile n` " + id + " launched towards " + target.getName() + " at " + launchTime + " seconds");
             try {
                 synchronized (this) {
@@ -92,7 +94,7 @@ public class Missile implements Runnable, Comparable<Missile> {
                 System.out.println("Missile n` " + id + " Died too early....");
             }
 
-            Long deathTime = (System.nanoTime() / 1000000000 - startTime) + launchTime;
+            int deathTime = time.getTime();
             System.out.println("Missile n` " + id + " died at " + deathTime + " seconds");
             if (deathTime < launchTime + flyTime) {
                 System.out.println("Missile n` " + id + " has been destroyed by Missile Destructor n` ");
@@ -113,8 +115,4 @@ public class Missile implements Runnable, Comparable<Missile> {
         else return 1;
     }
 
-    @Override
-    public String toString(){
-        return "Missile id: " + id + ", LaunchTime: " + launchTime;
-    }
 }

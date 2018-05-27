@@ -1,7 +1,7 @@
 package com.afekawar.bl.base.Entities;
 
-import com.afekawar.bl.base.Interface.InterfaceImp;
 import com.afekawar.bl.base.Interface.SystemInterface;
+import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
 import java.util.*;
@@ -16,16 +16,18 @@ public class MissileDestructor implements Runnable {
   //  private Logger logger;                      // TODO - Implement Logger
     private TreeMap<Integer, Missile> targetMissiles; // Will try to destroy target missile if not null TODO - Change data Structure ( Perhaps HashMap<Missile, SortedList<int>> ?? )
     private SystemInterface data;
+    private SystemTime time;
     private Point2D coordinates;
     private int destructLength;           // Time takes to destroy a missile.
     private Missile activeDestMissile;      // Can attempt to destroy multiple missiles at same time????   // Missile that the destructor currently trying to take down.
 
 
 
-    public MissileDestructor(String id,SystemInterface data) {
+    public MissileDestructor(String id,SystemInterface data, SystemTime time) {
         this.id = id;
         targetMissiles = new TreeMap<>();
         this.data = data;
+        this.time = time;
         coordinates = new Point2D(ThreadLocalRandom.current().nextInt(800, 1100 + 1),ThreadLocalRandom.current().nextInt(200, 660 + 1));  // Set Random coordinate within Israel Defense Border
         destructLength = 2;
         activeDestMissile = null;
@@ -74,15 +76,14 @@ public class MissileDestructor implements Runnable {
     @Override
     public void run() {
         System.out.println("Missile Destructor n` " + id + " Started...");
-        Long startTime = System.nanoTime();
 
         for(int destructTime: targetMissiles.keySet()) {
             Missile m = targetMissiles.get(destructTime);
-            Long currentTime = ((System.nanoTime() - startTime) / 1000000000);
-            if (currentTime + destructLength < destructTime) {
-                System.out.println("Missile Destructor n` " + id + " awaiting for " + (destructTime - destructLength - currentTime) + " seconds...");
+            int waitTime = destructTime - destructLength - time.getTime();
+            if (waitTime > 0) {
+                System.out.println("Missile Destructor n` " + id + " awaiting for " + waitTime + " seconds...");
                 try {
-                    Thread.sleep((destructTime - destructLength - currentTime) * 1000);
+                    Thread.sleep(waitTime * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -90,7 +91,7 @@ public class MissileDestructor implements Runnable {
             }
             if(m.getState() == Missile.State.INAIR){
                 try {
-                    launchAntiMissile(m.getId(), startTime);
+                    launchAntiMissile(m.getId());
                     activeDestMissile = m;
                     Thread.sleep(destructLength * 1000);
                 } catch (InterruptedException e) {
@@ -116,8 +117,8 @@ public class MissileDestructor implements Runnable {
 
     }
 
-    private void launchAntiMissile(String id, long startTime){
-        System.out.println("Missile Destructor n` " + this.id + " Launched anti missile rocket towards Missile n` " + id + " at " + (System.nanoTime() - startTime)/1000000000 + " seconds..");
+    private void launchAntiMissile(String id){
+        System.out.println("Missile Destructor n` " + this.id + " Launched anti missile rocket towards Missile n` " + id + " at " + time.getTime() + " seconds..");
     }
 
 
