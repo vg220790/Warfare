@@ -56,7 +56,7 @@ public class GameObject {
         return nameView;
     }
     public Point2D getCoordinates(){
-        return new Point2D(coordinates.getX() + getView().getTranslateX(),coordinates.getY() + getView().getTranslateY());
+        return new Point2D(coordinates.getX() + getView().getTranslateX() - getView().getImage().getWidth()/2,coordinates.getY() + getView().getTranslateY() - getView().getImage().getHeight()/2);
     }
 
 }

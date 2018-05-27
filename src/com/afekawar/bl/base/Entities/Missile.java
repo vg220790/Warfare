@@ -82,7 +82,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     public void run() {
 
 
-            state = State.READY;
+            state = State.INAIR;
 
             System.out.println("Missile n` " + id + " launched towards " + target.getName() + " at " + launchTime + " seconds");
             try {

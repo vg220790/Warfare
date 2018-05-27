@@ -1,5 +1,6 @@
 package com.afekawar.bl.base.JSONParser;
 
+import GraphicsContent.WarApplication;
 import com.afekawar.bl.base.Entities.*;
 import com.afekawar.bl.base.Interface.SystemInterface;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
@@ -13,7 +14,7 @@ import java.util.*;
 public class ReadConfiguration {
 
 
-    public static void loadConfig(SystemInterface data, SystemTime time) {
+    public static void loadConfig(SystemInterface data, SystemTime time, WarApplication app) {
 
 
         System.out.println("Data Load Starts..");
@@ -61,6 +62,7 @@ public class ReadConfiguration {
                             }
 
                             MissileLauncher missileLauncher = new MissileLauncher(id, isHidden,time);
+                            missileLauncher.addMissileLauncherListener(app);
                             missileLauncher.setMissiles(missiles);
                             data.addMissileLauncher(id, missileLauncher);
 

@@ -1,5 +1,7 @@
 package com.afekawar.bl.base.Entities;
 
+import com.afekawar.bl.base.Interface.Communication.MissileLauncherEvent;
+import com.afekawar.bl.base.Interface.Communication.MissileLauncherListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 import java.util.*;
@@ -15,10 +17,14 @@ public class MissileLauncher implements Runnable {
     private boolean isAlive;
     private boolean isHidden;
     private Thread activeMissileThread;            // TODO - Implement proper Stop Thread to Missile Class and replace this with Reference to the Runnable Object
+    private Missile activeMissileEntity;
     private Point2D coordinates;
     private SystemTime time;
+    private Set<MissileLauncherListener> listeners;
 
     public MissileLauncher(String id, boolean isHidden, SystemTime time){
+
+        listeners = new HashSet<>();
 
         int randomNumbersMinX[] = {680,740,610,450};
         int randomNumbersMaxX[] = {760,870,660,620};
@@ -34,6 +40,7 @@ public class MissileLauncher implements Runnable {
         this.time = time;
         missiles = new PriorityQueue<>();
         activeMissileThread = null;
+        activeMissileEntity = null;
         coordinates = new Point2D(ThreadLocalRandom.current().nextInt(randomNumbersMinX[index], randomNumbersMaxX[index] + 1),ThreadLocalRandom.current().nextInt(randomNumbersMinY[index], randomNumbersMaxY[index] + 1));  // Set Random coordinate within Gaza Strip
 
     }
@@ -59,6 +66,9 @@ public class MissileLauncher implements Runnable {
     public Point2D getCoordinates(){
         return coordinates;
     }
+    public Missile getActiveMissileEntity(){
+        return activeMissileEntity;
+    }
     /*
     public Logger getLogger() {
         return logger;
@@ -79,8 +89,11 @@ public class MissileLauncher implements Runnable {
 
     public void stopThread(){                                                       // Missile launcher destroy func
         System.out.println("Missile Launcher n` " + id + " Got destroyed at " + time.getTime() + " seconds");
-        if(activeMissileThread != null)
+        if(activeMissileThread != null) {
             activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
+            fireDestroyMissileEvent(activeMissileEntity.getId());
+           // activeMissileEntity = null;
+        }
         isAlive = false;
         missiles.clear();
     }
@@ -97,17 +110,21 @@ public class MissileLauncher implements Runnable {
     public void run() {
             System.out.println("Missile Launcher n` " + id + " Started...");
 
+        fireMissileLauncherCreateEvent();
             while (!missiles.isEmpty()) {
                 if (activeMissileThread != null) {
                     try {
                         activeMissileThread.join();               // Wait for previous missile finish it's work
                         Thread.sleep(20);                   // To let time for graphics to update..
+                        //activeMissileEntity = null;
+                        fireDestroyMissileEvent(activeMissileEntity.getId());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                        fireDestroyMissileEvent(activeMissileEntity.getId());
                     }
                 }
                 if (isAlive && !missiles.isEmpty()) {
-                    Missile m = missiles.peek();
+                    Missile m = missiles.poll();
                     if (m != null){
                         int waitTime = m.getLaunchTime() - time.getTime();     // Check if the next missile's launch time is later than earlier missile finished it's fly...
                     if (waitTime > 0)
@@ -127,14 +144,59 @@ public class MissileLauncher implements Runnable {
                     missileThread.setName(m.getId());
                     missileThread.start();
                     activeMissileThread = missileThread;                // Keep the missile thread reference.
-
-
+                    activeMissileEntity = m;
+                    fireLaunchMissileEvent();
                 }
                 }
             }
 
             if(isAlive)
+                if(activeMissileThread != null)
+                    try{
+                        activeMissileThread.join();
+                        //activeMissileEntity = null;
+                        Thread.sleep(20);
+                        fireDestroyMissileEvent(activeMissileEntity.getId());
+                    }
+                    catch (InterruptedException e){
+                        e.printStackTrace();
+                        fireDestroyMissileEvent(activeMissileEntity.getId());
+                    }
                 System.out.println("Missile Launcher n` " + id + " All missiles out after " + time.getTime() + " seconds");
+        }
+
+        public synchronized void addMissileLauncherListener(MissileLauncherListener listener){
+            listeners.add(listener);
+        }
+        public synchronized void removeMissileLauncherListener(MissileLauncherListener listener){
+            listeners.remove(listener);
+        }
+
+        public synchronized void fireMissileLauncherCreateEvent(){
+            MissileLauncherEvent e = new MissileLauncherEvent(this);
+            for(MissileLauncherListener listener: listeners){
+                listener.launcherCreated(e);
+            }
+        }
+        public synchronized void fireMissileLauncherDestroyEvent(){
+            MissileLauncherEvent e = new MissileLauncherEvent(this);
+            for(MissileLauncherListener listener: listeners){
+                listener.launcherDestroyed(e);
+                }
+            }
+        public synchronized void fireLaunchMissileEvent(){
+            MissileLauncherEvent e = new MissileLauncherEvent(this);
+            for(MissileLauncherListener listener: listeners){
+                listener.launchMissile(e);
+            }
+        }
+
+        public synchronized void fireDestroyMissileEvent(String id){
+        MissileLauncherEvent e = new MissileLauncherEvent(this);
+        e.setDestroyedMissileId(id);
+            for(MissileLauncherListener listener: listeners){
+                listener.destroyMissile(e);
+            }
         }
 
 }

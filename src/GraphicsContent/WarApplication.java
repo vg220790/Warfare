@@ -6,6 +6,8 @@ import com.afekawar.bl.base.Entities.Missile;
 import com.afekawar.bl.base.Entities.MissileDestructor;
 import com.afekawar.bl.base.Entities.MissileLauncher;
 import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
+import com.afekawar.bl.base.Interface.Communication.MissileLauncherEvent;
+import com.afekawar.bl.base.Interface.Communication.MissileLauncherListener;
 import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.animation.AnimationTimer;
@@ -20,7 +22,7 @@ import java.util.HashMap;
 
 import java.util.Map;
 
-public class WarApplication extends Application {
+public class WarApplication extends Application implements MissileLauncherListener{
     private Pane root;
     private Runnable mainProgram;
     private SystemTime time;
@@ -31,6 +33,8 @@ public class WarApplication extends Application {
     private Map<String,GameObject> missileLaunchers = new HashMap<>();
     private Map<String,GameObject> missileLauncherDestructors = new HashMap<>();
     private Map<String,GameObject> missileDestructors = new HashMap<>();
+
+
 
 
     private Scene createContent(){
@@ -47,10 +51,14 @@ public class WarApplication extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                onUpdate();
+             //   onUpdate();
                 timeView.setText(String.valueOf(time.getTime()));
 
                 for(GameObject missile:missiles.values()){
+
+                    if(!root.getChildren().contains(missile.getView()))
+                        addGameObject(missile,missile.getCoordinates().getX(),missile.getCoordinates().getY());
+
                     if(missile.isAlive())
                         missile.update();
                     else{
@@ -88,6 +96,7 @@ public class WarApplication extends Application {
                     }
                 }
 
+
             }
         };
         timer.start();
@@ -97,7 +106,7 @@ public class WarApplication extends Application {
 
     private void onUpdate(){
         for(Runnable r : ((ConsoleVersion) mainProgram).entities.values()){
-
+            /*
             if(r instanceof MissileLauncher){
                 if(missileLaunchers.get(((MissileLauncher) r).getId()) == null) {
 
@@ -147,7 +156,10 @@ public class WarApplication extends Application {
 
 
                 }
-            else if(r instanceof MissileDestructor){
+
+            else
+             */
+             if(r instanceof MissileDestructor){
                 if(missileDestructors.get(((MissileDestructor) r).getId()) == null) {
 
                     MissileD destructor = new MissileD(((MissileDestructor) r).getId(), ((MissileDestructor) r).getCoordinates());
@@ -219,7 +231,7 @@ public class WarApplication extends Application {
         Thread timeThread = new Thread(time);
         timeThread.start();
 
-        mainProgram = new ConsoleVersion(time);
+        mainProgram = new ConsoleVersion(time,this);
         Thread mainThread = new Thread(mainProgram);
         mainThread.start();
 
@@ -237,19 +249,17 @@ public class WarApplication extends Application {
     }
 
     public static void main(String[] args){
+        System.setProperty("quantum.multithreaded", "false");
+
 
         launch(args);
     }
 
-    private void addGameObject(GameObject object, double x, double y){
-        object.getView().setX(x);
-        object.getView().setY(y);
-        root.getChildren().add(object.getView());
-        root.getChildren().add(object.getName());
-
-
-
-
+    private synchronized void addGameObject(GameObject object, double x, double y){
+            object.getView().setX(x);
+            object.getView().setY(y);
+            root.getChildren().add(object.getView());
+            root.getChildren().add(object.getName());
     }
 
     private void addMissileLauncher(String id, GameObject missileLauncher,double x, double y){
@@ -270,7 +280,7 @@ public class WarApplication extends Application {
     }
     private void addMissile(String id, GameObject missile,double x, double y){
         missiles.put(id, missile);
-        addGameObject(missile,x,y);
+
 
     }
     private void addAntiMissile(String id, GameObject missile,double x, double y){
@@ -284,6 +294,37 @@ public class WarApplication extends Application {
 
     }
 
+    @Override
+    public void launcherCreated(MissileLauncherEvent e) {
+        MissileL launcher = new MissileL(e.getSource().getId(),e.getSource().getCoordinates());
+        if(e.getSource().getHidden())
+            launcher.setHidden(true);
+        addMissileLauncher(e.getSource().getId(),launcher, e.getSource().getCoordinates().getX() - launcher.getView().getImage().getWidth() / 2, e.getSource().getCoordinates().getY() - launcher.getView().getImage().getHeight() / 2);
+
+    }
+
+    @Override
+    public void launcherDestroyed(MissileLauncherEvent e) {
+
+    }
+
+    @Override
+    public void launchMissile(MissileLauncherEvent e) {
+        double angle = Math.atan2(e.getSource().getActiveMissileEntity().getTarget().getCoordinates().getY() - e.getSource().getCoordinates().getY(), e.getSource().getActiveMissileEntity().getTarget().getCoordinates().getX() - e.getSource().getCoordinates().getX()) * 180 / Math.PI +90;
+
+        MissileInstance missile = new MissileInstance(e.getSource().getActiveMissileEntity().getId(),e.getSource().getCoordinates(), e.getSource().getActiveMissileEntity().getTarget().getCoordinates(),e.getSource().getActiveMissileEntity().getFlyTime());
+        missile.getView().setRotate(angle);
+
+
+        addMissile(e.getSource().getActiveMissileEntity().getId(), missile, e.getSource().getCoordinates().getX() - missile.getView().getImage().getWidth() / 2, e.getSource().getCoordinates().getY() - missile.getView().getImage().getHeight() / 2);
+
+    }
+
+    @Override
+    public void destroyMissile(MissileLauncherEvent e){
+        missiles.get(e.getDestroyedMissileId()).setAlive(false);
+
+    }
 }
 
 

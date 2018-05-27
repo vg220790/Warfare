@@ -1,5 +1,6 @@
 package com.afekawar.bl.base;
 
+import GraphicsContent.WarApplication;
 import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.afekawar.bl.base.Interface.InterfaceImp;
@@ -13,10 +14,12 @@ public class ConsoleVersion implements Runnable{
     public Map<String,Runnable> entities = new HashMap<>();
     private Map<String,Thread> threads = new HashMap<>();
     private SystemTime time;
+    private WarApplication app;
 
 
-    public ConsoleVersion(SystemTime time){
+    public ConsoleVersion(SystemTime time, WarApplication app){
         this.time = time;
+        this.app = app;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class ConsoleVersion implements Runnable{
 
 
 
-        ReadConfiguration.loadConfig(data,time);                                   // Load data from config file.
+        ReadConfiguration.loadConfig(data,time, app);                                   // Load data from config file.
 
         for(Thread th : threads.values()){
             try {
