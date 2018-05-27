@@ -2,6 +2,7 @@ package com.afekawar.bl.base.JSONParser;
 
 import com.afekawar.bl.base.Entities.*;
 import com.afekawar.bl.base.Interface.InterfaceImp;
+import com.afekawar.bl.base.Interface.SystemInterface;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -12,7 +13,7 @@ import java.util.*;
 public class ReadConfiguration {
 
 
-    public static void loadConfig(InterfaceImp data) {
+    public static void loadConfig(SystemInterface data) {
 
 
         System.out.println("Data Load Starts..");

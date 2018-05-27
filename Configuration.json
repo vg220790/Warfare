@@ -30,6 +30,33 @@
           ]
         },
         {
+          "id": "L103",
+          "isHidden": "false",
+          "missile": [
+            {
+              "id": "M18",
+              "destination": "Sderot",
+              "launchTime": "5",
+              "flyTime": "12",
+              "damage": "1500"
+            },
+            {
+              "id": "M12",
+              "destination": "Sderot",
+              "launchTime": "22",
+              "flyTime": "12",
+              "damage": "1500"
+            },
+            {
+              "id": "M11",
+              "destination": "Beer-Sheva",
+              "launchTime": "8",
+              "flyTime": "7",
+              "damage": "2000"
+            }
+          ]
+        },
+        {
           "id": "L102",
           "isHidden": "true",
           "missile": [

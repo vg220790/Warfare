@@ -11,7 +11,7 @@ public class InterfaceImp implements SystemInterface {
 
     public InterfaceImp(Map<String,Runnable> entities,Map<String,Thread> threads){
         this.entities = entities;
-        this.threads = threads;
+        this.threads = threads;                                      // To control all running threads.
     }
 
     @Override
@@ -21,16 +21,6 @@ public class InterfaceImp implements SystemInterface {
         th.setName(id);
         th.start();
         threads.put(id,th);
-    }
-
-    @Override
-    public Runnable getEntityById(String id) {
-        return entities.get(id);
-    }
-
-    @Override
-    public Thread getThreadById(String id){
-        return threads.get(id);
     }
 
     @Override
@@ -52,6 +42,18 @@ public class InterfaceImp implements SystemInterface {
     }
 
     @Override
+    public Runnable getEntityById(String id) {               // TODO - rework to avoid un-needed castings...
+        return entities.get(id);
+    }
+
+    @Override
+    public Thread getThreadById(String id){
+        return threads.get(id);
+    }
+
+
+
+    @Override
     public void addMissile(String id, Missile missile) {
         entities.put(id,missile);
     }
@@ -59,12 +61,7 @@ public class InterfaceImp implements SystemInterface {
 
 
     @Override
-    public Target getTargetById(String id){
-        return (Target)entities.get(id);
-    }
-
-    @Override
-    public void launchMissile(String destination, int damage, int flyTime) {
+    public void launchMissile(String destination, int damage, int flyTime) {           // TODO - implement and use that interface instead of current solution
 
     }
 
@@ -82,7 +79,7 @@ public class InterfaceImp implements SystemInterface {
 
     @Override
     public void destroyMissile(String launcherId, String missileId) {
-        ((MissileLauncher)entities.get(launcherId)).getActiveMissileThread().interrupt();
+        ((MissileLauncher)entities.get(launcherId)).getActiveMissileThread().interrupt();     // TODO - implement proper Stop Thread to Missile class
     }
 
     @Override

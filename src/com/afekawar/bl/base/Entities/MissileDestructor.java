@@ -1,6 +1,7 @@
 package com.afekawar.bl.base.Entities;
 
 import com.afekawar.bl.base.Interface.InterfaceImp;
+import com.afekawar.bl.base.Interface.SystemInterface;
 import javafx.geometry.Point2D;
 
 import java.util.*;
@@ -13,15 +14,15 @@ public class MissileDestructor implements Runnable {
      * ************************************************************* */
     private String id;
   //  private Logger logger;                      // TODO - Implement Logger
-    private TreeMap<Integer, Missile> targetMissiles; // Will try to destroy target missile if not null
-    private InterfaceImp data;
+    private TreeMap<Integer, Missile> targetMissiles; // Will try to destroy target missile if not null TODO - Change data Structure ( Perhaps HashMap<Missile, SortedList<int>> ?? )
+    private SystemInterface data;
     private Point2D coordinates;
     private int destructLength;           // Time takes to destroy a missile.
-    private Missile activeDestMissile;
+    private Missile activeDestMissile;      // Can attempt to destroy multiple missiles at same time????   // Missile that the destructor currently trying to take down.
 
 
 
-    public MissileDestructor(String id,InterfaceImp data) {
+    public MissileDestructor(String id,SystemInterface data) {
         this.id = id;
         targetMissiles = new TreeMap<>();
         this.data = data;

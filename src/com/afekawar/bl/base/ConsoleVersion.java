@@ -1,6 +1,7 @@
 package com.afekawar.bl.base;
 
 import com.afekawar.bl.base.Interface.InterfaceImp;
+import com.afekawar.bl.base.Interface.SystemInterface;
 import com.afekawar.bl.base.JSONParser.ReadConfiguration;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class ConsoleVersion implements Runnable{
         entities = new HashMap<>();
         threads = new HashMap<>();
 
-        InterfaceImp data = new InterfaceImp(entities,threads);
+        SystemInterface data = new InterfaceImp(entities,threads);
 
 
 

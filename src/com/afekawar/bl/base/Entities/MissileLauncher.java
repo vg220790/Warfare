@@ -13,11 +13,12 @@ public class MissileLauncher implements Runnable {
     private Queue<Missile> missiles;
     private boolean isAlive;
     private boolean isHidden;
-    private Thread activeMissileThread;
+    private Thread activeMissileThread;            // TODO - Implement proper Stop Thread to Missile Class and replace this with Reference to the Runnable Object
     private Point2D coordinates;
 
 
     public MissileLauncher(String id, boolean isHidden){
+
         int randomNumbersMinX[] = {680,740,610,450};
         int randomNumbersMaxX[] = {760,870,660,620};
 
@@ -77,7 +78,7 @@ public class MissileLauncher implements Runnable {
     public void stopThread(){                                                       // Missile launcher destroy func
         System.out.println("Missile Launcher n` " + id + " Got destroyed....");
         if(activeMissileThread != null)
-            activeMissileThread.interrupt();
+            activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
         isAlive = false;
         missiles.clear();
     }
@@ -92,7 +93,7 @@ public class MissileLauncher implements Runnable {
      * ************************************************************* */
     @Override
     public void run() {
-            Long time = System.nanoTime();                                        // Current nanosec value
+            Long startTime = System.nanoTime();// Current nanosec value              // TODO - Add global time thread
             System.out.println("Missile Launcher n` " + id + " Started...");
 
             while (!missiles.isEmpty()) {
@@ -107,7 +108,7 @@ public class MissileLauncher implements Runnable {
                 if (isAlive && !missiles.isEmpty()) {
                     Missile m = missiles.peek();
                     if (m != null){
-                        Long waitTime = m.getLaunchTime() - ((System.nanoTime() - time) / 1000000000);     // Check if the next missile's launch time is later than earlier missile finished it's fly...
+                        Long waitTime = m.getLaunchTime() - ((System.nanoTime() - startTime) / 1000000000);     // Check if the next missile's launch time is later than earlier missile finished it's fly...
                     if (waitTime > 0)
                         try {
                             isHidden = true;
@@ -118,7 +119,7 @@ public class MissileLauncher implements Runnable {
                             e.printStackTrace();
                         }
                     isHidden = false;
-                    int launchTime = (int)((System.nanoTime() - time)/1000000000);
+                    int launchTime = (int)((System.nanoTime() - startTime)/1000000000);           // Missile's actual launch time might change, if the launcher was busy with another missile.
                     m.setLaunchTime(launchTime);
                     System.out.println("Missile n` " + m.getId() + " From Launcher n` " + id + " Launched at " + launchTime + " seconds");
                     Thread missileThread = new Thread(m);
@@ -132,7 +133,7 @@ public class MissileLauncher implements Runnable {
             }
 
             if(isAlive)
-                System.out.println("Missile Launcher n` " + id + " All missiles out after " + ((System.nanoTime() - time) / 1000000000) + " seconds");
+                System.out.println("Missile Launcher n` " + id + " All missiles out after " + ((System.nanoTime() - startTime) / 1000000000) + " seconds");
         }
 
 }

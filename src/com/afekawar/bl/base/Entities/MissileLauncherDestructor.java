@@ -1,6 +1,7 @@
 package com.afekawar.bl.base.Entities;
 
 import com.afekawar.bl.base.Interface.InterfaceImp;
+import com.afekawar.bl.base.Interface.SystemInterface;
 import javafx.geometry.Point2D;
 
 import java.util.TreeMap;
@@ -18,12 +19,12 @@ public class MissileLauncherDestructor implements Runnable {
     private Type type;
     private int destructLength;           // Time takes to destroy a Missile Launcher.
    // private Logger logger;
-    private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target missile if not null
-    private InterfaceImp data;
+    private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target Missile Launcher if not null
+    private SystemInterface data;
     private Point2D coordinates;
-    private MissileLauncher activeDestLauncher;
+    private MissileLauncher activeDestLauncher;                        // To check which Missile Launcher is destroyed right now
 
-    public MissileLauncherDestructor(String type, InterfaceImp data){
+    public MissileLauncherDestructor(String type, SystemInterface data){
         this.id = "LD30" + (1 + idInc++);
         if(type.equals("plane")){
             this.type = Type.AIRCRAFT;
@@ -72,6 +73,7 @@ public class MissileLauncherDestructor implements Runnable {
     public void setActiveDestLauncher(MissileLauncher activeDestLauncher) {
         this.activeDestLauncher = activeDestLauncher;
     }
+
     public void addDestructedLauncher(int time, MissileLauncher launcher){
         targetMissileLaunchers.put(time,launcher);
     }
@@ -83,10 +85,10 @@ public class MissileLauncherDestructor implements Runnable {
     public void run() {
             System.out.println("Missile Launcher Destructor n` " + id + " Started...");
 
-            Long startTime = System.nanoTime();
+            Long startTime = System.nanoTime();                  // TODO - Find solution to global System Time, regardless of the actual thread start time....
 
 
-            for(int destructTime:targetMissileLaunchers.keySet()){
+            for(int destructTime:targetMissileLaunchers.keySet()){                          // TODO - change to fit GUI interactive implementation ( We don't necessary want the thread to stop when there's no more launcher's to destroy)
                 MissileLauncher launcher = targetMissileLaunchers.get(destructTime);
                 Long currentTime = ((System.nanoTime() - startTime) / 1000000000);
                 if (currentTime + destructLength < destructTime) {
@@ -94,17 +96,17 @@ public class MissileLauncherDestructor implements Runnable {
                     try {
                         Thread.sleep((destructTime - destructLength - currentTime) * 1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        e.printStackTrace();                    // This part shouldn't be interrupted.
                     }
                 }
 
-                if(launcher.getAlive()){
+                if(launcher.getAlive()){                 // TODO - Move all this part of code to the interface implementation????
                     try {
                         launchAntiMissileLauncher(launcher.getId(), startTime);
-                        activeDestLauncher = launcher;
+                        activeDestLauncher = launcher;                             // Our trigger to let graphics content to know it should launch a Missile at target launcher.
                         Thread.sleep(destructLength * 1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        e.printStackTrace();                         // This part shouldn't be interrupted.
                     }
 
                     if (launcher.getAlive()) {
@@ -116,7 +118,7 @@ public class MissileLauncherDestructor implements Runnable {
             }
 
 
-            System.out.println("Missile Launcher Destructor n` " + id + " Ended...");
+            System.out.println("Missile Launcher Destructor n` " + id + " Ended...");         // Remove? After interactive GUI implementation.
 
 
     }
