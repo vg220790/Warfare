@@ -16,6 +16,7 @@ public class MissileLauncher implements Runnable {
     private Queue<Missile> missiles;
     private boolean isAlive;
     private boolean isHidden;
+    private boolean neverHidden;
     private Thread activeMissileThread;            // TODO - Implement proper Stop Thread to Missile Class and replace this with Reference to the Runnable Object
     private Missile activeMissileEntity;
     private Point2D coordinates;
@@ -35,7 +36,8 @@ public class MissileLauncher implements Runnable {
         int index = ThreadLocalRandom.current().nextInt(0,4);
 
         this.id = id;
-        this.isHidden = isHidden;
+        this.neverHidden = !isHidden;
+        this.isHidden = neverHidden;
         this.isAlive = true;
         this.time = time;
         missiles = new PriorityQueue<>();
@@ -90,9 +92,8 @@ public class MissileLauncher implements Runnable {
     public void stopThread(){                                                       // Missile launcher destroy func
         System.out.println("Missile Launcher n` " + id + " Got destroyed at " + time.getTime() + " seconds");
         if(activeMissileThread != null) {
-            activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
             fireDestroyMissileEvent(activeMissileEntity.getId());
-           // activeMissileEntity = null;
+            activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
         }
         isAlive = false;
         missiles.clear();
@@ -116,7 +117,6 @@ public class MissileLauncher implements Runnable {
                     try {
                         activeMissileThread.join();               // Wait for previous missile finish it's work
                         Thread.sleep(20);                   // To let time for graphics to update..
-                        //activeMissileEntity = null;
                         fireDestroyMissileEvent(activeMissileEntity.getId());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -129,7 +129,13 @@ public class MissileLauncher implements Runnable {
                         int waitTime = m.getLaunchTime() - time.getTime();     // Check if the next missile's launch time is later than earlier missile finished it's fly...
                     if (waitTime > 0)
                         try {
+
+                        if(!neverHidden){
                             isHidden = true;
+                            fireHideMissileLauncherEvent();
+                        }
+
+
                             System.out.println("Launcher n` " + id + " Waiting " + waitTime + " seconds till next Missile..");
                             Thread.sleep(waitTime * 1000);
 
@@ -197,6 +203,13 @@ public class MissileLauncher implements Runnable {
             for(MissileLauncherListener listener: listeners){
                 listener.destroyMissile(e);
             }
+        }
+
+        public synchronized void fireHideMissileLauncherEvent(){
+        MissileLauncherEvent e = new MissileLauncherEvent(this);
+        for(MissileLauncherListener listener : listeners){
+            listener.hideMissileLauncher(e);
+        }
         }
 
 }

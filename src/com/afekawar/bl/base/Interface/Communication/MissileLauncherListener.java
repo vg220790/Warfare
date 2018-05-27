@@ -6,5 +6,6 @@ public interface MissileLauncherListener {
     public void launcherDestroyed(MissileLauncherEvent e);
     public void launchMissile(MissileLauncherEvent e);
     public void destroyMissile(MissileLauncherEvent e);
+    public void hideMissileLauncher(MissileLauncherEvent e);
 
 }

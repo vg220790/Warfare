@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 
 import java.util.Map;
+import java.util.Stack;
 
 public class WarApplication extends Application implements MissileLauncherListener{
     private Pane root;
@@ -35,7 +36,7 @@ public class WarApplication extends Application implements MissileLauncherListen
     private Map<String,GameObject> missileDestructors = new HashMap<>();
 
 
-
+    private Stack<String> deadMissiles;
 
     private Scene createContent(){
         root = new Pane();
@@ -48,12 +49,17 @@ public class WarApplication extends Application implements MissileLauncherListen
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(this.getClass().getResource("Resources/style.css").toExternalForm());
         root.getChildren().add(timeView);
+
+
+
+
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
              //   onUpdate();
                 timeView.setText(String.valueOf(time.getTime()));
 
+                deadMissiles = new Stack<>();
                 for(GameObject missile:missiles.values()){
 
                     if(!root.getChildren().contains(missile.getView()))
@@ -64,8 +70,12 @@ public class WarApplication extends Application implements MissileLauncherListen
                     else{
                         missile.getView().setVisible(false);
                         missile.getName().setVisible(false);
+                        deadMissiles.push(missile.getName().toString());
                     }
                 }
+
+                while(!deadMissiles.empty())
+                    missiles.remove(deadMissiles.pop());
 
                 for(GameObject missileLauncher:missileLaunchers.values()){
                     if(missileLauncher.isHidden()){
@@ -105,60 +115,9 @@ public class WarApplication extends Application implements MissileLauncherListen
     }
 
     private void onUpdate(){
+
+/*
         for(Runnable r : ((ConsoleVersion) mainProgram).entities.values()){
-            /*
-            if(r instanceof MissileLauncher){
-                if(missileLaunchers.get(((MissileLauncher) r).getId()) == null) {
-
-                    MissileL launcher = new MissileL(((MissileLauncher) r).getId(),((MissileLauncher) r).getCoordinates());
-                    if(((MissileLauncher) r).getHidden())
-                        launcher.setHidden(true);
-                    addMissileLauncher(((MissileLauncher) r).getId(),launcher, ((MissileLauncher) r).getCoordinates().getX() - launcher.getView().getImage().getWidth() / 2, ((MissileLauncher) r).getCoordinates().getY() - launcher.getView().getImage().getHeight() / 2);
-                }
-
-                if(!((MissileLauncher) r).getMissiles().isEmpty()) {
-                    Missile temp = ((MissileLauncher) r).getMissiles().peek();
-                    if(temp != null)
-                        if (((MissileLauncher) r).getAlive() && temp.getState() == Missile.State.READY) {
-
-                        temp.setState("INAIR");
-
-
-
-                        missileLaunchers.get(((MissileLauncher) r).getId()).setHidden(false);   // Unhide missile launcher when launching a missile
-
-                        double angle = Math.atan2(temp.getTarget().getCoordinates().getY() - ((MissileLauncher) r).getCoordinates().getY(), temp.getTarget().getCoordinates().getX() - ((MissileLauncher) r).getCoordinates().getX()) * 180 / Math.PI +90;
-
-
-
-                        MissileInstance missileI = new MissileInstance(temp.getId(),((MissileLauncher) r).getCoordinates(), temp.getTarget().getCoordinates(), temp.getFlyTime());
-                        missileI.getView().setRotate(angle);
-                        addMissile(temp.getId(), missileI, ((MissileLauncher) r).getCoordinates().getX() - missileI.getView().getImage().getWidth() / 2, ((MissileLauncher) r).getCoordinates().getY() - missileI.getView().getImage().getHeight() / 2);
-                        ((MissileLauncher) r).getMissiles().poll();
-                    }
-                }
-
-                if(!((MissileLauncher) r).getAlive()){
-                    missileLaunchers.get(((MissileLauncher) r).getId()).destroy();
-                    antiMissileLaunchers.get(((MissileLauncher) r).getId()).setAlive(false);
-
-                }
-                if(((MissileLauncher) r).getActiveMissileThread() != null){                                         // Check if missile died and remove it from views.
-                    if(!((MissileLauncher) r).getActiveMissileThread().isAlive()){
-                        missiles.get(((MissileLauncher) r).getActiveMissileThread().getName()).setAlive(false);
-                        if(antiMissiles.get(((MissileLauncher) r).getActiveMissileThread().getName()) != null)
-                            antiMissiles.get(((MissileLauncher) r).getActiveMissileThread().getName()).setAlive(false);
-                        if(((MissileLauncher) r).getAlive() && !(((MissileLauncher) r).getMissiles().isEmpty()))
-                            missileLaunchers.get(((MissileLauncher) r).getId()).setHidden(true);                        // Hide launcher again, once there's no missiles in air
-                    }
-                }
-
-
-
-                }
-
-            else
-             */
              if(r instanceof MissileDestructor){
                 if(missileDestructors.get(((MissileDestructor) r).getId()) == null) {
 
@@ -223,6 +182,7 @@ public class WarApplication extends Application implements MissileLauncherListen
 
 
         }
+*/
     }
 
     @Override
@@ -312,6 +272,9 @@ public class WarApplication extends Application implements MissileLauncherListen
     public void launchMissile(MissileLauncherEvent e) {
         double angle = Math.atan2(e.getSource().getActiveMissileEntity().getTarget().getCoordinates().getY() - e.getSource().getCoordinates().getY(), e.getSource().getActiveMissileEntity().getTarget().getCoordinates().getX() - e.getSource().getCoordinates().getX()) * 180 / Math.PI +90;
 
+        if(missileLaunchers.containsKey(e.getSource().getId()))
+            missileLaunchers.get(e.getSource().getId()).setHidden(false);
+
         MissileInstance missile = new MissileInstance(e.getSource().getActiveMissileEntity().getId(),e.getSource().getCoordinates(), e.getSource().getActiveMissileEntity().getTarget().getCoordinates(),e.getSource().getActiveMissileEntity().getFlyTime());
         missile.getView().setRotate(angle);
 
@@ -322,8 +285,15 @@ public class WarApplication extends Application implements MissileLauncherListen
 
     @Override
     public void destroyMissile(MissileLauncherEvent e){
-        missiles.get(e.getDestroyedMissileId()).setAlive(false);
+        if(missiles.containsKey(e.getDestroyedMissileId()))
+            missiles.get(e.getDestroyedMissileId()).setAlive(false);
 
+    }
+
+    @Override
+    public void hideMissileLauncher(MissileLauncherEvent e){
+        if(missileLaunchers.containsKey(e.getSource().getId()))
+            missileLaunchers.get(e.getSource().getId()).setHidden(true);
     }
 }
 

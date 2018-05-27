@@ -4,7 +4,7 @@
       "launcher": [
         {
           "id": "L101",
-          "isHidden": "false",
+          "isHidden": "true",
           "missile": [
             {
               "id": "M1",
@@ -31,7 +31,7 @@
         },
         {
           "id": "L103",
-          "isHidden": "false",
+          "isHidden": "true",
           "missile": [
             {
               "id": "M5",
