@@ -178,27 +178,27 @@ public class MissileLauncher implements Runnable {
             listeners.remove(listener);
         }
 
-        public synchronized void fireCreateMissileLauncherEvent(){
+    private synchronized void fireCreateMissileLauncherEvent(){
             MissileLauncherEvent e = new MissileLauncherEvent(this);
             for(MissileLauncherListener listener: listeners){
                 listener.createMissileLauncher(e);
             }
         }
-    public synchronized void fireDestroyMissileLauncherEvent(){
+    private synchronized void fireDestroyMissileLauncherEvent(){
         MissileLauncherEvent e = new MissileLauncherEvent(this);
         for(MissileLauncherListener listener : listeners){
             listener.destroyMissileLauncher(e);
         }
     }
 
-        public synchronized void fireLaunchMissileEvent(){
+    private synchronized void fireLaunchMissileEvent(){
             MissileLauncherEvent e = new MissileLauncherEvent(this);
             for(MissileLauncherListener listener: listeners){
                 listener.launchMissile(e);
             }
         }
 
-        public synchronized void fireDestroyMissileEvent(String id){
+    private synchronized void fireDestroyMissileEvent(String id){
         MissileLauncherEvent e = new MissileLauncherEvent(this);
         e.setDestroyedMissileId(id);
             for(MissileLauncherListener listener: listeners){
@@ -206,7 +206,7 @@ public class MissileLauncher implements Runnable {
             }
         }
 
-        public synchronized void fireHideMissileLauncherEvent(){
+    private synchronized void fireHideMissileLauncherEvent(){
         MissileLauncherEvent e = new MissileLauncherEvent(this);
         for(MissileLauncherListener listener : listeners){
             listener.hideMissileLauncher(e);

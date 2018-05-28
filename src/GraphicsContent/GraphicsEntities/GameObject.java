@@ -12,8 +12,8 @@ public class GameObject {
     private ImageView view;
     private Point2D coordinates;
     private Text nameView;
-    private boolean isAlive = true;
-    private boolean isHidden = false;
+    private boolean isAlive;
+    private boolean isHidden;
 
     public void update(){}
 
@@ -23,7 +23,7 @@ public class GameObject {
         return isAlive;
     }
 
-    public void setAlive(boolean isAlive){
+    void setAlive(boolean isAlive){
         this.isAlive = isAlive;
     }
 
@@ -39,6 +39,8 @@ public class GameObject {
 
 
     GameObject(String id, Point2D coordinates, Image icon){
+        setAlive(true);
+        setHidden(false);
         this.view = new ImageView(icon);
         this.coordinates = coordinates;
         nameView = new Text(id);
@@ -57,7 +59,7 @@ public class GameObject {
         return nameView;
     }
     public Point2D getCoordinates(){
-        return new Point2D(coordinates.getX() + getView().getTranslateX() - getView().getImage().getWidth()/2,coordinates.getY() + getView().getTranslateY() - getView().getImage().getHeight()/2);
+        return new Point2D(coordinates.getX() + getView().getTranslateX(),coordinates.getY() + getView().getTranslateY());
     }
 
 }

@@ -8,7 +8,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     /* *************************************************************
      * ******************** Fields and Properties ******************
      * ************************************************************* */
-    public enum State { LOADED, READY, INAIR, DEAD }
+    public enum State { LOADED, INAIR, DEAD }
     private String id;
     private String launcherId;
     private Target target;
@@ -25,7 +25,7 @@ public class Missile implements Runnable, Comparable<Missile> {
         this.launchTime = launchTime;
         this.flyTime = flyTime;
         this.damage = damage;
-        this.state = State.LOADED;
+        setState(State.LOADED);
         this.launcherId = launcherId;
         this.time = time;
 
@@ -47,7 +47,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     public Target getTarget() {
         return target;
     }
-    public State getState() {
+    State getState() {
         return state;
     }
     /*
@@ -65,11 +65,11 @@ public class Missile implements Runnable, Comparable<Missile> {
     public void setId(String id) {
         this.id = id;
     }
-    public void setLaunchTime(int launchTime){
+    void setLaunchTime(int launchTime){
         this.launchTime = launchTime;
     }
-    public void setState(String state) {
-        this.state = State.valueOf(state);
+    void setState(State state) {
+        this.state = state;
     }
     int getLaunchTime(){
         return launchTime;
@@ -90,7 +90,7 @@ public class Missile implements Runnable, Comparable<Missile> {
                     Thread.sleep(flyTime * 1000);                     // Sleep until missile reaches destination, or being destructed.
                 }
             } catch (InterruptedException e) {
-                this.state = State.DEAD;
+                setState(State.DEAD);
                 System.out.println("Missile n` " + id + " Died too early....");
             }
 
@@ -101,7 +101,7 @@ public class Missile implements Runnable, Comparable<Missile> {
             } else {
                 System.out.println("Missile n` " + id + " Reached it's destination (" + target.getName() + ") at " + deathTime + " seconds");
             }
-            this.state = State.DEAD;
+        setState(State.DEAD);
 
 
 

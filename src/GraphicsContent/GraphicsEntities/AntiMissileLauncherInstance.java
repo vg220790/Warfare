@@ -7,7 +7,7 @@ public class AntiMissileLauncherInstance extends GameObject{
     private static Image icon = new Image("GraphicsContent/Resources/missile.png");
     private Point2D velocity;
     public AntiMissileLauncherInstance(Point2D coordinates, Point2D targetCoordinates, int flyTime) {
-        super("AntiMissileLauncher", coordinates,icon);
+        super("AntiMissileLauncher", coordinates.subtract(icon.getWidth()/2,icon.getHeight()/2),icon);
 
 
         getView().setScaleX(0.3);
@@ -29,11 +29,22 @@ public class AntiMissileLauncherInstance extends GameObject{
     }
 
     @Override
+    public void destroy(){
+        this.setAlive(false);
+    }
+
+    @Override
     public void update(){
         this.getView().setTranslateX(this.getView().getTranslateX() + velocity.getX());
         this.getView().setTranslateY(this.getView().getTranslateY() + velocity.getY());
         this.getName().setTranslateX(this.getName().getTranslateX() + velocity.getX());
         this.getName().setTranslateY(this.getName().getTranslateY() + velocity.getY());
+
+        if(this.getCoordinates().getX() < -30 || this.getCoordinates().getX() > 1600)
+            this.destroy();
+        if(this.getCoordinates().getY() < -30 || this.getCoordinates().getY() > 1100)
+            this.destroy();
+
     }
 
 }

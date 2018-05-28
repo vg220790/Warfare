@@ -11,7 +11,7 @@ public class StaticTargets {
 
         Target beerSheva = new Target("Beer-Sheva", 1225,560);
         Target ofakim = new Target("Ofakim",985,456);
-        Target sderot = new Target("Sderot",957,100);
+        Target sderot = new Target("Sderot",957,95);
         Target netivot = new Target("Netivot", 940,270);
         Target rahat = new Target("Rahat", 1180,322);
 

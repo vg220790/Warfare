@@ -143,20 +143,20 @@ public class MissileLauncherDestructor implements Runnable {
         listeners.remove(listener);
     }
 
-    public synchronized void fireCreateMissileLauncherDestructorEvent(){
+    private synchronized void fireCreateMissileLauncherDestructorEvent(){
         MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
         for(MissileLauncherDestructorListener listener: listeners){
             listener.createMissileLauncherDestructor(e);
         }
     }
 
-    public synchronized void fireLaunchAntiMissileLauncherMissileEvent(){
+    private synchronized void fireLaunchAntiMissileLauncherMissileEvent(){
         MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
         for (MissileLauncherDestructorListener listener : listeners){
             listener.launchAntiMissileLauncher(e);
         }
     }
-    public synchronized void fireDestroyAntiMissileLauncherMissileEvent(){
+    private synchronized void fireDestroyAntiMissileLauncherMissileEvent(){
         MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
         for (MissileLauncherDestructorListener listener : listeners){
             listener.destroyAntiMissileLauncher(e);

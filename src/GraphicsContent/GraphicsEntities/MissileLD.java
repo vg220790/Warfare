@@ -11,7 +11,7 @@ public class MissileLD extends GameObject {
     private MissileLauncherDestructor.Type type;
 
     public MissileLD(String id, Point2D coordinates, MissileLauncherDestructor.Type type) {
-        super(id, coordinates,icon);
+        super(id, coordinates.subtract(icon.getWidth()/2,icon.getHeight()/2),icon);
 
         this.type = type;
         angle = 0;

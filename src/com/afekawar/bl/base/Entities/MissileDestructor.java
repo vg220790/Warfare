@@ -63,10 +63,6 @@ public class MissileDestructor implements Runnable {
     public void setId(String id) {
         this.id = id;
     }
-    public void setActiveDestMissile(Missile activeDestMissile){
-        this.activeDestMissile = activeDestMissile;
-    }
-
     public void addTargetMissile(int destrTime, Missile missile) {
         targetMissiles.put(destrTime, missile);
     }
@@ -104,7 +100,7 @@ public class MissileDestructor implements Runnable {
                 }
 
                 if (m.getState() == Missile.State.INAIR) {
-                    m.setState("DEAD");
+                    m.setState(Missile.State.DEAD);
                     fireDestroyAntiMissileEvent();
                     data.destroyMissile(m.getLauncherId(), m.getId());
 
@@ -130,24 +126,21 @@ public class MissileDestructor implements Runnable {
     public synchronized void addMissileDestructorListener(MissileDestructorListener listener){
         listeners.add(listener);
     }
-    public synchronized void removeMissileDestructorListener(MissileDestructorListener listener){
-        listeners.remove(listener);
-    }
 
-    public synchronized void fireCreateMissileDestructorEvent(){
+    private synchronized void fireCreateMissileDestructorEvent(){
         MissileDestructorEvent e = new MissileDestructorEvent(this);
         for(MissileDestructorListener listener: listeners){
             listener.createMissileDestructor(e);
         }
     }
 
-    public synchronized void fireLaunchAntiMissileEvent(){
+    private synchronized void fireLaunchAntiMissileEvent(){
         MissileDestructorEvent e = new MissileDestructorEvent(this);
         for (MissileDestructorListener listener : listeners){
             listener.launchAntiMissile(e);
         }
     }
-    public synchronized void fireDestroyAntiMissileEvent(){
+    private synchronized void fireDestroyAntiMissileEvent(){
         MissileDestructorEvent e = new MissileDestructorEvent(this);
         for (MissileDestructorListener listener : listeners){
             listener.destroyAntiMissile(e);
