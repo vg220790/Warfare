@@ -2,12 +2,7 @@ package GraphicsContent;
 
 import GraphicsContent.GraphicsEntities.*;
 import com.afekawar.bl.base.ConsoleVersion;
-import com.afekawar.bl.base.Entities.Missile;
-import com.afekawar.bl.base.Entities.MissileDestructor;
-import com.afekawar.bl.base.Entities.MissileLauncher;
-import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
-import com.afekawar.bl.base.Interface.Communication.MissileLauncherEvent;
-import com.afekawar.bl.base.Interface.Communication.MissileLauncherListener;
+import com.afekawar.bl.base.Interface.Communication.*;
 import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.animation.AnimationTimer;
@@ -15,6 +10,7 @@ import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -23,18 +19,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
-public class WarApplication extends Application implements MissileLauncherListener{
+public class WarApplication extends Application implements MissileLauncherListener,MissileLauncherDestructorListener, MissileDestructorListener {
     private Pane root;
     private Runnable mainProgram;
     private SystemTime time;
 
+    /*
     private Map<String,GameObject> antiMissiles = new HashMap<>();
     private Map<String,GameObject> antiMissileLaunchers = new HashMap<>();
     private Map<String,GameObject> missiles = new HashMap<>();
     private Map<String,GameObject> missileLaunchers = new HashMap<>();
     private Map<String,GameObject> missileLauncherDestructors = new HashMap<>();
     private Map<String,GameObject> missileDestructors = new HashMap<>();
-
+*/
+    private Map<String,GameObject> ents = new HashMap<>();
 
     private Stack<String> deadMissiles;
 
@@ -56,9 +54,24 @@ public class WarApplication extends Application implements MissileLauncherListen
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-             //   onUpdate();
                 timeView.setText(String.valueOf(time.getTime()));
 
+
+
+                for(GameObject ent : ents.values()){
+                    if(!root.getChildren().contains(ent.getView()))
+                        addGameObject(ent,ent.getCoordinates().getX(),ent.getCoordinates().getY());
+                    if(ent.isAlive())
+                        ent.update();
+                    else {
+                        ent.getView().setVisible(false);
+                        ent.getName().setVisible(false);
+                    }
+                }
+
+
+
+                /*
                 deadMissiles = new Stack<>();
                 for(GameObject missile:missiles.values()){
 
@@ -78,6 +91,8 @@ public class WarApplication extends Application implements MissileLauncherListen
                     missiles.remove(deadMissiles.pop());
 
                 for(GameObject missileLauncher:missileLaunchers.values()){
+                    if(!root.getChildren().contains(missileLauncher.getView()))
+                        addGameObject(missileLauncher,missileLauncher.getCoordinates().getX(),missileLauncher.getCoordinates().getY());
                     if(missileLauncher.isHidden()){
                         missileLauncher.getView().setOpacity(0.25);
                     }
@@ -87,9 +102,13 @@ public class WarApplication extends Application implements MissileLauncherListen
                 }
 
                 for(GameObject missileLD:missileLauncherDestructors.values()){
+                    if(!root.getChildren().contains(missileLD.getView()))
+                        addGameObject(missileLD,missileLD.getCoordinates().getX(),missileLD.getCoordinates().getY());
                     missileLD.update();
                 }
                 for(GameObject antiMissile:antiMissiles.values()){
+                    if(!root.getChildren().contains(antiMissile.getView()))
+                        addGameObject(antiMissile,antiMissile.getCoordinates().getX()+antiMissile.getView().getImage().getWidth()/2,antiMissile.getCoordinates().getY() + antiMissile.getView().getImage().getHeight()/2);
                     if(antiMissile.isAlive())
                         antiMissile.update();
                     else{
@@ -98,6 +117,9 @@ public class WarApplication extends Application implements MissileLauncherListen
                     }
                 }
                 for(GameObject antiMissileLauncher:antiMissileLaunchers.values()){
+                    if(!root.getChildren().contains(antiMissileLauncher.getView()))
+                        addGameObject(antiMissileLauncher,antiMissileLauncher.getCoordinates().getX(),antiMissileLauncher.getCoordinates().getY());
+
                     if(antiMissileLauncher.isAlive())
                         antiMissileLauncher.update();
                     else{
@@ -105,8 +127,12 @@ public class WarApplication extends Application implements MissileLauncherListen
                         antiMissileLauncher.getName().setVisible(false);
                     }
                 }
+                for(GameObject missileD : missileDestructors.values()){
+                    if(!root.getChildren().contains(missileD.getView()))
+                        addGameObject(missileD,missileD.getCoordinates().getX(),missileD.getCoordinates().getY());
+                }
 
-
+                */
             }
         };
         timer.start();
@@ -114,76 +140,7 @@ public class WarApplication extends Application implements MissileLauncherListen
         return scene;
     }
 
-    private void onUpdate(){
 
-/*
-        for(Runnable r : ((ConsoleVersion) mainProgram).entities.values()){
-             if(r instanceof MissileDestructor){
-                if(missileDestructors.get(((MissileDestructor) r).getId()) == null) {
-
-                    MissileD destructor = new MissileD(((MissileDestructor) r).getId(), ((MissileDestructor) r).getCoordinates());
-                    addMissileDestructor(((MissileDestructor) r).getId(), destructor, ((MissileDestructor) r).getCoordinates().getX() - destructor.getView().getImage().getWidth() / 2, ((MissileDestructor) r).getCoordinates().getY() - destructor.getView().getImage().getHeight() / 2);
-                }
-                if(((MissileDestructor) r).getActiveDestMissile() != null){
-                    Missile targetMissile = ((MissileDestructor) r).getActiveDestMissile();
-                    if(missiles.get(targetMissile.getId()) != null) {
-                        Point2D collisionPoint = new Point2D(missiles.get(targetMissile.getId()).getCoordinates().getX() + 60*((MissileDestructor) r).getDestructLength()*missiles.get(targetMissile.getId()).getVelocity().getX(), missiles.get(targetMissile.getId()).getCoordinates().getY() + 60*((MissileDestructor) r).getDestructLength()*missiles.get(targetMissile.getId()).getVelocity().getY());
-
-
-
-                    double angle = Math.atan2(collisionPoint.getY() - ((MissileDestructor) r).getCoordinates().getY(), collisionPoint.getX() - ((MissileDestructor) r).getCoordinates().getX()) * 180 / Math.PI +90;
-
-
-
-
-                    AntiMissileInstance antiMissileI = new AntiMissileInstance(((MissileDestructor) r).getCoordinates(), collisionPoint, ((MissileDestructor) r).getDestructLength());
-                        antiMissileI.getView().setRotate(angle);
-
-                    addAntiMissile(targetMissile.getId(), antiMissileI, ((MissileDestructor) r).getCoordinates().getX() - antiMissileI.getView().getImage().getWidth() / 2, ((MissileDestructor) r).getCoordinates().getY() - antiMissileI.getView().getImage().getHeight() / 2);
-
-
-                    }
-                    ((MissileDestructor) r).setActiveDestMissile(null);
-                }
-            }
-            else if(r instanceof MissileLauncherDestructor){
-                if(missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()) == null) {
-
-                    MissileLD launcherDestructor = new MissileLD(((MissileLauncherDestructor) r).getId(), ((MissileLauncherDestructor) r).getCoordinates(), ((MissileLauncherDestructor) r).getType());
-                    addMissileLauncherDestructor(((MissileLauncherDestructor) r).getId(), launcherDestructor, ((MissileLauncherDestructor) r).getCoordinates().getX() - launcherDestructor.getView().getImage().getWidth() / 2, ((MissileLauncherDestructor) r).getCoordinates().getY() - launcherDestructor.getView().getImage().getHeight() / 2);
-                }
-                if(((MissileLauncherDestructor) r).getActiveDestLauncher() != null){
-                    MissileLauncher targetMissileLauncher = ((MissileLauncherDestructor) r).getActiveDestLauncher();
-                    if(missileLaunchers.get(targetMissileLauncher.getId()) != null) {
-                        Point2D collisionPoint = new Point2D(targetMissileLauncher.getCoordinates().getX(), targetMissileLauncher.getCoordinates().getY());
-
-
-
-                        double angle = Math.atan2(collisionPoint.getY() - (missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getY()), collisionPoint.getX() - (missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getX())) * 180 / Math.PI +90;
-
-
-
-
-                        AntiMissileLauncherInstance antiMissileLauncherI = new AntiMissileLauncherInstance(missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates(), collisionPoint, ((MissileLauncherDestructor) r).getDestructLength());
-                        antiMissileLauncherI.getView().setRotate(angle);
-
-                        addAntiMissileLauncher(targetMissileLauncher.getId(), antiMissileLauncherI, missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getX() - antiMissileLauncherI.getView().getImage().getWidth() / 2, missileLauncherDestructors.get(((MissileLauncherDestructor) r).getId()).getCoordinates().getY() - antiMissileLauncherI.getView().getImage().getHeight() / 2);
-
-
-                    }
-                    ((MissileLauncherDestructor) r).setActiveDestLauncher(null);
-
-
-
-
-                }
-                }
-
-
-
-        }
-*/
-    }
 
     @Override
     public void start(Stage primaryStage){
@@ -215,85 +172,171 @@ public class WarApplication extends Application implements MissileLauncherListen
         launch(args);
     }
 
-    private synchronized void addGameObject(GameObject object, double x, double y){
+    private void addGameObject(GameObject object, double x, double y){
             object.getView().setX(x);
             object.getView().setY(y);
             root.getChildren().add(object.getView());
             root.getChildren().add(object.getName());
     }
 
-    private void addMissileLauncher(String id, GameObject missileLauncher,double x, double y){
-        missileLaunchers.put(id, missileLauncher);
-        addGameObject(missileLauncher,x,y);
+    private void addMissileLauncher(String id, GameObject missileLauncher){
+        //missileLaunchers.put(id, missileLauncher);
+        ents.put(id,missileLauncher);
 
     }
-    private void addMissileDestructor(String id,GameObject missileDestructor,double x, double y){
-        missileDestructors.put(id,missileDestructor);
-        addGameObject(missileDestructor,x,y);
-
+    private void addMissileDestructor(String id,GameObject missileDestructor){
+       // missileDestructors.put(id,missileDestructor);
+        ents.put(id,missileDestructor);
     }
 
-    private void addMissileLauncherDestructor(String id, GameObject missileLauncherDestructor,double x, double y){
-        missileLauncherDestructors.put(id, missileLauncherDestructor);
-        addGameObject(missileLauncherDestructor,x,y);
+    private void addMissileLauncherDestructor(String id, GameObject missileLauncherDestructor){
+       // missileLauncherDestructors.put(id, missileLauncherDestructor);
+        ents.put(id,missileLauncherDestructor);
 
     }
-    private void addMissile(String id, GameObject missile,double x, double y){
-        missiles.put(id, missile);
+    private void addMissile(String id, GameObject missile){
+        //missiles.put(id, missile);
+        ents.put(id,missile);
 
 
     }
-    private void addAntiMissile(String id, GameObject missile,double x, double y){
-        antiMissiles.put(id, missile);
-        addGameObject(missile,x,y);
+    private void addAntiMissile(String id, GameObject missile){
+        //antiMissiles.put(id, missile);
+        ents.put("AM" + id,missile);
 
     }
-    private void addAntiMissileLauncher(String id, GameObject missile,double x, double y){
-        antiMissileLaunchers.put(id, missile);
-        addGameObject(missile,x,y);
+    private void addAntiMissileLauncher(String id, GameObject missile){
+        //antiMissileLaunchers.put(id, missile);
+        ents.put("AML"+id,missile);
+
 
     }
 
     @Override
-    public void launcherCreated(MissileLauncherEvent e) {
+    public synchronized void createMissileLauncher(MissileLauncherEvent e) {
         MissileL launcher = new MissileL(e.getSource().getId(),e.getSource().getCoordinates());
         if(e.getSource().getHidden())
             launcher.setHidden(true);
-        addMissileLauncher(e.getSource().getId(),launcher, e.getSource().getCoordinates().getX() - launcher.getView().getImage().getWidth() / 2, e.getSource().getCoordinates().getY() - launcher.getView().getImage().getHeight() / 2);
-
+        addMissileLauncher(e.getSource().getId(),launcher);
+        root.getChildren().add(new Circle(e.getSource().getCoordinates().getX(),e.getSource().getCoordinates().getY(),10));
     }
 
     @Override
-    public void launcherDestroyed(MissileLauncherEvent e) {
+    public synchronized void destroyMissileLauncher(MissileLauncherEvent e) {
+        //if(missileLaunchers.containsKey(e.getSource().getId()))
+            //missileLaunchers.get(e.getSource().getId()).destroy();
+        if(ents.containsKey(e.getSource().getId())) {
+           ents.get(e.getSource().getId()).destroy();
 
+        }
     }
 
     @Override
-    public void launchMissile(MissileLauncherEvent e) {
+    public synchronized void launchMissile(MissileLauncherEvent e) {
         double angle = Math.atan2(e.getSource().getActiveMissileEntity().getTarget().getCoordinates().getY() - e.getSource().getCoordinates().getY(), e.getSource().getActiveMissileEntity().getTarget().getCoordinates().getX() - e.getSource().getCoordinates().getX()) * 180 / Math.PI +90;
 
-        if(missileLaunchers.containsKey(e.getSource().getId()))
-            missileLaunchers.get(e.getSource().getId()).setHidden(false);
+      //  if(missileLaunchers.containsKey(e.getSource().getId()))
+           // missileLaunchers.get(e.getSource().getId()).setHidden(false);
+        if(ents.containsKey(e.getSource().getId()))
+            ents.get(e.getSource().getId()).setHidden(false);
 
         MissileInstance missile = new MissileInstance(e.getSource().getActiveMissileEntity().getId(),e.getSource().getCoordinates(), e.getSource().getActiveMissileEntity().getTarget().getCoordinates(),e.getSource().getActiveMissileEntity().getFlyTime());
         missile.getView().setRotate(angle);
 
 
-        addMissile(e.getSource().getActiveMissileEntity().getId(), missile, e.getSource().getCoordinates().getX() - missile.getView().getImage().getWidth() / 2, e.getSource().getCoordinates().getY() - missile.getView().getImage().getHeight() / 2);
+        addMissile(e.getSource().getActiveMissileEntity().getId(), missile);
 
     }
 
     @Override
-    public void destroyMissile(MissileLauncherEvent e){
-        if(missiles.containsKey(e.getDestroyedMissileId()))
-            missiles.get(e.getDestroyedMissileId()).setAlive(false);
+    public synchronized void destroyMissile(MissileLauncherEvent e){
+       // if(missiles.containsKey(e.getDestroyedMissileId()))
+           // missiles.get(e.getDestroyedMissileId()).setAlive(false);
+        if(ents.containsKey(e.getDestroyedMissileId()))
+            ents.get(e.getDestroyedMissileId()).setAlive(false);
 
     }
 
     @Override
-    public void hideMissileLauncher(MissileLauncherEvent e){
-        if(missileLaunchers.containsKey(e.getSource().getId()))
-            missileLaunchers.get(e.getSource().getId()).setHidden(true);
+    public synchronized void hideMissileLauncher(MissileLauncherEvent e){
+       // if(missileLaunchers.containsKey(e.getSource().getId()))
+         //   missileLaunchers.get(e.getSource().getId()).setHidden(true);
+        if(ents.containsKey(e.getSource().getId()))
+            ents.get(e.getSource().getId()).setHidden(true);
+    }
+
+    @Override
+    public synchronized void launchAntiMissileLauncher(MissileLauncherDestructorEvent e) {
+        Point2D collisionPoint = new Point2D(e.getSource().getActiveDestLauncher().getCoordinates().getX(), e.getSource().getActiveDestLauncher().getCoordinates().getY());
+
+
+
+        //double angle = Math.atan2(collisionPoint.getY() - missileLauncherDestructors.get(e.getSource().getId()).getCoordinates().getY(), collisionPoint.getX() - missileLauncherDestructors.get(e.getSource().getId()).getCoordinates().getX()) * 180 / Math.PI +90;
+        double angle = Math.atan2(collisionPoint.getY() - ents.get(e.getSource().getId()).getCoordinates().getY(), collisionPoint.getX() - ents.get(e.getSource().getId()).getCoordinates().getX()) * 180 / Math.PI +90;
+
+
+
+
+        //AntiMissileLauncherInstance antiMissileLauncherI = new AntiMissileLauncherInstance(e.getSource().getCoordinates().add(new Point2D(missileLauncherDestructors.get(e.getSource().getId()).getView().getTranslateX(),missileLauncherDestructors.get(e.getSource().getId()).getView().getTranslateY())), collisionPoint, e.getSource().getDestructLength());
+        AntiMissileLauncherInstance antiMissileLauncherI = new AntiMissileLauncherInstance(e.getSource().getCoordinates().add(new Point2D(ents.get(e.getSource().getId()).getView().getTranslateX(),ents.get(e.getSource().getId()).getView().getTranslateY())), collisionPoint, e.getSource().getDestructLength());
+
+        antiMissileLauncherI.getView().setRotate(angle);
+
+        addAntiMissileLauncher(e.getSource().getActiveDestLauncher().getId(), antiMissileLauncherI);
+
+
+
+    }
+
+    @Override
+    public synchronized void destroyAntiMissileLauncher(MissileLauncherDestructorEvent e) {
+      //  if(antiMissileLaunchers.containsKey(e.getSource().getActiveDestLauncher().getId()))
+          //  antiMissileLaunchers.get(e.getSource().getActiveDestLauncher().getId()).setAlive(false);
+        if(ents.containsKey(e.getSource().getActiveDestLauncher().getId()))
+            ents.get("AML"+e.getSource().getActiveDestLauncher().getId()).setAlive(false);
+    }
+
+    @Override
+    public synchronized void createMissileLauncherDestructor(MissileLauncherDestructorEvent e) {
+        MissileLD launcherDestructor = new MissileLD(e.getSource().getId(), e.getSource().getCoordinates(), e.getSource().getType());
+        addMissileLauncherDestructor(e.getSource().getId(), launcherDestructor);
+    }
+
+    @Override
+    public synchronized void createMissileDestructor(MissileDestructorEvent e) {
+        MissileD destructor = new MissileD(e.getSource().getId(), e.getSource().getCoordinates());
+        addMissileDestructor(e.getSource().getId(), destructor);
+
+    }
+
+    @Override
+    public synchronized void launchAntiMissile(MissileDestructorEvent e) {
+       // Point2D collisionPoint = new Point2D(missiles.get(e.getSource().getActiveDestMissile().getId()).getCoordinates().getX() + 60*e.getSource().getDestructLength()*missiles.get(e.getSource().getActiveDestMissile().getId()).getVelocity().getX(), missiles.get(e.getSource().getActiveDestMissile().getId()).getCoordinates().getY() + 60*e.getSource().getDestructLength()*missiles.get(e.getSource().getActiveDestMissile().getId()).getVelocity().getY());
+       Point2D collisionPoint = new Point2D(ents.get(e.getSource().getActiveDestMissile().getId()).getCoordinates().getX() + 60*e.getSource().getDestructLength()*ents.get(e.getSource().getActiveDestMissile().getId()).getVelocity().getX(), ents.get(e.getSource().getActiveDestMissile().getId()).getCoordinates().getY() + 60*e.getSource().getDestructLength()*ents.get(e.getSource().getActiveDestMissile().getId()).getVelocity().getY());
+
+
+
+        double angle = Math.atan2(collisionPoint.getY() - e.getSource().getCoordinates().getY(), collisionPoint.getX() - e.getSource().getCoordinates().getX()) * 180 / Math.PI +90;
+
+
+
+
+       // AntiMissileInstance antiMissileI = new AntiMissileInstance(missileDestructors.get(e.getSource().getId()).getCoordinates(), collisionPoint, e.getSource().getDestructLength());
+         AntiMissileInstance antiMissileI = new AntiMissileInstance(ents.get(e.getSource().getId()).getCoordinates(), collisionPoint, e.getSource().getDestructLength());
+
+        antiMissileI.getView().setRotate(angle);
+
+        addAntiMissile(e.getSource().getActiveDestMissile().getId(), antiMissileI);
+
+
+    }
+
+    @Override
+    public synchronized void destroyAntiMissile(MissileDestructorEvent e) {
+        //if(antiMissiles.containsKey(e.getSource().getActiveDestMissile().getId()))
+          //  antiMissiles.get(e.getSource().getActiveDestMissile().getId()).setAlive(false);
+        if(ents.containsKey(e.getSource().getActiveDestMissile().getId()))
+            ents.get("AM" + e.getSource().getActiveDestMissile().getId()).setAlive(false);
     }
 }
 

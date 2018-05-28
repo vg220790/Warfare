@@ -35,5 +35,6 @@ public class AntiMissileLauncherInstance extends GameObject{
         this.getName().setTranslateX(this.getName().getTranslateX() + velocity.getX());
         this.getName().setTranslateY(this.getName().getTranslateY() + velocity.getY());
     }
+
 }
 

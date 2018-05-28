@@ -16,7 +16,7 @@ public class MissileLauncher implements Runnable {
     private Queue<Missile> missiles;
     private boolean isAlive;
     private boolean isHidden;
-    private boolean neverHidden;
+    private boolean alwaysVisible;
     private Thread activeMissileThread;            // TODO - Implement proper Stop Thread to Missile Class and replace this with Reference to the Runnable Object
     private Missile activeMissileEntity;
     private Point2D coordinates;
@@ -36,8 +36,8 @@ public class MissileLauncher implements Runnable {
         int index = ThreadLocalRandom.current().nextInt(0,4);
 
         this.id = id;
-        this.neverHidden = !isHidden;
-        this.isHidden = neverHidden;
+        this.alwaysVisible = !isHidden;
+        this.isHidden = alwaysVisible;
         this.isAlive = true;
         this.time = time;
         missiles = new PriorityQueue<>();
@@ -96,6 +96,7 @@ public class MissileLauncher implements Runnable {
             activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
         }
         isAlive = false;
+        fireDestroyMissileLauncherEvent();
         missiles.clear();
     }
 
@@ -111,7 +112,7 @@ public class MissileLauncher implements Runnable {
     public void run() {
             System.out.println("Missile Launcher n` " + id + " Started...");
 
-        fireMissileLauncherCreateEvent();
+        fireCreateMissileLauncherEvent();
             while (!missiles.isEmpty()) {
                 if (activeMissileThread != null) {
                     try {
@@ -130,7 +131,7 @@ public class MissileLauncher implements Runnable {
                     if (waitTime > 0)
                         try {
 
-                        if(!neverHidden){
+                        if(!alwaysVisible){
                             isHidden = true;
                             fireHideMissileLauncherEvent();
                         }
@@ -160,7 +161,6 @@ public class MissileLauncher implements Runnable {
                 if(activeMissileThread != null)
                     try{
                         activeMissileThread.join();
-                        //activeMissileEntity = null;
                         Thread.sleep(20);
                         fireDestroyMissileEvent(activeMissileEntity.getId());
                     }
@@ -178,18 +178,19 @@ public class MissileLauncher implements Runnable {
             listeners.remove(listener);
         }
 
-        public synchronized void fireMissileLauncherCreateEvent(){
+        public synchronized void fireCreateMissileLauncherEvent(){
             MissileLauncherEvent e = new MissileLauncherEvent(this);
             for(MissileLauncherListener listener: listeners){
-                listener.launcherCreated(e);
+                listener.createMissileLauncher(e);
             }
         }
-        public synchronized void fireMissileLauncherDestroyEvent(){
-            MissileLauncherEvent e = new MissileLauncherEvent(this);
-            for(MissileLauncherListener listener: listeners){
-                listener.launcherDestroyed(e);
-                }
-            }
+    public synchronized void fireDestroyMissileLauncherEvent(){
+        MissileLauncherEvent e = new MissileLauncherEvent(this);
+        for(MissileLauncherListener listener : listeners){
+            listener.destroyMissileLauncher(e);
+        }
+    }
+
         public synchronized void fireLaunchMissileEvent(){
             MissileLauncherEvent e = new MissileLauncherEvent(this);
             for(MissileLauncherListener listener: listeners){
@@ -211,5 +212,7 @@ public class MissileLauncher implements Runnable {
             listener.hideMissileLauncher(e);
         }
         }
+
+
 
 }

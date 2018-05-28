@@ -1,9 +1,13 @@
 package com.afekawar.bl.base.Entities;
 
+import com.afekawar.bl.base.Interface.Communication.MissileLauncherDestructorEvent;
+import com.afekawar.bl.base.Interface.Communication.MissileLauncherDestructorListener;
 import com.afekawar.bl.base.Interface.SystemInterface;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
 // import java.util.logging.Logger;
@@ -20,6 +24,7 @@ public class MissileLauncherDestructor implements Runnable {
     private SystemTime time;
     private int destructLength;           // Time takes to destroy a Missile Launcher.
    // private Logger logger;
+    private Set<MissileLauncherDestructorListener> listeners;
     private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target Missile Launcher if not null
     private SystemInterface data;
     private Point2D coordinates;
@@ -33,6 +38,7 @@ public class MissileLauncherDestructor implements Runnable {
         else{
             this.type = Type.BATTLESHIP;
         }
+        listeners = new HashSet<>();
         this.time = time;
         targetMissileLaunchers = new TreeMap<>();
         this.data = data;
@@ -86,7 +92,7 @@ public class MissileLauncherDestructor implements Runnable {
     @Override
     public void run() {
             System.out.println("Missile Launcher Destructor n` " + id + " Started...");
-
+            fireCreateMissileLauncherDestructorEvent();
 
             for(int destructTime:targetMissileLaunchers.keySet()){                          // TODO - change to fit GUI interactive implementation ( We don't necessary want the thread to stop when there's no more launcher's to destroy)
                 MissileLauncher launcher = targetMissileLaunchers.get(destructTime);
@@ -102,9 +108,12 @@ public class MissileLauncherDestructor implements Runnable {
 
                 if(launcher.getAlive()){                 // TODO - Move all this part of code to the interface implementation????
                     try {
-                        launchAntiMissileLauncher(launcher.getId());
                         activeDestLauncher = launcher;                             // Our trigger to let graphics content to know it should launch a Missile at target launcher.
+                        launchAntiMissileLauncher(launcher.getId());
                         Thread.sleep(destructLength * 1000);
+                        if(!launcher.getHidden())
+                            fireDestroyAntiMissileLauncherMissileEvent();
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();                         // This part shouldn't be interrupted.
                     }
@@ -124,6 +133,34 @@ public class MissileLauncherDestructor implements Runnable {
     }
     private void launchAntiMissileLauncher(String id){
         System.out.println(type + " n` " + this.id + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + time.getTime() + " seconds..");
+        fireLaunchAntiMissileLauncherMissileEvent();
+    }
+
+    public synchronized void addMissileLauncherDestructorListener(MissileLauncherDestructorListener listener){
+        listeners.add(listener);
+    }
+    public synchronized void removeMissileLauncherDestructorListener(MissileLauncherDestructorListener listener){
+        listeners.remove(listener);
+    }
+
+    public synchronized void fireCreateMissileLauncherDestructorEvent(){
+        MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
+        for(MissileLauncherDestructorListener listener: listeners){
+            listener.createMissileLauncherDestructor(e);
+        }
+    }
+
+    public synchronized void fireLaunchAntiMissileLauncherMissileEvent(){
+        MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
+        for (MissileLauncherDestructorListener listener : listeners){
+            listener.launchAntiMissileLauncher(e);
+        }
+    }
+    public synchronized void fireDestroyAntiMissileLauncherMissileEvent(){
+        MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
+        for (MissileLauncherDestructorListener listener : listeners){
+            listener.destroyAntiMissileLauncher(e);
+        }
     }
 
 }

@@ -13,9 +13,4 @@ public class MissileD extends GameObject {
         getView().setScaleY(0.7);
 
     }
-
-    @Override
-    public void update(){
-
-    }
 }

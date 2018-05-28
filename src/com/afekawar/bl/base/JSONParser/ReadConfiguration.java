@@ -90,6 +90,7 @@ public class ReadConfiguration {
 
                                 destructor.addTargetMissile(destructAfterLaunch, (Missile)data.getEntityById(missileId));
                             }
+                            destructor.addMissileDestructorListener(app);
                             data.addMissileDestructor(id, destructor);
                         }
                     }
@@ -111,6 +112,7 @@ public class ReadConfiguration {
                                 missileLauncherDestructor.addDestructedLauncher(destructTime, (MissileLauncher)data.getEntityById(launcherId));
 
                             }
+                            missileLauncherDestructor.addMissileLauncherDestructorListener(app);
                             data.addMissileLauncherDestructor(missileLauncherDestructor.getId(), missileLauncherDestructor);
 
 

@@ -15,8 +15,8 @@ public class GameObject {
     private boolean isAlive = true;
     private boolean isHidden = false;
 
-    public void update(){
-    }
+    public void update(){}
+
 
 
     public boolean isAlive(){
@@ -31,7 +31,8 @@ public class GameObject {
         return view;
     }
 
-    public void destroy(){ }
+    public void destroy(){
+    }
     public Point2D getVelocity(){
         return null;
     }
