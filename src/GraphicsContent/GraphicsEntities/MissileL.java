@@ -15,7 +15,19 @@ public class MissileL extends GameObject {
 
     @Override
     public void destroy(){
-        this.getView().setImage((new Image("GraphicsContent/Resources/destroyedMissileLauncher.png")));
+        setAlive(false);
+
+    }
+
+    @Override
+    public void update(){
+        if(!isAlive())
+            this.getView().setImage((new Image("GraphicsContent/Resources/destroyedMissileLauncher.png")));
+
+        if(isHidden())
+            getView().setOpacity(0.25);
+        else
+            getView().setOpacity(1);
     }
 
 

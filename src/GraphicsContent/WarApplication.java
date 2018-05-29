@@ -14,16 +14,14 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Stack;
 
 public class WarApplication extends Application implements MissileLauncherListener,MissileLauncherDestructorListener, MissileDestructorListener {
     private Pane root;
     private SystemTime time;
 
     private Map<String,GameObject> graphicsEntities = new HashMap<>();
-
-    private Stack<GameObject> deadEntities;
 
     private Scene createContent(){
         root = new Pane();
@@ -42,27 +40,18 @@ public class WarApplication extends Application implements MissileLauncherListen
             public void handle(long now) {
                 timeView.setText(String.valueOf(time.getTime()));
 
-                deadEntities = new Stack<>();
+                Iterator<GameObject> it = graphicsEntities.values().iterator();
 
-                for(GameObject entity : graphicsEntities.values()){
+                while(it.hasNext()){
+                    GameObject entity = it.next();
+                    entity.update();
+
+                    if(!entity.isAlive()){
+                        it.remove();
+                        break;
+                    }
                     if(!root.getChildren().contains(entity.getView()))
                         addGameObject(entity,entity.getCoordinates().getX(),entity.getCoordinates().getY());
-                    if(entity.isAlive()) {
-                        entity.update();
-                        if(entity.isHidden())
-                            entity.getView().setOpacity(0.25);
-                        else
-                            entity.getView().setOpacity(1);
-                    }
-                    else {
-                        deadEntities.push(entity);
-                        entity.getView().setVisible(false);
-                        entity.getName().setVisible(false);
-                    }
-                }
-
-                while(!deadEntities.empty()){
-                    graphicsEntities.values().remove(deadEntities.pop());
                 }
             }
         };
@@ -171,5 +160,3 @@ public class WarApplication extends Application implements MissileLauncherListen
             graphicsEntities.get("AM" + e.getSource().getActiveDestMissile().getId()).destroy();
     }
 }
-
-

@@ -35,15 +35,20 @@ public class AntiMissileLauncherInstance extends GameObject{
 
     @Override
     public void update(){
+
+        if(this.getCoordinates().getX() < -100 || this.getCoordinates().getX() > 1600)
+            this.destroy();
+        if(this.getCoordinates().getY() < -100 || this.getCoordinates().getY() > 1100)
+            this.destroy();
+
+        super.update();
+
         this.getView().setTranslateX(this.getView().getTranslateX() + velocity.getX());
         this.getView().setTranslateY(this.getView().getTranslateY() + velocity.getY());
         this.getName().setTranslateX(this.getName().getTranslateX() + velocity.getX());
         this.getName().setTranslateY(this.getName().getTranslateY() + velocity.getY());
 
-        if(this.getCoordinates().getX() < -30 || this.getCoordinates().getX() > 1600)
-            this.destroy();
-        if(this.getCoordinates().getY() < -30 || this.getCoordinates().getY() > 1100)
-            this.destroy();
+
 
     }
 

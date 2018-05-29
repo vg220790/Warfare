@@ -8,16 +8,19 @@ import javafx.scene.text.Text;
 
 
 
-public class GameObject {
+public abstract class GameObject {
     private ImageView view;
     private Point2D coordinates;
     private Text nameView;
     private boolean isAlive;
     private boolean isHidden;
 
-    public void update(){}
-
-
+    public void update(){
+        if(!isAlive) {
+            view.setVisible(false);
+            nameView.setVisible(false);
+        }
+    }
 
     public boolean isAlive(){
         return isAlive;
@@ -49,7 +52,7 @@ public class GameObject {
         nameView.setStyle("-fx-font: bold 18px \"Serif\"");
 
     }
-    public boolean isHidden(){
+    boolean isHidden(){
         return isHidden;
     }
     public void setHidden(boolean isHidden){
