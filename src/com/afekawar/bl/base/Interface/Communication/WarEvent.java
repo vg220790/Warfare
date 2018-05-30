@@ -8,6 +8,7 @@ public class WarEvent {
     private Event_Type eventType;
     private String id;
     private String missileId;
+    private String targetLauncherId;
     private Point2D coordinates;
     private Point2D targetCoordinates;
     private boolean isHidden;
@@ -74,5 +75,11 @@ public class WarEvent {
     }
     public int getDestructLength(){
         return destructLength;
+    }
+    public void setTargetLauncherId(String targetLauncherId){
+        this.targetLauncherId = targetLauncherId;
+    }
+    public String getTargetLauncherId(){
+        return targetLauncherId;
     }
 }

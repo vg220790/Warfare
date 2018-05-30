@@ -1,7 +1,5 @@
 package com.afekawar.bl.base.Entities;
 
-import com.afekawar.bl.base.Interface.Communication.MissileLauncherDestructorEvent;
-import com.afekawar.bl.base.Interface.Communication.MissileLauncherDestructorListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.SystemInterface;
@@ -156,6 +154,7 @@ public class MissileLauncherDestructor implements Runnable {
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.LAUNCH_ANTI_MISSILE_LAUNCHER);
         e.setCoordinates(coordinates);
+        e.setTargetLauncherId(activeDestLauncher.getId());
         e.setTargetCoordinates(activeDestLauncher.getCoordinates());
         e.setDestructLength(destructLength);
         for (WarEventListener listener : listeners){
@@ -167,6 +166,7 @@ public class MissileLauncherDestructor implements Runnable {
     private synchronized void fireDestroyAntiMissileLauncherMissileEvent(){
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE_LAUNCHER);
+        e.setTargetLauncherId(activeDestLauncher.getId());
         for (WarEventListener listener : listeners){
             listener.handleWarEvent(e);
         }

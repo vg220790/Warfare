@@ -2,13 +2,15 @@ package GraphicsContent.GraphicsEntities;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 
 public class AntiMissileInstance extends GameObject {
     private static Image icon = new Image("GraphicsContent/Resources/missile.png");
     private Point2D velocity;
-    public AntiMissileInstance(Point2D coordinates, Point2D targetCoordinates, int flyTime) {
-        super("AntiMissile", coordinates.subtract(icon.getWidth()/2,icon.getHeight()/2),icon);
+    private String id;
+    public AntiMissileInstance(String id, Point2D coordinates, Point2D targetCoordinates, int flyTime) {
+        super(id, coordinates.subtract(icon.getWidth()/2,icon.getHeight()/2),icon);
 
 
         getView().setScaleX(0.2);
@@ -30,16 +32,17 @@ public class AntiMissileInstance extends GameObject {
     }
 
 
-    @Override
+
     public void destroy(){
         this.setAlive(false);
+
     }
 
     @Override
     public void update(){
-        if(this.getCoordinates().getX() < -30 || this.getCoordinates().getX() > 1600)
+        if(this.getCoordinates().getX() < -100 || this.getCoordinates().getX() > 1600)
             this.destroy();
-        if(this.getCoordinates().getY() < -30 || this.getCoordinates().getY() > 1100)
+        if(this.getCoordinates().getY() < -100 || this.getCoordinates().getY() > 1100)
             this.destroy();
 
         super.update();

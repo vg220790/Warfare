@@ -6,8 +6,8 @@ import javafx.scene.image.Image;
 public class AntiMissileLauncherInstance extends GameObject{
     private static Image icon = new Image("GraphicsContent/Resources/missile.png");
     private Point2D velocity;
-    public AntiMissileLauncherInstance(Point2D coordinates, Point2D targetCoordinates, int flyTime) {
-        super("AntiMissileLauncher", coordinates.subtract(icon.getWidth()/2,icon.getHeight()/2),icon);
+    public AntiMissileLauncherInstance(String id, Point2D coordinates, Point2D targetCoordinates, int flyTime) {
+        super(id, coordinates.subtract(icon.getWidth()/2,icon.getHeight()/2),icon);
 
 
         getView().setScaleX(0.3);

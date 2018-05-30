@@ -1,7 +1,5 @@
 package com.afekawar.bl.base.Entities;
 
-import com.afekawar.bl.base.Interface.Communication.MissileDestructorEvent;
-import com.afekawar.bl.base.Interface.Communication.MissileDestructorListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.SystemInterface;
@@ -152,6 +150,7 @@ public class MissileDestructor implements Runnable {
     private synchronized void fireDestroyAntiMissileEvent(){
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE);
+        e.setMissileId(activeDestMissile.getId());
         for (WarEventListener listener : listeners){
             listener.handleWarEvent(e);
         }
