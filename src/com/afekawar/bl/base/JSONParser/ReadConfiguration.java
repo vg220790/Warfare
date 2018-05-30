@@ -62,7 +62,7 @@ public class ReadConfiguration {
                             }
 
                             MissileLauncher missileLauncher = new MissileLauncher(id, isHidden,time);
-                            missileLauncher.addMissileLauncherListener(app);
+                            missileLauncher.addWarEventListener(app);
                             missileLauncher.setMissiles(missiles);
                             data.addMissileLauncher(id, missileLauncher);
 
@@ -90,7 +90,7 @@ public class ReadConfiguration {
 
                                 destructor.addTargetMissile(destructAfterLaunch, (Missile)data.getEntityById(missileId));
                             }
-                            destructor.addMissileDestructorListener(app);
+                            destructor.addWarEventListener(app);
                             data.addMissileDestructor(id, destructor);
                         }
                     }
@@ -112,7 +112,7 @@ public class ReadConfiguration {
                                 missileLauncherDestructor.addDestructedLauncher(destructTime, (MissileLauncher)data.getEntityById(launcherId));
 
                             }
-                            missileLauncherDestructor.addMissileLauncherDestructorListener(app);
+                            missileLauncherDestructor.addWarEventListener(app);
                             data.addMissileLauncherDestructor(missileLauncherDestructor.getId(), missileLauncherDestructor);
 
 

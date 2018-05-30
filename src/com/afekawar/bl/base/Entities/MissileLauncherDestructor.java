@@ -2,6 +2,8 @@ package com.afekawar.bl.base.Entities;
 
 import com.afekawar.bl.base.Interface.Communication.MissileLauncherDestructorEvent;
 import com.afekawar.bl.base.Interface.Communication.MissileLauncherDestructorListener;
+import com.afekawar.bl.base.Interface.Communication.WarEvent;
+import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.SystemInterface;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
@@ -24,7 +26,7 @@ public class MissileLauncherDestructor implements Runnable {
     private SystemTime time;
     private int destructLength;           // Time takes to destroy a Missile Launcher.
    // private Logger logger;
-    private Set<MissileLauncherDestructorListener> listeners;
+    private Set<WarEventListener> listeners;
     private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target Missile Launcher if not null
     private SystemInterface data;
     private Point2D coordinates;
@@ -136,31 +138,39 @@ public class MissileLauncherDestructor implements Runnable {
         fireLaunchAntiMissileLauncherMissileEvent();
     }
 
-    public synchronized void addMissileLauncherDestructorListener(MissileLauncherDestructorListener listener){
+    public synchronized void addWarEventListener(WarEventListener listener){
         listeners.add(listener);
-    }
-    public synchronized void removeMissileLauncherDestructorListener(MissileLauncherDestructorListener listener){
-        listeners.remove(listener);
     }
 
     private synchronized void fireCreateMissileLauncherDestructorEvent(){
-        MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
-        for(MissileLauncherDestructorListener listener: listeners){
-            listener.createMissileLauncherDestructor(e);
+        WarEvent e = new WarEvent(id);
+        e.setEventType(WarEvent.Event_Type.CREATE_MISSILE_LAUNCHER_DESTRUCTOR);
+        e.setCoordinates(coordinates);
+        e.setDestructorType(type);
+        for(WarEventListener listener: listeners){
+            listener.handleWarEvent(e);
         }
     }
 
     private synchronized void fireLaunchAntiMissileLauncherMissileEvent(){
-        MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
-        for (MissileLauncherDestructorListener listener : listeners){
-            listener.launchAntiMissileLauncher(e);
+        WarEvent e = new WarEvent(id);
+        e.setEventType(WarEvent.Event_Type.LAUNCH_ANTI_MISSILE_LAUNCHER);
+        e.setCoordinates(coordinates);
+        e.setTargetCoordinates(activeDestLauncher.getCoordinates());
+        e.setDestructLength(destructLength);
+        for (WarEventListener listener : listeners){
+            listener.handleWarEvent(e);
         }
     }
+
+
     private synchronized void fireDestroyAntiMissileLauncherMissileEvent(){
-        MissileLauncherDestructorEvent e = new MissileLauncherDestructorEvent(this);
-        for (MissileLauncherDestructorListener listener : listeners){
-            listener.destroyAntiMissileLauncher(e);
+        WarEvent e = new WarEvent(id);
+        e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE_LAUNCHER);
+        for (WarEventListener listener : listeners){
+            listener.handleWarEvent(e);
         }
     }
+
 
 }

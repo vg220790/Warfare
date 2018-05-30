@@ -1,11 +1,12 @@
 package com.afekawar.bl.base.Entities;
 
-import com.afekawar.bl.base.Interface.Communication.MissileLauncherEvent;
-import com.afekawar.bl.base.Interface.Communication.MissileLauncherListener;
+import com.afekawar.bl.base.Interface.Communication.WarEvent;
+import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import com.afekawar.bl.base.Interface.Communication.WarEvent.*;
 
 public class MissileLauncher implements Runnable {
     /* *************************************************************
@@ -21,7 +22,7 @@ public class MissileLauncher implements Runnable {
     private Missile activeMissileEntity;
     private Point2D coordinates;
     private SystemTime time;
-    private Set<MissileLauncherListener> listeners;
+    private Set<WarEventListener> listeners;
 
     public MissileLauncher(String id, boolean isHidden, SystemTime time){
 
@@ -92,7 +93,7 @@ public class MissileLauncher implements Runnable {
     public void stopThread(){                                                       // Missile launcher destroy func
         System.out.println("Missile Launcher n` " + id + " Got destroyed at " + time.getTime() + " seconds");
         if(activeMissileThread != null) {
-            fireDestroyMissileEvent(activeMissileEntity.getId());
+            fireDestroyMissileEvent();
             activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
         }
         isAlive = false;
@@ -118,10 +119,10 @@ public class MissileLauncher implements Runnable {
                     try {
                         activeMissileThread.join();               // Wait for previous missile finish it's work
                         Thread.sleep(20);                   // To let time for graphics to update..
-                        fireDestroyMissileEvent(activeMissileEntity.getId());
+                        fireDestroyMissileEvent();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                        fireDestroyMissileEvent(activeMissileEntity.getId());
+                        fireDestroyMissileEvent();
                     }
                 }
                 if (isAlive && !missiles.isEmpty()) {
@@ -162,56 +163,68 @@ public class MissileLauncher implements Runnable {
                     try{
                         activeMissileThread.join();
                         Thread.sleep(20);
-                        fireDestroyMissileEvent(activeMissileEntity.getId());
+                        fireDestroyMissileEvent();
                     }
                     catch (InterruptedException e){
                         e.printStackTrace();
-                        fireDestroyMissileEvent(activeMissileEntity.getId());
+                        fireDestroyMissileEvent();
                     }
                 System.out.println("Missile Launcher n` " + id + " All missiles out after " + time.getTime() + " seconds");
         }
 
-        public synchronized void addMissileLauncherListener(MissileLauncherListener listener){
+        public synchronized void addWarEventListener(WarEventListener listener){
             listeners.add(listener);
-        }
-        public synchronized void removeMissileLauncherListener(MissileLauncherListener listener){
-            listeners.remove(listener);
         }
 
     private synchronized void fireCreateMissileLauncherEvent(){
-            MissileLauncherEvent e = new MissileLauncherEvent(this);
-            for(MissileLauncherListener listener: listeners){
-                listener.createMissileLauncher(e);
+            WarEvent e = new WarEvent(id);
+            e.setEventType(Event_Type.CREATE_LAUNCHER);
+            e.setCoordinates(coordinates);
+            e.setHidden(isHidden);
+            for(WarEventListener listener: listeners){
+                listener.handleWarEvent(e);
             }
         }
+
+
     private synchronized void fireDestroyMissileLauncherEvent(){
-        MissileLauncherEvent e = new MissileLauncherEvent(this);
-        for(MissileLauncherListener listener : listeners){
-            listener.destroyMissileLauncher(e);
+        WarEvent e = new WarEvent(id);
+        e.setEventType(Event_Type.DESTROY_LAUNCHER);
+        for(WarEventListener listener : listeners){
+            listener.handleWarEvent(e);
         }
     }
 
     private synchronized void fireLaunchMissileEvent(){
-            MissileLauncherEvent e = new MissileLauncherEvent(this);
-            for(MissileLauncherListener listener: listeners){
-                listener.launchMissile(e);
+            WarEvent e = new WarEvent(id);
+            e.setEventType(Event_Type.LAUNCH_MISSILE);
+            e.setCoordinates(coordinates);
+            e.setTargetCoordinates(activeMissileEntity.getTarget().getCoordinates());
+            e.setMissileId(activeMissileEntity.getId());
+            e.setFlyTime(activeMissileEntity.getFlyTime());
+            for(WarEventListener listener: listeners){
+                listener.handleWarEvent(e);
             }
         }
 
-    private synchronized void fireDestroyMissileEvent(String id){
-        MissileLauncherEvent e = new MissileLauncherEvent(this);
-        e.setDestroyedMissileId(id);
-            for(MissileLauncherListener listener: listeners){
-                listener.destroyMissile(e);
+    private synchronized void fireDestroyMissileEvent(){
+        WarEvent e = new WarEvent(id);
+        e.setEventType(Event_Type.DESTROY_MISSILE);
+        e.setMissileId(activeMissileEntity.getId());
+            for(WarEventListener listener: listeners){
+                listener.handleWarEvent(e);
             }
         }
 
     private synchronized void fireHideMissileLauncherEvent(){
-        MissileLauncherEvent e = new MissileLauncherEvent(this);
-        for(MissileLauncherListener listener : listeners){
-            listener.hideMissileLauncher(e);
+        WarEvent e = new WarEvent(id);
+        e.setEventType(Event_Type.HIDE_LAUNCHER);
+        for(WarEventListener listener : listeners){
+            listener.handleWarEvent(e);
         }
         }
+
+
 
 
 
