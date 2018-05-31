@@ -93,8 +93,7 @@ public class MissileLauncher implements Runnable {
     public void stopThread(){                                                       // Missile launcher destroy func
         System.out.println("Missile Launcher n` " + id + " Got destroyed at " + time.getTime() + " seconds");
         if(activeMissileThread != null) {
-            fireDestroyMissileEvent();
-            activeMissileThread.interrupt();                                      // TODO - Proper Stop Thread to Missile Class
+            activeMissileEntity.stopThread();
         }
         isAlive = false;
         fireDestroyMissileLauncherEvent();
@@ -121,8 +120,7 @@ public class MissileLauncher implements Runnable {
                         Thread.sleep(20);                   // To let time for graphics to update..
                         fireDestroyMissileEvent();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        fireDestroyMissileEvent();
+                 //       e.printStackTrace();
                     }
                 }
                 if (isAlive && !missiles.isEmpty()) {
@@ -154,6 +152,7 @@ public class MissileLauncher implements Runnable {
                     missileThread.start();
                     activeMissileThread = missileThread;                // Keep the missile thread reference.
                     activeMissileEntity = m;
+                    m.setWarEventListeners(listeners);
                     fireLaunchMissileEvent();
                 }
                 }
@@ -167,8 +166,7 @@ public class MissileLauncher implements Runnable {
                         fireDestroyMissileEvent();
                     }
                     catch (InterruptedException e){
-                        e.printStackTrace();
-                        fireDestroyMissileEvent();
+                     //   e.printStackTrace();
                     }
                 System.out.println("Missile Launcher n` " + id + " All missiles out after " + time.getTime() + " seconds");
         }
@@ -200,9 +198,8 @@ public class MissileLauncher implements Runnable {
             WarEvent e = new WarEvent(id);
             e.setEventType(Event_Type.LAUNCH_MISSILE);
             e.setCoordinates(coordinates);
-            e.setTargetCoordinates(activeMissileEntity.getTarget().getCoordinates());
+            e.setTargetCoordinates(activeMissileEntity.getTargetCoordinates());
             e.setMissileId(activeMissileEntity.getId());
-            e.setFlyTime(activeMissileEntity.getFlyTime());
             for(WarEventListener listener: listeners){
                 listener.handleWarEvent(e);
             }

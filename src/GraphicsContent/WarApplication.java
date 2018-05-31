@@ -53,7 +53,8 @@ public class WarApplication extends Application implements WarEventListener {
                     }
 
                     if(!root.getChildren().contains(entity.getView()))
-                        addGameObject(entity,entity.getCoordinates().getX(),entity.getCoordinates().getY());
+                        addGameObject(entity, entity.getCoordinates().getX(), entity.getCoordinates().getY());
+
                 }
 
             }
@@ -78,8 +79,8 @@ public class WarApplication extends Application implements WarEventListener {
     }
 
     private void addGameObject(GameObject object, double x, double y){
-            object.getView().setX(x);
-            object.getView().setY(y);
+           // object.getView().setX(x);
+           // object.getView().setY(y);
             root.getChildren().add(object.getView());
             root.getChildren().add(object.getName());
     }
@@ -106,12 +107,9 @@ public class WarApplication extends Application implements WarEventListener {
                 break;
 
             case LAUNCH_MISSILE:
-                angle = Math.atan2(e.getTargetCoordinates().getY() - graphicsEntities.get(e.getId()).getCoordinates().getY(), e.getTargetCoordinates().getX() - graphicsEntities.get(e.getId()).getCoordinates().getX()) * 180 / Math.PI +90;
-                if(graphicsEntities.containsKey(e.getId()))
+               if(graphicsEntities.containsKey(e.getId()))
                     graphicsEntities.get(e.getId()).setHidden(false);
-
-                MissileInstance missile = new MissileInstance(e.getMissileId(),e.getCoordinates(), e.getTargetCoordinates(),e.getFlyTime());
-                missile.getView().setRotate(angle);
+                MissileInstance missile = new MissileInstance(e.getMissileId(),e.getCoordinates(), e.getTargetCoordinates());
 
                 graphicsEntities.put(e.getMissileId(), missile);
                 break;
@@ -132,11 +130,8 @@ public class WarApplication extends Application implements WarEventListener {
                 break;
 
             case LAUNCH_ANTI_MISSILE_LAUNCHER:
-                collisionPoint = new Point2D(e.getTargetCoordinates().getX(), e.getTargetCoordinates().getY());
-                angle = Math.atan2(collisionPoint.getY() - graphicsEntities.get(e.getId()).getCoordinates().getY(), collisionPoint.getX() - graphicsEntities.get(e.getId()).getCoordinates().getX()) * 180 / Math.PI +90;
-                AntiMissileLauncherInstance antiMissileLauncherI = new AntiMissileLauncherInstance("AML " + e.getTargetLauncherId(), e.getCoordinates().add(new Point2D(graphicsEntities.get(e.getId()).getView().getTranslateX(), graphicsEntities.get(e.getId()).getView().getTranslateY())), collisionPoint, e.getDestructLength());
-                antiMissileLauncherI.getView().setRotate(angle);
-                graphicsEntities.put("AML " + e.getTargetLauncherId(), antiMissileLauncherI);
+                AntiMissileLauncherInstance antiMissileLauncher = new AntiMissileLauncherInstance(e.getMissileId(),e.getCoordinates(), e.getTargetCoordinates());
+                graphicsEntities.put(e.getMissileId(), antiMissileLauncher);
                 break;
 
             case DESTROY_ANTI_MISSILE_LAUNCHER:
@@ -150,16 +145,18 @@ public class WarApplication extends Application implements WarEventListener {
                 break;
 
             case LAUNCH_ANTI_MISSILE:
-                collisionPoint = new Point2D(graphicsEntities.get(e.getMissileId()).getCoordinates().getX()+ graphicsEntities.get(e.getMissileId()).getView().getImage().getWidth()/2 + 60*e.getDestructLength()* graphicsEntities.get(e.getMissileId()).getVelocity().getX(), graphicsEntities.get(e.getMissileId()).getCoordinates().getY()+ graphicsEntities.get(e.getMissileId()).getView().getImage().getHeight()/2 + 60*e.getDestructLength()* graphicsEntities.get(e.getMissileId()).getVelocity().getY());
-                angle = Math.atan2(collisionPoint.getY() - e.getCoordinates().getY(), collisionPoint.getX() - e.getCoordinates().getX()) * 180 / Math.PI +90;
-                AntiMissileInstance antiMissileI = new AntiMissileInstance("AM " + e.getMissileId(), e.getCoordinates(), collisionPoint, e.getDestructLength());
-                antiMissileI.getView().setRotate(angle);
-                graphicsEntities.put("AM " + e.getMissileId(), antiMissileI);
+                AntiMissileInstance antiMissile = new AntiMissileInstance(e.getMissileId(),e.getCoordinates(), e.getTargetCoordinates());
+                graphicsEntities.put(e.getMissileId(), antiMissile);
                 break;
 
             case DESTROY_ANTI_MISSILE:
                 if(graphicsEntities.containsKey("AM " + e.getMissileId()))
                     graphicsEntities.get("AM " + e.getMissileId()).destroy();
+                break;
+
+            case UPDATE_COORDINATES:
+                if(graphicsEntities.containsKey(e.getId()))
+                    graphicsEntities.get(e.getId()).setCoordinates(e.getCoordinates());
                 break;
         }
     }

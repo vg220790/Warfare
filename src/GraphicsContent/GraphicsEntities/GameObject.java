@@ -50,6 +50,8 @@ public abstract class GameObject {
         nameView.setX(coordinates.getX() + view.getImage().getWidth()/3);
         nameView.setY(coordinates.getY());
         nameView.setStyle("-fx-font: bold 18px \"Serif\"");
+        this.getView().setX(coordinates.getX());
+        this.getView().setY(coordinates.getY());
 
     }
     boolean isHidden(){
@@ -62,7 +64,10 @@ public abstract class GameObject {
         return nameView;
     }
     public Point2D getCoordinates(){
-        return new Point2D(coordinates.getX() + getView().getTranslateX(),coordinates.getY() + getView().getTranslateY());
+        return new Point2D(coordinates.getX(),coordinates.getY());
+    }
+    public void setCoordinates(Point2D coordinates){
+        this.coordinates = coordinates;
     }
 
 }

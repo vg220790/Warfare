@@ -7,29 +7,19 @@ import javafx.scene.layout.Pane;
 
 public class AntiMissileInstance extends GameObject {
     private static Image icon = new Image("GraphicsContent/Resources/missile.png");
-    private Point2D velocity;
-    private String id;
-    public AntiMissileInstance(String id, Point2D coordinates, Point2D targetCoordinates, int flyTime) {
-        super(id, coordinates.subtract(icon.getWidth()/2,icon.getHeight()/2),icon);
+    private double angle;
+    public AntiMissileInstance(String id, Point2D coordinates, Point2D targetCoordinates) {
+        super(id, coordinates,icon);
 
 
         getView().setScaleX(0.2);
         getView().setScaleY(0.2);
+        angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX()) * 180 / Math.PI +90;
+        getView().setRotate(angle);
 
-        double distance = Math.sqrt((targetCoordinates.getY()-coordinates.getY())*(targetCoordinates.getY()-coordinates.getY()) + (targetCoordinates.getX()-coordinates.getX())*(targetCoordinates.getX()-coordinates.getX()) );
-        double speed = distance / flyTime;
-
-        speed/=60;                                   // To be on same scale with framerate ( 60 fps ).
-
-        double angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX());
-
-        velocity = new Point2D(Math.cos(angle) * speed, Math.sin(angle) * speed);
     }
 
-    @Override
-    public Point2D getVelocity(){
-        return velocity;
-    }
+
 
 
 
@@ -47,10 +37,10 @@ public class AntiMissileInstance extends GameObject {
 
         super.update();
 
-        this.getView().setTranslateX(this.getView().getTranslateX() + velocity.getX());
-        this.getView().setTranslateY(this.getView().getTranslateY() + velocity.getY());
-        this.getName().setTranslateX(this.getName().getTranslateX() + velocity.getX());
-        this.getName().setTranslateY(this.getName().getTranslateY() + velocity.getY());
+        this.getView().setX(this.getCoordinates().getX() - icon.getWidth()/2);
+        this.getView().setY(this.getCoordinates().getY()- icon.getHeight()/2);
+        this.getName().setX(this.getCoordinates().getX() - 10);
+        this.getName().setY(this.getCoordinates().getY() - 20);
 
 
 

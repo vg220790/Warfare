@@ -92,15 +92,15 @@
           "destructdMissile": [
             {
               "id": "M1",
-              "destructAfterLaunch": "71"
+              "destructAfterLaunch": "7"
             },
             {
               "id": "M3",
-              "destructAfterLaunch": "51"
+              "destructAfterLaunch": "5"
             },
             {
               "id": "M4",
-              "destructAfterLaunch": "21"
+              "destructAfterLaunch": "2"
             }
           ]
         },
@@ -110,7 +110,7 @@
 
           {
             "id": "M2",
-            "destructAfterLaunch": "31"
+            "destructAfterLaunch": "3"
           }
             ]
         }
@@ -124,7 +124,11 @@
             {
             "id": "L101",
             "destructTime": "15"
-          }
+          },
+            {
+              "id": "L103",
+              "destructTime": "19"
+            }
             ]
         },
         {

@@ -9,9 +9,9 @@ public class StaticTargets {
     public StaticTargets(){
         targets = new ArrayList<>();
 
-        Target beerSheva = new Target("Beer-Sheva", 1225,560);
+        Target beerSheva = new Target("Beer-Sheva", 1212,554);
         Target ofakim = new Target("Ofakim",985,456);
-        Target sderot = new Target("Sderot",957,95);
+        Target sderot = new Target("Sderot",948,100);
         Target netivot = new Target("Netivot", 940,270);
         Target rahat = new Target("Rahat", 1180,322);
 

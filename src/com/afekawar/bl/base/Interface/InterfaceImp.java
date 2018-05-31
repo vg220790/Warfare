@@ -79,7 +79,7 @@ public class InterfaceImp implements SystemInterface {
 
     @Override
     public void destroyMissile(String launcherId, String missileId) {
-        ((MissileLauncher)entities.get(launcherId)).getActiveMissileThread().interrupt();     // TODO - implement proper Stop Thread to Missile class
+        ((MissileLauncher)entities.get(launcherId)).getActiveMissileEntity().stopThread();
     }
 
     @Override

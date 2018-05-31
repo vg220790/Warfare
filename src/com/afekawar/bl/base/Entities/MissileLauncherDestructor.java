@@ -7,6 +7,7 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,9 +27,17 @@ public class MissileLauncherDestructor implements Runnable {
    // private Logger logger;
     private Set<WarEventListener> listeners;
     private TreeMap<Integer,MissileLauncher> targetMissileLaunchers; // Will try to destroy target Missile Launcher if not null
+
+
+
+
     private SystemInterface data;
     private Point2D coordinates;
     private MissileLauncher activeDestLauncher;                        // To check which Missile Launcher is destroyed right now
+    private Missile antiMissileLauncher;
+    private Thread antiMissileLauncherThread;
+    private Point2D velocity;
+    private float angle;
 
     public MissileLauncherDestructor(String type, SystemInterface data, SystemTime time){
         this.id = "LD30" + (1 + idInc++);
@@ -45,6 +54,8 @@ public class MissileLauncherDestructor implements Runnable {
         coordinates = new Point2D(ThreadLocalRandom.current().nextInt(300, 680 + 1),ThreadLocalRandom.current().nextInt(26, 150 + 1));  // Set Random coordinate Outside Gaza Strip Border
         destructLength = 2;
         activeDestLauncher = null;
+        angle = 0;
+        velocity = new Point2D(0,0);
     }
 
     /* *************************************************************
@@ -94,25 +105,32 @@ public class MissileLauncherDestructor implements Runnable {
             System.out.println("Missile Launcher Destructor n` " + id + " Started...");
             fireCreateMissileLauncherDestructorEvent();
 
-            for(int destructTime:targetMissileLaunchers.keySet()){                          // TODO - change to fit GUI interactive implementation ( We don't necessary want the thread to stop when there's no more launcher's to destroy)
+
+            while(!targetMissileLaunchers.keySet().isEmpty()){
+                Iterator<Integer> it = targetMissileLaunchers.keySet().iterator();
+                int destructTime = it.next();
                 MissileLauncher launcher = targetMissileLaunchers.get(destructTime);
-                int waitTime = destructTime - destructLength - time.getTime();
-                if (waitTime > 0) {
-                    System.out.println("Missile Launcher Destructor n` " + id + " awaiting for " + waitTime + " seconds...");
+               // int waitTime =  destructTime - destructLength - time.getTime();
+                while(time.getTime() < destructTime){
                     try {
-                        Thread.sleep(waitTime * 1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();                    // This part shouldn't be interrupted.
+                        Thread.sleep(1000 / 60);
+                        update();
+                    } catch (InterruptedException e){
+                        e.printStackTrace();
                     }
                 }
+                it.remove();
 
                 if(launcher.getAlive()){                 // TODO - Move all this part of code to the interface implementation????
                     try {
                         activeDestLauncher = launcher;                             // Our trigger to let graphics content to know it should launch a Missile at target launcher.
                         launchAntiMissileLauncher(launcher.getId());
-                        Thread.sleep(destructLength * 1000);
-                        if(!launcher.getHidden())
-                            fireDestroyAntiMissileLauncherMissileEvent();
+                        while(antiMissileLauncher.getState() == Missile.State.INAIR){
+                            Thread.sleep(1000/60);
+                            update();
+                        }
+
+                        fireDestroyAntiMissileLauncherMissileEvent();
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();                         // This part shouldn't be interrupted.
@@ -127,13 +145,44 @@ public class MissileLauncherDestructor implements Runnable {
             }
 
 
-            System.out.println("Missile Launcher Destructor n` " + id + " Ended...");         // Remove? After interactive GUI implementation.
+
+            while(true){                                         // TODO - lol
+                try {
+                    Thread.sleep(1000/60);
+                    update();
+                } catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+
+            }
+
+
+
+          //  System.out.println("Missile Launcher Destructor n` " + id + " Ended...");         // Remove? After interactive GUI implementation.
 
 
     }
+
+    public void update(){
+        if(this.type == MissileLauncherDestructor.Type.AIRCRAFT){
+            angle += Math.PI/16;
+            velocity = new Point2D(Math.cos(angle/60),  Math.sin(angle/60));
+        }
+        coordinates = coordinates.add(velocity);
+        fireUpdateMissileLauncherEvent();
+    }
+
     private void launchAntiMissileLauncher(String id){
-        System.out.println(type + " n` " + this.id + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + time.getTime() + " seconds..");
+        Point2D collisionPoint = new Point2D(activeDestLauncher.getCoordinates().getX(), activeDestLauncher.getCoordinates().getY());
+
+        antiMissileLauncher = new Missile("AML " + activeDestLauncher.getId(),collisionPoint, time.getTime(),destructLength,time);
+        antiMissileLauncher.setCoordinates(coordinates);
+        antiMissileLauncherThread = new Thread(antiMissileLauncher);
+        antiMissileLauncherThread.setName(antiMissileLauncher.getId());
+        antiMissileLauncherThread.start();
+        antiMissileLauncher.setWarEventListeners(listeners);
         fireLaunchAntiMissileLauncherMissileEvent();
+        System.out.println(type + " n` " + this.id + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + time.getTime() + " seconds..");
     }
 
     public synchronized void addWarEventListener(WarEventListener listener){
@@ -153,10 +202,9 @@ public class MissileLauncherDestructor implements Runnable {
     private synchronized void fireLaunchAntiMissileLauncherMissileEvent(){
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.LAUNCH_ANTI_MISSILE_LAUNCHER);
+        e.setMissileId(antiMissileLauncher.getId());
         e.setCoordinates(coordinates);
-        e.setTargetLauncherId(activeDestLauncher.getId());
         e.setTargetCoordinates(activeDestLauncher.getCoordinates());
-        e.setDestructLength(destructLength);
         for (WarEventListener listener : listeners){
             listener.handleWarEvent(e);
         }
@@ -168,6 +216,15 @@ public class MissileLauncherDestructor implements Runnable {
         e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE_LAUNCHER);
         e.setTargetLauncherId(activeDestLauncher.getId());
         for (WarEventListener listener : listeners){
+            listener.handleWarEvent(e);
+        }
+    }
+
+    private synchronized void fireUpdateMissileLauncherEvent(){
+        WarEvent e = new WarEvent(id);
+        e.setEventType(WarEvent.Event_Type.UPDATE_COORDINATES);
+        e.setCoordinates(coordinates);
+        for(WarEventListener listener: listeners){
             listener.handleWarEvent(e);
         }
     }

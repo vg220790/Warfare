@@ -4,15 +4,15 @@ import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
 import javafx.geometry.Point2D;
 
 public class WarEvent {
-    public enum Event_Type {CREATE_LAUNCHER, DESTROY_LAUNCHER, LAUNCH_MISSILE, DESTROY_MISSILE, HIDE_LAUNCHER, CREATE_MISSILE_DESTRUCTOR, LAUNCH_ANTI_MISSILE, DESTROY_ANTI_MISSILE, CREATE_MISSILE_LAUNCHER_DESTRUCTOR, LAUNCH_ANTI_MISSILE_LAUNCHER, DESTROY_ANTI_MISSILE_LAUNCHER};
+    public enum Event_Type {CREATE_LAUNCHER, DESTROY_LAUNCHER, LAUNCH_MISSILE, DESTROY_MISSILE, HIDE_LAUNCHER, CREATE_MISSILE_DESTRUCTOR, LAUNCH_ANTI_MISSILE, DESTROY_ANTI_MISSILE, CREATE_MISSILE_LAUNCHER_DESTRUCTOR, LAUNCH_ANTI_MISSILE_LAUNCHER, DESTROY_ANTI_MISSILE_LAUNCHER, UPDATE_COORDINATES};
     private Event_Type eventType;
     private String id;
     private String missileId;
+    private String antiMissileId;
     private String targetLauncherId;
     private Point2D coordinates;
     private Point2D targetCoordinates;
     private boolean isHidden;
-    private int flyTime;
     private int destructLength;
     private MissileLauncherDestructor.Type destructorType;
 
@@ -25,12 +25,6 @@ public class WarEvent {
 
     public Point2D getTargetCoordinates() {
         return targetCoordinates;
-    }
-    public int getFlyTime(){
-        return flyTime;
-    }
-    public void setFlyTime(int flyTime){
-        this.flyTime = flyTime;
     }
 
 
@@ -81,5 +75,11 @@ public class WarEvent {
     }
     public String getTargetLauncherId(){
         return targetLauncherId;
+    }
+    public void setAntiMissileId(String antiMissileId){
+        this.antiMissileId = antiMissileId;
+    }
+    public String getAntiMissileId(){
+        return antiMissileId;
     }
 }

@@ -11,6 +11,7 @@ public class MissileL extends GameObject {
         getView().setScaleX(0.6);
         getView().setScaleY(0.6);
 
+
     }
 
     @Override

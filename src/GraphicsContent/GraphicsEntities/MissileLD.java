@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 
 public class MissileLD extends GameObject {
     private static Image icon = new Image("GraphicsContent/Resources/battleship.png");
-    private Point2D velocity;
     private float angle;
     private MissileLauncherDestructor.Type type;
 
@@ -15,7 +14,6 @@ public class MissileLD extends GameObject {
 
         this.type = type;
         angle = 0;
-        velocity = new Point2D(0,0);
         if (type == MissileLauncherDestructor.Type.BATTLESHIP)
             getView().setImage(new Image("GraphicsContent/Resources/battleship.png"));
         else
@@ -30,11 +28,17 @@ public class MissileLD extends GameObject {
         if(this.type == MissileLauncherDestructor.Type.AIRCRAFT){
             angle += Math.PI/16;
             this.getView().setRotate(angle);
-            velocity = new Point2D(Math.cos(angle/60),  Math.sin(angle/60));
+
         }
+        /*
         this.getView().setTranslateX(this.getView().getTranslateX() + velocity.getX());
         this.getView().setTranslateY(this.getView().getTranslateY() + velocity.getY());
         this.getName().setTranslateX(this.getName().getTranslateX() + velocity.getX());
         this.getName().setTranslateY(this.getName().getTranslateY() + velocity.getY());
+        */
+        this.getView().setX(this.getCoordinates().getX() - icon.getWidth()/2);
+        this.getView().setY(this.getCoordinates().getY()- icon.getHeight()/2);
+        this.getName().setX(this.getCoordinates().getX() - 10);
+        this.getName().setY(this.getCoordinates().getY() - 20);
     }
 }

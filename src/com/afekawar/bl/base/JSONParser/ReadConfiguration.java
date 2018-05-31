@@ -56,7 +56,7 @@ public class ReadConfiguration {
                                 int flyTime = Integer.parseInt((String) ((Map) mis.get(j)).get("flyTime"));
                                 int damage = Integer.parseInt((String) ((Map) mis.get(j)).get("damage"));
 
-                                Missile missile = new Missile(missileId, target, launchTime, flyTime, damage,id,time);
+                                Missile missile = new Missile(missileId, target.getCoordinates(), launchTime, flyTime, damage,id,time);
                                 data.addMissile(missileId, missile);
                                 missiles.offer(missile);
                             }
