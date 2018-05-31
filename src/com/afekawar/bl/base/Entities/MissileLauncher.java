@@ -147,6 +147,7 @@ public class MissileLauncher implements Runnable {
                     isHidden = false;
                     int launchTime = time.getTime();           // Missile's actual launch time might change, if the launcher was busy with another missile.
                     m.setLaunchTime(launchTime);
+                    m.setCoordinates(coordinates);
                     System.out.println("Missile n` " + m.getId() + " From Launcher n` " + id + " Launched at " + launchTime + " seconds");
                     Thread missileThread = new Thread(m);
                     missileThread.setName(m.getId());

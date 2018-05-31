@@ -79,7 +79,7 @@ public class MissileDestructor implements Runnable {
 
         for(int destructTime: targetMissiles.keySet()) {
             Missile m = targetMissiles.get(destructTime);
-            int waitTime = destructTime - destructLength - time.getTime();
+            long waitTime = destructTime - destructLength - time.getTime();
             if (waitTime > 0) {
                 System.out.println("Missile Destructor n` " + id + " awaiting for " + waitTime + " seconds...");
                 try {

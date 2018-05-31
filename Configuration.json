@@ -92,15 +92,15 @@
           "destructdMissile": [
             {
               "id": "M1",
-              "destructAfterLaunch": "7"
+              "destructAfterLaunch": "71"
             },
             {
               "id": "M3",
-              "destructAfterLaunch": "5"
+              "destructAfterLaunch": "51"
             },
             {
               "id": "M4",
-              "destructAfterLaunch": "2"
+              "destructAfterLaunch": "21"
             }
           ]
         },
@@ -110,7 +110,7 @@
 
           {
             "id": "M2",
-            "destructAfterLaunch": "3"
+            "destructAfterLaunch": "31"
           }
             ]
         }

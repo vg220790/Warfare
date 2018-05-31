@@ -7,6 +7,14 @@ public class MyTime implements SystemTime, Runnable {
     public int getTime(){
         return Math.toIntExact((System.nanoTime() - startTime)/1000000000);
     }
+    @Override
+    public double getExactTime(){
+        double time =  (System.nanoTime() - startTime)/10000000;
+        double ret =  time/100;
+        return ret;
+
+
+    }
 
     @Override
     public void run() {
