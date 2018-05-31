@@ -1,0 +1,6 @@
+#pane{
+    -fx-background-image: url("wargame.png");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: 1500 948;
+    -fx-background-position: center center;
+}

@@ -2,6 +2,7 @@ package com.afekawar.bl.base.Interface;
 
 import com.afekawar.bl.base.Entities.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class InterfaceImp implements SystemInterface {
@@ -9,9 +10,9 @@ public class InterfaceImp implements SystemInterface {
     private Map<String,Thread> threads;
 
 
-    public InterfaceImp(Map<String,Runnable> entities,Map<String,Thread> threads){
-        this.entities = entities;
-        this.threads = threads;                                      // To control all running threads.
+    public InterfaceImp(){
+        this.entities = new HashMap<>();
+        this.threads = new HashMap<>();                                      // To control all running threads.
     }
 
     @Override

@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.HashMap;
 
 import java.util.Iterator;
@@ -20,8 +21,14 @@ import java.util.Map;
 public class WarApplication extends Application implements WarEventListener {
     private Pane root;
     private SystemTime time;
+    private File configuration;
 
     private Map<String,GameObject> graphicsEntities = new HashMap<>();
+
+
+    public WarApplication(File configuration){
+        this.configuration = configuration;
+    }
 
     private Scene createContent(){
         root = new Pane();
@@ -69,7 +76,7 @@ public class WarApplication extends Application implements WarEventListener {
         Thread timeThread = new Thread(time);
         timeThread.start();
 
-        Runnable mainProgram = new ConsoleVersion(time,this);
+        Runnable mainProgram = new ConsoleVersion(time,this,configuration);
         Thread mainThread = new Thread(mainProgram);
         mainThread.start();
 
@@ -79,8 +86,6 @@ public class WarApplication extends Application implements WarEventListener {
     }
 
     private void addGameObject(GameObject object, double x, double y){
-           // object.getView().setX(x);
-           // object.getView().setY(y);
             root.getChildren().add(object.getView());
             root.getChildren().add(object.getName());
     }

@@ -7,6 +7,7 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
@@ -14,14 +15,14 @@ import java.util.*;
 public class ReadConfiguration {
 
 
-    public static void loadConfig(SystemInterface data, SystemTime time, WarApplication app) {
+    public static void loadConfig(SystemInterface data, SystemTime time, WarApplication app, File configuration) {
 
 
         System.out.println("Data Load Starts..");
         StaticTargets targets = new StaticTargets();
 
         try {
-            Map<String, Object> war = new Gson().fromJson(new JsonReader(new FileReader("Configuration.json")), Map.class);
+            Map<String, Object> war = new Gson().fromJson(new JsonReader(new FileReader(configuration)), Map.class);
             System.out.println(war);
 
 
@@ -57,7 +58,7 @@ public class ReadConfiguration {
                                 int damage = Integer.parseInt((String) ((Map) mis.get(j)).get("damage"));
 
                                 Missile missile = new Missile(missileId, target.getCoordinates(), launchTime, flyTime, damage,id,time);
-                                data.addMissile(missileId, missile);
+                              //  data.addMissile(missileId, missile);
                                 missiles.offer(missile);
                             }
 

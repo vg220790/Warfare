@@ -105,7 +105,7 @@ public class MissileLauncherDestructor implements Runnable {
             System.out.println("Missile Launcher Destructor n` " + id + " Started...");
             fireCreateMissileLauncherDestructorEvent();
 
-
+        while(true){                                         // TODO - lol
             while(!targetMissileLaunchers.keySet().isEmpty()){
                 Iterator<Integer> it = targetMissileLaunchers.keySet().iterator();
                 int destructTime = it.next();
@@ -121,7 +121,7 @@ public class MissileLauncherDestructor implements Runnable {
                 }
                 it.remove();
 
-                if(launcher.getAlive()){                 // TODO - Move all this part of code to the interface implementation????
+                if(launcher.getAlive()){
                     try {
                         activeDestLauncher = launcher;                             // Our trigger to let graphics content to know it should launch a Missile at target launcher.
                         launchAntiMissileLauncher(launcher.getId());
@@ -146,15 +146,14 @@ public class MissileLauncherDestructor implements Runnable {
 
 
 
-            while(true){                                         // TODO - lol
+
                 try {
                     Thread.sleep(1000/60);
                     update();
                 } catch (InterruptedException e){
                     e.printStackTrace();
                 }
-
-            }
+        }
 
 
 
