@@ -23,10 +23,19 @@ public class Missile implements Runnable, Comparable<Missile> {
     private SystemTime time;
     private Point2D coordinates;
     private Point2D targetCoordinates;
+    private Missile targetMissile;
+    private MissileLauncher targetLauncher;
    // private Logger logger;
     private State state;
     private Set<WarEventListener> listeners;
     private Point2D velocity;
+
+    public void setTargetMissile(Missile targetMissile){
+        this.targetMissile = targetMissile;
+    }
+    public void setTargetLauncher(MissileLauncher targetLauncher){
+        this.targetLauncher = targetLauncher;
+    }
 
 
     public Missile(String id,Point2D targetCoordinates, int launchTime, int flyTime,int damage, String launcherId, SystemTime time){
@@ -115,6 +124,17 @@ public class Missile implements Runnable, Comparable<Missile> {
     public void update(){
         coordinates = coordinates.add(velocity);
         fireUpdateMissileEvent();
+
+        if(targetLauncher != null)
+            if(!targetLauncher.getAlive()) {
+                stopThread();
+                fireDestroyAntiMissileLauncherMissileEvent();
+            }
+        if(targetMissile != null)
+            if(targetMissile.getState() == State.DEAD) {
+                stopThread();
+                fireDestroyAntiMissileEvent();
+        }
     }
 
 
@@ -156,6 +176,24 @@ while(state == State.INAIR){
         e.setEventType(WarEvent.Event_Type.UPDATE_COORDINATES);
         e.setCoordinates(coordinates);
         for(WarEventListener listener: listeners){
+            listener.handleWarEvent(e);
+        }
+    }
+
+    private synchronized void fireDestroyAntiMissileEvent(){
+        WarEvent e = new WarEvent(id);
+        e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE);
+        e.setMissileId(id);
+        for (WarEventListener listener : listeners){
+            listener.handleWarEvent(e);
+        }
+    }
+
+    private synchronized void fireDestroyAntiMissileLauncherMissileEvent(){
+        WarEvent e = new WarEvent(id);
+        e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE_LAUNCHER);
+        e.setMissileId(id);
+        for (WarEventListener listener : listeners){
             listener.handleWarEvent(e);
         }
     }

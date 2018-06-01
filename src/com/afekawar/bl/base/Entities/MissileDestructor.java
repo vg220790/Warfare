@@ -117,6 +117,7 @@ public class MissileDestructor implements Runnable {
 
         antiMissile = new Missile("AM " + activeDestMissile.getId(),collisionPoint, time.getTime(),destructLength,time);
         antiMissile.setCoordinates(coordinates);
+        antiMissile.setTargetMissile(activeDestMissile);
         antiMissileThread = new Thread(antiMissile);
         antiMissileThread.setName(antiMissile.getId());
         antiMissileThread.start();

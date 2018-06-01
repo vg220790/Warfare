@@ -43,29 +43,25 @@ public class Entrance extends Application {
 
 
             configBtn.setOnAction(event -> {
-                    File configuration = fileChooser.showOpenDialog(primaryStage);
+                File configuration = fileChooser.showOpenDialog(primaryStage);
+                if(configuration != null)
+                {
+                Gson gson = new Gson();
 
-                    Gson gson = new Gson();
-
-                    try {
-                        WarParser parsedEntities = gson.fromJson(new FileReader(configuration), WarParser.class);
-
-
-
-                        Pane poot = new FlowPane();
-                        scene2 = new Initialization(poot, 1500,948, parsedEntities,window,scene1,time);
+                try {
+                    WarParser parsedEntities = gson.fromJson(new FileReader(configuration), WarParser.class);
 
 
-                    } catch (IOException e){
-                        e.printStackTrace();
-                    }
+                    Pane poot = new FlowPane();
+                    scene2 = new Initialization(poot, 1500, 948, parsedEntities, window, scene1, time);
 
 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-
-
-
-                    window.setScene(scene2);
+                window.setScene(scene2);
+            }
 
             });
             manualBtn.setOnAction(event -> System.out.println("Hello World!")
