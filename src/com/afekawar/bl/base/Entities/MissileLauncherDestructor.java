@@ -95,7 +95,7 @@ public class MissileLauncherDestructor implements Runnable {
                 Iterator<Integer> it = targetMissileLaunchers.keySet().iterator();
                 int destructTime = it.next();
                 MissileLauncher launcher = targetMissileLaunchers.get(destructTime);
-                while(time.getTime() < destructTime){
+                while(time.getTime() < destructTime - destructLength){
                     try {
                         Thread.sleep(1000 / 60);
                         update();

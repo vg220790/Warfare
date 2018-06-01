@@ -83,7 +83,7 @@ public class MissileDestructor implements Runnable {
                 }
 
             }
-            if(m.getState() == Missile.State.INAIR){
+            if(m.getState() == Missile.State.INAIR ){
                 try {
                     activeDestMissile = m;
                     launchAntiMissile(m.getId());

@@ -86,7 +86,7 @@ public class Missile implements Runnable, Comparable<Missile> {
 
     void stopThread(){                                                       // Missile launcher destroy func
         state = State.DEAD;
-        System.out.println("Missile " + id + " died at x: " + coordinates.getX() + " y: " + coordinates.getY());
+        System.out.println("Missile " + id + " died at x: " + coordinates.getX() + " y: " + coordinates.getY() + " at " + time.getTime() + " seconds");
         System.out.println("Target coordinates: x: " + targetCoordinates.getX() + " y: " + targetCoordinates.getY());
 
     }
