@@ -30,10 +30,10 @@ public class Missile implements Runnable, Comparable<Missile> {
     private Set<WarEventListener> listeners;
     private Point2D velocity;
 
-    public void setTargetMissile(Missile targetMissile){
+    void setTargetMissile(Missile targetMissile){
         this.targetMissile = targetMissile;
     }
-    public void setTargetLauncher(MissileLauncher targetLauncher){
+    void setTargetLauncher(MissileLauncher targetLauncher){
         this.targetLauncher = targetLauncher;
     }
 
