@@ -2,7 +2,6 @@ package com.afekawar.bl.base.Entities;
 
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
-import com.afekawar.bl.base.Interface.SystemInterface;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
@@ -17,7 +16,6 @@ public class MissileDestructor implements Runnable {
     private String id;
   //  private Logger logger;                      // TODO - Implement Logger
     private TreeMap<Integer, Missile> targetMissiles; // Will try to destroy target missile if not null TODO - Change data Structure ( Perhaps HashMap<Missile, SortedList<int>> ?? )
-    private SystemInterface data;
     private SystemTime time;
     private Point2D coordinates;
     private int destructLength;           // Time takes to destroy a missile.
@@ -27,10 +25,9 @@ public class MissileDestructor implements Runnable {
     private Set<WarEventListener> listeners;
 
 
-    public MissileDestructor(String id,SystemInterface data, SystemTime time) {
+    public MissileDestructor(String id, SystemTime time) {
         this.id = id;
         targetMissiles = new TreeMap<>();
-        this.data = data;
         this.time = time;
         coordinates = new Point2D(ThreadLocalRandom.current().nextInt(800, 1100 + 1),ThreadLocalRandom.current().nextInt(200, 660 + 1));  // Set Random coordinate within Israel Defense Border
         destructLength = 2;
@@ -47,12 +44,6 @@ public class MissileDestructor implements Runnable {
     }
     public Point2D getCoordinates(){
         return coordinates;
-    }
-    public int getDestructLength(){
-        return destructLength;
-    }
-    public Missile getActiveDestMissile(){
-        return activeDestMissile;
     }
     /*
     public Logger getLogger() {
@@ -104,7 +95,7 @@ public class MissileDestructor implements Runnable {
                 if (m.getState() == Missile.State.INAIR) {
                     m.setState(Missile.State.DEAD);
                     fireDestroyAntiMissileEvent();
-                    data.destroyMissile(m.getLauncherId(), m.getId());
+                    activeDestMissile.stopThread();
 
 
                 }
@@ -161,7 +152,7 @@ public class MissileDestructor implements Runnable {
     private synchronized void fireDestroyAntiMissileEvent(){
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE);
-        e.setMissileId(activeDestMissile.getId());
+        e.setMissileId(antiMissile.getId());
         for (WarEventListener listener : listeners){
             listener.handleWarEvent(e);
         }

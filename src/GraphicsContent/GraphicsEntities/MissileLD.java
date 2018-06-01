@@ -30,12 +30,7 @@ public class MissileLD extends GameObject {
             this.getView().setRotate(angle);
 
         }
-        /*
-        this.getView().setTranslateX(this.getView().getTranslateX() + velocity.getX());
-        this.getView().setTranslateY(this.getView().getTranslateY() + velocity.getY());
-        this.getName().setTranslateX(this.getName().getTranslateX() + velocity.getX());
-        this.getName().setTranslateY(this.getName().getTranslateY() + velocity.getY());
-        */
+
         this.getView().setX(this.getCoordinates().getX() - icon.getWidth()/2);
         this.getView().setY(this.getCoordinates().getY()- icon.getHeight()/2);
         this.getName().setX(this.getCoordinates().getX() - 10);

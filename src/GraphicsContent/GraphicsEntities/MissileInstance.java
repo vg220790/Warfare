@@ -6,12 +6,11 @@ import javafx.scene.image.Image;
 
 public class MissileInstance extends GameObject {
     private static Image icon = new Image("GraphicsContent/Resources/missile.png");
-    private double angle;
     public MissileInstance(String id, Point2D coordinates, Point2D targetCoordinates) {
         super(id, coordinates,icon);
         getView().setScaleX(0.4);
         getView().setScaleY(0.4);
-        angle = Math.atan2(targetCoordinates.getY() - getCoordinates().getY(), targetCoordinates.getX() - getCoordinates().getX()) * 180 / Math.PI +90;
+        double angle = Math.atan2(targetCoordinates.getY() - getCoordinates().getY(), targetCoordinates.getX() - getCoordinates().getX()) * 180 / Math.PI +90;
         getView().setRotate(angle);
     }
 
@@ -19,7 +18,7 @@ public class MissileInstance extends GameObject {
 
     @Override
     public void destroy(){
-        System.out.println(getName().getText().toString() + " x: " + getCoordinates().getX() + " y: " + getCoordinates().getY());
+        System.out.println(getName().getText() + " x: " + getCoordinates().getX() + " y: " + getCoordinates().getY());
         this.setAlive(false);
     }
 

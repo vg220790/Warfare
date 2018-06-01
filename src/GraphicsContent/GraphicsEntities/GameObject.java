@@ -36,9 +36,6 @@ public abstract class GameObject {
 
     public void destroy(){
     }
-    public Point2D getVelocity(){
-        return null;
-    }
 
 
     GameObject(String id, Point2D coordinates, Image icon){

@@ -54,23 +54,14 @@ public class MissileLauncher implements Runnable {
     public String getId() {
         return id;
     }
-    public boolean getHidden() {
+    boolean getHidden() {
         return isHidden;
     }
-    public boolean getAlive() {
+    boolean getAlive() {
         return isAlive;
-    }
-    public Thread getActiveMissileThread(){
-        return activeMissileThread;
-    }
-    public Queue<Missile> getMissiles() {
-        return missiles;
     }
     public Point2D getCoordinates(){
         return coordinates;
-    }
-    public Missile getActiveMissileEntity(){
-        return activeMissileEntity;
     }
     /*
     public Logger getLogger() {
@@ -84,13 +75,13 @@ public class MissileLauncher implements Runnable {
     public void setId(String id) {
         this.id = id;
     }
-    public void setMissiles(Queue<Missile> missiles) {
-        this.missiles = missiles;
+    public void addMissile(Missile temp){
+        this.missiles.offer(temp);
     }
 
 
 
-    public void stopThread(){                                                       // Missile launcher destroy func
+    void stopThread(){                                                       // Missile launcher destroy func
         System.out.println("Missile Launcher n` " + id + " Got destroyed at " + time.getTime() + " seconds");
         if(activeMissileThread != null) {
             activeMissileEntity.stopThread();

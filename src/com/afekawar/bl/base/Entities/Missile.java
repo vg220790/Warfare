@@ -26,9 +26,6 @@ public class Missile implements Runnable, Comparable<Missile> {
    // private Logger logger;
     private State state;
     private Set<WarEventListener> listeners;
-
-    private double distance;
-    private double speed;
     private Point2D velocity;
 
 
@@ -46,7 +43,7 @@ public class Missile implements Runnable, Comparable<Missile> {
 
 
     }
-    public Missile(String id,Point2D targetCoordinates, int launchTime, int flyTime, SystemTime time){
+    Missile(String id,Point2D targetCoordinates, int launchTime, int flyTime, SystemTime time){
         this.id = id;
         this.targetCoordinates = targetCoordinates;
         this.launchTime = launchTime;
@@ -65,13 +62,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     public String getId() {
         return id;
     }
-    public int getFlyTime() {
-        return flyTime;
-    }
-    String getLauncherId(){
-        return launcherId;
-    }
-    public Point2D getTargetCoordinates() {
+    Point2D getTargetCoordinates() {
         return targetCoordinates;
     }
     State getState() {
@@ -84,7 +75,7 @@ public class Missile implements Runnable, Comparable<Missile> {
         return launchTime;
     }
 
-    public void stopThread(){                                                       // Missile launcher destroy func
+    void stopThread(){                                                       // Missile launcher destroy func
         state = State.DEAD;
         System.out.println("Missile " + id + " died at x: " + coordinates.getX() + " y: " + coordinates.getY());
         System.out.println("Target coordinates: x: " + targetCoordinates.getX() + " y: " + targetCoordinates.getY());
@@ -129,8 +120,8 @@ public class Missile implements Runnable, Comparable<Missile> {
 
     @Override
     public void run() {
-        distance = Math.sqrt((targetCoordinates.getY()-coordinates.getY())*(targetCoordinates.getY()-coordinates.getY()) + (targetCoordinates.getX()-coordinates.getX())*(targetCoordinates.getX()-coordinates.getX()) );
-        speed = distance / flyTime;
+        double distance = Math.sqrt((targetCoordinates.getY()-coordinates.getY())*(targetCoordinates.getY()-coordinates.getY()) + (targetCoordinates.getX()-coordinates.getX())*(targetCoordinates.getX()-coordinates.getX()) );
+        double speed = distance / flyTime;
 
         speed/=60;                             // To be on same scale with framerate ( 60 fps ).
 
@@ -169,7 +160,7 @@ while(state == State.INAIR){
         }
     }
 
-    public Point2D getVelocity(){
+    Point2D getVelocity(){
         return velocity;
     }
 

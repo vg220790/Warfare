@@ -1,34 +1,27 @@
 package GraphicsContent;
 import GraphicsContent.GraphicsEntities.*;
-import com.afekawar.bl.base.ConsoleVersion;
 import com.afekawar.bl.base.Interface.Communication.*;
-import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.io.File;
 import java.util.HashMap;
-
 import java.util.Iterator;
 import java.util.Map;
 
 public class WarApplication extends Application implements WarEventListener {
     private Pane root;
     private SystemTime time;
-    private File configuration;
+
+    public WarApplication(SystemTime time){
+        this.time = time;
+    }
 
     private Map<String,GameObject> graphicsEntities = new HashMap<>();
 
-
-    public WarApplication(File configuration){
-        this.configuration = configuration;
-    }
 
     private Scene createContent(){
         root = new Pane();
@@ -60,7 +53,7 @@ public class WarApplication extends Application implements WarEventListener {
                     }
 
                     if(!root.getChildren().contains(entity.getView()))
-                        addGameObject(entity, entity.getCoordinates().getX(), entity.getCoordinates().getY());
+                        addGameObject(entity);
 
                 }
 
@@ -72,20 +65,12 @@ public class WarApplication extends Application implements WarEventListener {
     }
     @Override
     public void start(Stage primaryStage){
-        time = new MyTime();
-        Thread timeThread = new Thread(time);
-        timeThread.start();
-
-        Runnable mainProgram = new ConsoleVersion(time,this,configuration);
-        Thread mainThread = new Thread(mainProgram);
-        mainThread.start();
-
         primaryStage.setScene(createContent());
         primaryStage.show();
 
     }
 
-    private void addGameObject(GameObject object, double x, double y){
+    private void addGameObject(GameObject object){
             root.getChildren().add(object.getView());
             root.getChildren().add(object.getName());
     }
@@ -94,8 +79,6 @@ public class WarApplication extends Application implements WarEventListener {
     public synchronized void handleWarEvent(WarEvent e) {
         WarEvent.Event_Type type = e.getEventType();
 
-        double angle;
-        Point2D collisionPoint;
 
         switch (type){
 
@@ -140,8 +123,8 @@ public class WarApplication extends Application implements WarEventListener {
                 break;
 
             case DESTROY_ANTI_MISSILE_LAUNCHER:
-                if(graphicsEntities.containsKey("AML " + e.getTargetLauncherId()))
-                    graphicsEntities.get("AML " + e.getTargetLauncherId()).destroy();
+                if(graphicsEntities.containsKey(e.getMissileId()))
+                    graphicsEntities.get(e.getMissileId()).destroy();
                 break;
 
             case CREATE_MISSILE_DESTRUCTOR:
@@ -155,8 +138,8 @@ public class WarApplication extends Application implements WarEventListener {
                 break;
 
             case DESTROY_ANTI_MISSILE:
-                if(graphicsEntities.containsKey("AM " + e.getMissileId()))
-                    graphicsEntities.get("AM " + e.getMissileId()).destroy();
+                if(graphicsEntities.containsKey(e.getMissileId()))
+                    graphicsEntities.get(e.getMissileId()).destroy();
                 break;
 
             case UPDATE_COORDINATES:

@@ -132,7 +132,7 @@
             ]
         },
         {
-          "type": "shipA",
+          "type": "ship",
           "destructedLanucher": [
             {
               "id": "L102",

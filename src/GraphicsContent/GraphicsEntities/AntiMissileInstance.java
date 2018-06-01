@@ -2,19 +2,17 @@ package GraphicsContent.GraphicsEntities;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 
 
 public class AntiMissileInstance extends GameObject {
     private static Image icon = new Image("GraphicsContent/Resources/missile.png");
-    private double angle;
     public AntiMissileInstance(String id, Point2D coordinates, Point2D targetCoordinates) {
         super(id, coordinates,icon);
 
 
         getView().setScaleX(0.2);
         getView().setScaleY(0.2);
-        angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX()) * 180 / Math.PI +90;
+        double angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX()) * 180 / Math.PI +90;
         getView().setRotate(angle);
 
     }

@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 
 public class AntiMissileLauncherInstance extends GameObject{
     private static Image icon = new Image("GraphicsContent/Resources/missile.png");
-    private double angle;
     public AntiMissileLauncherInstance(String id, Point2D coordinates, Point2D targetCoordinates) {
         super(id, coordinates,icon);
 
@@ -13,7 +12,7 @@ public class AntiMissileLauncherInstance extends GameObject{
         getView().setScaleX(0.3);
         getView().setScaleY(0.3);
 
-        angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX()) * 180 / Math.PI +90;
+        double angle = Math.atan2(targetCoordinates.getY() - coordinates.getY(), targetCoordinates.getX() - coordinates.getX()) * 180 / Math.PI +90;
         getView().setRotate(angle);
 
 

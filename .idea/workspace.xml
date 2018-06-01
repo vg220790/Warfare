@@ -2,14 +2,42 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="872964ee-edf0-442a-8c50-06ad78a01569" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/UI/Entrance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/Initialization.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/M.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/ML.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MLD.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/SubEntities/DestLauncher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/SubEntities/DestMissile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileDestructors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLauncherDestructors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLaunchers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/War.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/JSONParser/WarParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Controller/ObjectController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/Resources/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/Resources/Thumbs.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration.json" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileLauncherInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileLauncherInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileLD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileLD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/Launcher.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/UserInterface.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GraphicsContent/WarApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/WarApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/ConsoleVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/ConsoleVersion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Entrance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Entrance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/ConsoleVersion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/MainLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Missile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Missile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/SystemInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/MyTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/MyTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/SystemTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/SystemTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,75 +57,65 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="WarApplication.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/GraphicsContent/WarApplication.java">
+      <file leaf-file-name="Missile.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Missile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="78" column="73" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
-              <folding>
-                <element signature="e#886#887#0" expanded="true" />
-                <element signature="e#935#936#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UI/Resources/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="3" column="29" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConsoleVersion.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/ConsoleVersion.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="39" column="66" selection-start-line="39" selection-start-column="66" selection-end-line="39" selection-end-column="66" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Entrance.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UI/Entrance.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+            <state relative-caret-position="588">
+              <caret line="28" column="29" lean-forward="true" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#478#479#0" expanded="true" />
-                <element signature="e#514#515#0" expanded="true" />
-                <element signature="e#1822#1823#0" expanded="true" />
-                <element signature="e#1896#1897#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="wargame.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/UI/Resources/wargame.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file leaf-file-name="ReadConfiguration.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java">
+      <file leaf-file-name="MyTime.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/MyTime.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="945">
-              <caret line="61" column="40" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="40" />
+            <state relative-caret-position="231">
+              <caret line="11" column="64" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
+              <folding>
+                <element signature="e#167#168#0" expanded="true" />
+                <element signature="e#249#250#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InterfaceImp.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java">
+      <file leaf-file-name="MissileLauncherDestructor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1071">
-              <caret line="58" column="31" selection-start-line="58" selection-start-column="24" selection-end-line="58" selection-end-column="31" />
+            <state relative-caret-position="212">
+              <caret line="139" column="9" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WarEventListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEventListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="42">
+              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WarEvent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEvent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="58" column="5" lean-forward="true" selection-start-line="57" selection-start-column="45" selection-end-line="58" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AntiMissileInstance.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileInstance.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
               <folding>
-                <element signature="e#1659#1660#0" expanded="true" />
-                <element signature="e#1699#1700#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -106,21 +124,17 @@
       <file leaf-file-name="MissileDestructor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="68" column="63" selection-start-line="68" selection-start-column="56" selection-end-line="68" selection-end-column="63" />
-              <folding>
-                <element signature="e#2720#2721#0" expanded="true" />
-                <element signature="e#2774#2775#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="252">
+              <caret line="33" column="33" lean-forward="true" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Launcher.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/GraphicsContent/Launcher.java">
+      <file leaf-file-name="ObjectController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Controller/ObjectController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+            <state relative-caret-position="364">
+              <caret line="48" column="13" lean-forward="true" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -128,11 +142,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SystemInterface.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/SystemInterface.java">
+      <file leaf-file-name="SystemTime.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/SystemTime.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+            <state relative-caret-position="42">
+              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MissileLauncher.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="403">
+              <caret line="89" column="42" lean-forward="true" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -153,52 +179,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/GraphicsContent/MissileD.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/MissileL.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/GameObject.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/MissileLD.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/MissileInstance.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Target.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/SystemInterface.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/WarListener.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/WarEventDispatcher.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/SystemTime.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MyTime.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileListener.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLauncherDestructorEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLauncherDestructorListener.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileDestructorListener.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileDestructorEvent.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileD.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/SystemInterface.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/UserInterface.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLaunchEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLauncherEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLauncherListener.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEventListener.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/Launcher.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/SystemTime.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/MyTime.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/StaticTargets.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java" />
+        <option value="$PROJECT_DIR$/src/UI/Resources/style.css" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/ConsoleVersion.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/war.java" />
+        <option value="$PROJECT_DIR$/Configuration.json" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/M.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/ML.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/DestLanucher.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MLD.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/DestMissile.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MD.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MissileLaunchers.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MissileDestructors.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MissileLauncherDestructors.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/War.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/AbstractClass.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/sasa.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/koko.json" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/MainLogic.java" />
+        <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileLD.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ObjectController.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Missile.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java" />
         <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java" />
         <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/StaticTargets.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Missile.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileLD.java" />
-        <option value="$PROJECT_DIR$/Configuration.json" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileL.java" />
-        <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/GameObject.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEventListener.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/MyTime.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/SystemTime.java" />
         <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileInstance.java" />
         <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileLauncherInstance.java" />
+        <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/GameObject.java" />
+        <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileL.java" />
         <option value="$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileInstance.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java" />
-        <option value="$PROJECT_DIR$/src/UI/Resources/style.css" />
         <option value="$PROJECT_DIR$/src/GraphicsContent/WarApplication.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/ConsoleVersion.java" />
-        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/SubEntities/DestLauncher.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/SubEntities/DestMissile.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/M.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MD.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/ML.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MLD.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/War.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/WarParser.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLaunchers.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLauncherDestructors.java" />
+        <option value="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileDestructors.java" />
         <option value="$PROJECT_DIR$/src/UI/Entrance.java" />
+        <option value="$PROJECT_DIR$/src/UI/Initialization.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java" />
+        <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Controller/ObjectController.java" />
       </list>
     </option>
   </component>
@@ -227,45 +258,6 @@
               <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
               <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-              <item name="Interface" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="base" type="462c0819:PsiDirectoryNode" />
-              <item name="JSONParser" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="GraphicsContent" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="UI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="UI" type="462c0819:PsiDirectoryNode" />
-              <item name="Resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -381,8 +373,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Entrance" />
-        <item itemvalue="Application.Launcher" />
         <item itemvalue="Application.WarApplication" />
+        <item itemvalue="Application.Launcher" />
       </list>
     </recent_temporary>
   </component>
@@ -474,40 +466,46 @@
       <option name="project" value="LOCAL" />
       <updated>1527787927886</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added basic UI">
+      <created>1527809907890</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1527809907890</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.47708333" weight="0.32629356" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.46822917" weight="0.32629356" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5765625" side_tool="true" visible="true" weight="0.39598733" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.59947914" side_tool="true" visible="true" weight="0.3252376" />
       <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.40989584" weight="0.3252376" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.40052083" visible="true" weight="0.3252376" />
       <window_info anchor="right" id="Coverage" order="4" side_tool="true" weight="0.3296875" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2515625" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4984375" weight="0.32946146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4234375" visible="true" weight="0.39598733" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.41979167" weight="0.39598733" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49947917" visible="true" weight="0.32946146" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -523,31 +521,12 @@
     <MESSAGE value="Updated Missile Launchers + Missiles to event-driven model" />
     <MESSAGE value="Transformed whole graphics implementation to event-driven model" />
     <MESSAGE value="Updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates" />
+    <MESSAGE value="Added basic UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added basic UI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java</url>
-          <line>151</line>
-          <properties />
-          <option name="timeStamp" value="116" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileL.java</url>
-          <line>12</line>
-          <properties />
-          <option name="timeStamp" value="117" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java</url>
-          <line>94</line>
-          <properties />
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="120" />
+      <option name="time" value="129" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -560,61 +539,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1470">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Target.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/StaticTargets.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileLD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="12" column="25" lean-forward="true" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/lang/Thread.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/javafx.graphics/javafx/scene/image/ImageView.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/java.base/java/lang/Math.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileListener.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileEvent.java" />
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/javafx.graphics/javafx/animation/AnimationTimer.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/WarListener.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/WarEventDispatcher.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/SystemInterface.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLauncherDestructorEvent.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="28" lean-forward="true" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLaunchEvent.java" />
     <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileLauncherDestructorListener.java" />
     <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/MissileDestructorListener.java" />
@@ -644,46 +568,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Configuration.json">
+    <entry file="file://$PROJECT_DIR$/src/UI/Resources/wargame.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/Resources/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
-          <caret line="112" column="1" lean-forward="true" selection-start-line="112" selection-start-column="1" selection-end-line="112" selection-end-column="1" />
+        <state relative-caret-position="63">
+          <caret line="3" column="29" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileL.java">
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/sasa.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state>
+          <caret column="1448" selection-start-column="1448" selection-end-column="1448" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileInstance.java">
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/koko.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/GameObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="53" column="7" selection-start-line="53" selection-start-column="7" selection-end-line="53" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#600#601#0" expanded="true" />
-            <element signature="e#638#639#0" expanded="true" />
-            <element signature="e#671#672#0" expanded="true" />
-            <element signature="e#698#699#0" expanded="true" />
-            <element signature="e#1573#1574#0" expanded="true" />
-            <element signature="e#1646#1647#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="1448" selection-start-column="1448" selection-end-column="1448" />
         </state>
       </provider>
     </entry>
@@ -691,123 +596,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileLD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileD.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="10" column="74" selection-start-line="10" selection-start-column="74" selection-end-line="10" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileLauncherInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileInstance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/StaticTargets.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="11" column="60" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/SystemTime.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/MyTime.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#167#168#0" expanded="true" />
-            <element signature="e#249#250#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEventListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
-          <folding>
-            <element signature="e#1357#1358#0" expanded="true" />
-            <element signature="e#2458#2459#0" expanded="true" />
-            <element signature="e#2508#2509#0" expanded="true" />
-            <element signature="e#2546#2547#0" expanded="true" />
-            <element signature="e#2582#2583#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Target.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Missile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="165" column="29" selection-start-line="165" selection-start-column="29" selection-end-line="165" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-74">
-          <caret line="52" column="69" selection-start-line="50" selection-start-column="6" selection-end-line="52" selection-end-column="69" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1430">
-          <caret line="124" column="25" selection-start-line="124" selection-start-column="25" selection-end-line="124" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -821,42 +609,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/UI/Resources/wargame.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UI/Resources/style.css">
+    <entry file="file://$PROJECT_DIR$/Configuration.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="29" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="29" />
+        <state relative-caret-position="106">
+          <caret line="121" column="24" selection-start-line="121" selection-start-column="19" selection-end-line="121" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/WarApplication.java">
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="78" column="73" selection-start-line="78" selection-start-column="73" selection-end-line="78" selection-end-column="73" />
-          <folding>
-            <element signature="e#886#887#0" expanded="true" />
-            <element signature="e#935#936#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/ConsoleVersion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="39" column="66" selection-start-line="39" selection-start-column="66" selection-end-line="39" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="68" column="63" selection-start-line="68" selection-start-column="56" selection-end-line="68" selection-end-column="63" />
-          <folding>
-            <element signature="e#2720#2721#0" expanded="true" />
-            <element signature="e#2774#2775#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="384">
+          <caret line="93" column="70" lean-forward="true" selection-start-line="93" selection-start-column="70" selection-end-line="93" selection-end-column="70" />
         </state>
       </provider>
     </entry>
@@ -869,33 +632,349 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/InterfaceImp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1071">
-          <caret line="58" column="31" selection-start-line="58" selection-start-column="24" selection-end-line="58" selection-end-column="31" />
+        <state relative-caret-position="1302">
+          <caret line="71" column="61" lean-forward="true" selection-start-line="71" selection-start-column="61" selection-end-line="71" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Target.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="32" selection-start-line="6" selection-start-column="32" selection-end-line="6" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/StaticTargets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="11" column="60" selection-start-line="11" selection-start-column="60" selection-end-line="11" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/MainLogic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="37" column="23" lean-forward="true" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/War.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
           <folding>
-            <element signature="e#1659#1660#0" expanded="true" />
-            <element signature="e#1699#1700#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLaunchers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="16" column="5" lean-forward="true" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#218#219#0" expanded="true" />
+            <element signature="e#258#259#0" expanded="true" />
+            <element signature="e#212#213#0" expanded="true" />
+            <element signature="e#243#244#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLauncherDestructors.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="61" selection-start-line="9" selection-start-column="61" selection-end-line="9" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#288#289#0" expanded="true" />
+            <element signature="e#228#229#0" expanded="true" />
+            <element signature="e#261#262#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileDestructors.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="52" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#269#270#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MLD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="68" selection-start-line="10" selection-start-column="68" selection-end-line="10" selection-end-column="68" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#356#357#0" expanded="true" />
+            <element signature="e#397#398#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/ML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="61" selection-start-line="9" selection-start-column="61" selection-end-line="9" selection-end-column="61" />
+          <folding>
+            <element signature="e#259#260#0" expanded="true" />
+            <element signature="e#290#291#0" expanded="true" />
+            <element signature="e#325#326#0" expanded="true" />
+            <element signature="e#355#356#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="18" column="62" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#263#264#0" expanded="true" />
+            <element signature="e#288#289#0" expanded="true" />
+            <element signature="e#342#343#0" expanded="true" />
+            <element signature="e#381#382#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/M.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="588">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="e#195#196#0" expanded="true" />
+            <element signature="e#220#221#0" expanded="true" />
+            <element signature="e#258#259#0" expanded="true" />
+            <element signature="e#292#293#0" expanded="true" />
+            <element signature="e#329#330#0" expanded="true" />
+            <element signature="e#362#363#0" expanded="true" />
+            <element signature="e#459#460#0" expanded="true" />
+            <element signature="e#488#489#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/SubEntities/DestMissile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="63" selection-start-line="5" selection-start-column="63" selection-end-line="5" selection-end-column="63" />
+          <folding>
+            <element signature="e#163#164#0" expanded="true" />
+            <element signature="e#188#189#0" expanded="true" />
+            <element signature="e#234#235#0" expanded="true" />
+            <element signature="e#276#277#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/SubEntities/DestLauncher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="15" column="37" lean-forward="true" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+          <folding>
+            <element signature="e#401#402#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.1/lib/src.zip!/javafx.base/javafx/event/EventHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="44" column="9" selection-start-line="44" selection-start-column="9" selection-end-line="44" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/Initialization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UI/Entrance.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+        <state relative-caret-position="196">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#478#479#0" expanded="true" />
-            <element signature="e#514#515#0" expanded="true" />
-            <element signature="e#1822#1823#0" expanded="true" />
-            <element signature="e#1896#1897#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/JSONParser/ReadConfiguration.java">
+    <entry file="file://$PROJECT_DIR$/src/UI/JSONParser/WarParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
-          <caret line="61" column="40" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="40" />
+        <state relative-caret-position="273">
+          <caret line="13" column="23" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#322#323#0" expanded="true" />
+            <element signature="e#352#353#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/WarApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileLD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="20" column="46" selection-start-line="20" selection-start-column="46" selection-end-line="20" selection-end-column="46" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/MissileD.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="10" column="74" selection-start-line="10" selection-start-column="74" selection-end-line="10" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/GameObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="483">
+          <caret line="24" column="19" lean-forward="true" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#600#601#0" expanded="true" />
+            <element signature="e#638#639#0" expanded="true" />
+            <element signature="e#671#672#0" expanded="true" />
+            <element signature="e#698#699#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileLauncherInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GraphicsContent/GraphicsEntities/AntiMissileInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/SystemTime.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Time/MyTime.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="11" column="64" selection-start-line="11" selection-start-column="64" selection-end-line="11" selection-end-column="64" />
+          <folding>
+            <element signature="e#167#168#0" expanded="true" />
+            <element signature="e#249#250#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEventListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Interface/Communication/WarEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="58" column="5" lean-forward="true" selection-start-line="57" selection-start-column="45" selection-end-line="58" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="89" column="42" lean-forward="true" selection-start-line="89" selection-start-column="42" selection-end-line="89" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncherDestructor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="139" column="9" selection-start-line="139" selection-start-column="9" selection-end-line="139" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Missile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="588">
+          <caret line="28" column="29" lean-forward="true" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileDestructor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="33" column="33" lean-forward="true" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Controller/ObjectController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="48" column="13" lean-forward="true" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -916,7 +995,7 @@
       </state>
       <state key="FacetStructureConfigurable.UI">
         <settings>
-          <last-edited>No facets are configured</last-edited>
+          <last-edited />
           <splitter-proportions>
             <option name="proportions">
               <list>
