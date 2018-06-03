@@ -31,4 +31,8 @@ public class StaticTargets {
         }
         return null;
     }
+
+    public List<Target> getTargets(){
+        return targets;
+    }
 }

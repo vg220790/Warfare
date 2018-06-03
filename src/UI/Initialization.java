@@ -22,8 +22,9 @@ import javafx.stage.Stage;
 class Initialization extends Scene {
 
 
-     Initialization(Pane root, double width, double height, WarParser parsedEntities, Stage window, Scene prevScene, SystemTime time) {
+     Initialization(VBox root, double width, double height, WarParser parsedEntities, Stage window, Scene prevScene, SystemTime time) {
         super(root, width, height);
+
 
         VBox entitiesView;
 

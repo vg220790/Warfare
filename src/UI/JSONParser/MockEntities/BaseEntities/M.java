@@ -1,6 +1,8 @@
 package UI.JSONParser.MockEntities.BaseEntities;
 
-public class M {
+import java.util.Objects;
+
+public class M{
     private String id;
     private String destination;
     private String launchTime;
@@ -32,7 +34,30 @@ public class M {
         return flyTime;
     }
 
+
     public String getDamage() {
         return damage;
+    }
+
+   @Override
+   public boolean equals(Object o){
+        if(this == o)
+            return true;
+        if(!(o instanceof M))
+            return false;
+       M otherM = (M)o;
+
+       return this.id.equals(otherM.id);
+
+   }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString(){
+        return id;
     }
 }

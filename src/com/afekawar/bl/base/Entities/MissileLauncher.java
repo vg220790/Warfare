@@ -37,8 +37,14 @@ public class MissileLauncher implements Runnable {
         int index = ThreadLocalRandom.current().nextInt(0,4);
 
         this.id = id;
-        this.alwaysVisible = !isHidden;
-        this.isHidden = alwaysVisible;
+        if(isHidden) {
+            this.alwaysVisible = false;
+            this.isHidden = true;
+        }
+        else {
+            this.alwaysVisible = true;
+            this.isHidden = false;
+        }
         this.isAlive = true;
         this.time = time;
         missiles = new PriorityQueue<>();

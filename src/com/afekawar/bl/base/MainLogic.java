@@ -15,7 +15,7 @@ public class MainLogic implements Runnable{
 
     private SystemTime time;
     private WarApplication app;
-    private WarParser parsedElement;
+    private WarParser parsedEntities;
     private Map<String,MissileLauncher> launchers;
     private Map<String,MissileLauncherDestructor> launcherDestructors;
     private Map<String,MissileDestructor> missileDestructors;
@@ -23,10 +23,10 @@ public class MainLogic implements Runnable{
     private ObjectController objectController;                             // To create actual objects based on parsed element;
 
 
-    public MainLogic(SystemTime time, WarApplication app, WarParser parsedElement){
+    public MainLogic(SystemTime time, WarApplication app, WarParser parsedEntities){
         this.time = time;
         this.app = app;
-        this.parsedElement = parsedElement;
+        this.parsedEntities = parsedEntities;
         launchers = new HashMap<>();
         launcherDestructors = new HashMap<>();
         missileDestructors = new HashMap<>();
@@ -38,7 +38,7 @@ public class MainLogic implements Runnable{
     public void run() {
         System.out.println("System starts");
 
-        objectController.createObjects(parsedElement,launchers,launcherDestructors,missileDestructors,time);               // Create Entities.
+        objectController.createObjects(parsedEntities,launchers,launcherDestructors,missileDestructors,time);               // Create Entities.
 
 
         for(MissileLauncher launcher : launchers.values()){

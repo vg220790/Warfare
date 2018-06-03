@@ -15,11 +15,14 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Entrance extends Application {
-    private Stage window;
-    private Scene scene1;
-        private Initialization scene2;
+        private Stage window;
+        private Scene scene1;
+        private Scene manualScenario;
+        private Scene scene2;
         private FileChooser fileChooser;
         private SystemTime time;
+        private VBox root;
+        private WarParser parsedEntities;
         public static void main(String[] args) {
             launch(args);
         }
@@ -28,6 +31,8 @@ public class Entrance extends Application {
         public void start(Stage primaryStage) {
             this.window = primaryStage;
             time = new MyTime();
+            root = new VBox();
+            parsedEntities = new WarParser();
 
 
             window.setTitle("Afeka War Game");
@@ -49,11 +54,11 @@ public class Entrance extends Application {
                 Gson gson = new Gson();
 
                 try {
-                    WarParser parsedEntities = gson.fromJson(new FileReader(configuration), WarParser.class);
+                    parsedEntities = gson.fromJson(new FileReader(configuration), WarParser.class);
 
 
-                    Pane poot = new FlowPane();
-                    scene2 = new Initialization(poot, 1500, 948, parsedEntities, window, scene1, time);
+
+                    scene2 = new Initialization(new VBox(), 1500, 948, parsedEntities, window, scene1, time);
 
 
                 } catch (IOException e) {
@@ -64,13 +69,17 @@ public class Entrance extends Application {
             }
 
             });
-            manualBtn.setOnAction(event -> System.out.println("Hello World!")
+            manualBtn.setOnAction(event -> {
+                manualScenario = new ManualScenario(new VBox(),1500,948, parsedEntities, window, scene1, time);
+
+                window.setScene(manualScenario);
+                    }
 
             );
-            Pane root = new FlowPane();
-            scene1 = new Scene(root,1500,948);
-            root.setId("pane");
-            root.getStylesheets().addAll(this.getClass().getResource("Resources/style.css").toExternalForm());
+            Pane init = new FlowPane();
+            scene1 = new Scene(init,1500,948);
+            init.setId("pane");
+            init.getStylesheets().addAll(this.getClass().getResource("Resources/style.css").toExternalForm());
 
 
 
@@ -86,7 +95,7 @@ public class Entrance extends Application {
 
 
 
-            root.getChildren().add(container);
+            init.getChildren().add(container);
 
 
 

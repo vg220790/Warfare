@@ -18,4 +18,9 @@ public class Target{
     public Point2D getCoordinates(){
         return coordinates;
     }
+
+    @Override
+    public String toString(){
+        return name;
+    }
 }
