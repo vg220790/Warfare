@@ -288,11 +288,18 @@ public class ManualScenario extends Scene {
         destroyMissile.getChildren().add(mdList);
         Button addMCommand = new Button("Add Command");
         addMCommand.setOnAction(event -> {
-            DestMissile temp = new DestMissile(mList.getValue().getId(),missileTimeValue.getText());
-            parsedEntities.addDestMissile(mdList.getValue().getId(),temp);
+            if (mdList.getValue() != null && mList.getValue() != null && !missileTimeValue.getText().equals("")) {
 
-            toastMsg = "Destroy Missile Command " + temp.getId() + " was added...";
-            Toast.makeText(window, toastMsg, msgType.LOG);
+
+                DestMissile temp = new DestMissile(mList.getValue().getId(), missileTimeValue.getText());
+                parsedEntities.addDestMissile(mdList.getValue().getId(), temp);
+
+                toastMsg = "Destroy Missile Command " + temp.getId() + " was added...";
+                Toast.makeText(window, toastMsg, msgType.LOG);
+            } else {
+                toastMsg = "Error in one of the 'Destroy Missile's fields";
+                Toast.makeText(window, toastMsg, msgType.ERROR);
+            }
         });
 
         destroyMissile.getChildren().add(addMCommand);
@@ -392,17 +399,25 @@ public class ManualScenario extends Scene {
         addMissile.getChildren().add(launcherList);
         Button addMissileBtn = new Button("Add Missile");
         addMissileBtn.setOnAction(event -> {
-            M temp = new M("M" + missileId.getText(),targetsList.getValue().toString(),launchTime.getText(),flyTime.getText(),damage.getText());
-            boolean success = parsedEntities.addMissile(launcherList.getValue().toString(),temp);
+            if (!missileId.getText().equals("") && targetsList.getValue() != null && !launchTime.getText().equals("") && !flyTime.getText().equals("") && !damage.getText().equals("") && launcherList.getValue() != null) {
 
-            if(success) {
-                toastMsg = "Missile " + temp.getId() + " was added to Launcher " + launcherList.getValue().toString();
-                Toast.makeText(window, toastMsg,msgType.LOG);
+                M temp = new M("M" + missileId.getText(), targetsList.getValue().toString(), launchTime.getText(), flyTime.getText(), damage.getText());
+                boolean success = parsedEntities.addMissile(launcherList.getValue().toString(), temp);
+
+                if (success) {
+                    toastMsg = "Missile " + temp.getId() + " was added to Launcher " + launcherList.getValue().toString();
+                    Toast.makeText(window, toastMsg, msgType.LOG);
+                } else {
+                    toastMsg = "Missile " + temp.getId() + " failed to load!!! ";
+                    Toast.makeText(window, toastMsg, msgType.ERROR);
+                }
+
             }
             else {
-                toastMsg = "Missile " + temp.getId() + " failed to load!!! ";
-                Toast.makeText(window, toastMsg,msgType.ERROR);
+                toastMsg = "Error in one of the Create Missile's fields";
+                Toast.makeText(window, toastMsg, msgType.ERROR);
             }
+
         });
         addMissile.getChildren().add(addMissileBtn);
         addMissile.setPadding(hboxPositions);
