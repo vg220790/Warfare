@@ -4,7 +4,6 @@ import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MLD {
     private static int idInc = 1;
@@ -19,20 +18,6 @@ public class MLD {
             this.destructedLanucher = new ArrayList<>();
         else
             this.destructedLanucher = destructedLanucher;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MLD mld = (MLD) o;
-        return Objects.equals(id, mld.id);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id);
     }
 
     public void addDestLauncher(DestLauncher temp){
