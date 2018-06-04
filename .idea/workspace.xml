@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="872964ee-edf0-442a-8c50-06ad78a01569" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/UI/ManualScenario.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UI/Toast.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Entrance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Entrance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Initialization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Initialization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/M.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/M.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/ML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/ML.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MLD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/BaseEntities/MLD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileDestructors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileDestructors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLauncherDestructors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLauncherDestructors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLaunchers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/MissileLaunchers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/War.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/MockEntities/War.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JSONParser/WarParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JSONParser/WarParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/MissileLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/StaticTargets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/StaticTargets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Target.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Target.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/MainLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/MainLogic.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,8 +28,8 @@
       <file leaf-file-name="ManualScenario.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/UI/ManualScenario.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="187" column="10" selection-start-line="187" selection-start-column="10" selection-end-line="187" selection-end-column="10" />
+            <state relative-caret-position="2584">
+              <caret line="186" lean-forward="true" selection-start-line="186" selection-end-line="186" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -598,7 +581,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527859482348</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Added GUI scenario creation, still working on bug fixes.">
+      <created>1528044329638</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1528044329638</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -650,7 +640,8 @@
     <MESSAGE value="Added basic UI" />
     <MESSAGE value="Pick configuration file via UI&#10;Shows scenario based on the configuration file&#10;Reworked JSON Parser&#10;Removed System Interface" />
     <MESSAGE value="Bug Fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug Fixes" />
+    <MESSAGE value="Added GUI scenario creation, still working on bug fixes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added GUI scenario creation, still working on bug fixes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -663,13 +654,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UI/ManualScenario.java</url>
-          <line>287</line>
+          <line>291</line>
           <properties />
           <option name="timeStamp" value="137" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/UI/ManualScenario.java</url>
-          <line>415</line>
+          <line>419</line>
           <properties />
           <option name="timeStamp" value="139" />
         </line-breakpoint>
@@ -1175,8 +1166,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UI/ManualScenario.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="187" column="10" selection-start-line="187" selection-start-column="10" selection-end-line="187" selection-end-column="10" />
+        <state relative-caret-position="2584">
+          <caret line="186" lean-forward="true" selection-start-line="186" selection-end-line="186" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
