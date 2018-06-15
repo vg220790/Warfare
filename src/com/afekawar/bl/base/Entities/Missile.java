@@ -2,12 +2,14 @@ package com.afekawar.bl.base.Entities;
 
 // import java.util.logging.Logger;
 
+import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Missile implements Runnable, Comparable<Missile> {
@@ -16,7 +18,6 @@ public class Missile implements Runnable, Comparable<Missile> {
      * ************************************************************* */
     public enum State { LOADED, INAIR, DEAD }
     private String id;
-    private String launcherId;
     private int launchTime;
     private int flyTime;
     private int damage;
@@ -27,7 +28,7 @@ public class Missile implements Runnable, Comparable<Missile> {
     private MissileLauncher targetLauncher;
    // private Logger logger;
     private State state;
-    private Set<WarEventListener> listeners;
+    private Set<WarEventListener> warEventListeners;
     private Point2D velocity;
 
     void setTargetMissile(Missile targetMissile){
@@ -38,16 +39,15 @@ public class Missile implements Runnable, Comparable<Missile> {
     }
 
 
-    public Missile(String id,Point2D targetCoordinates, int launchTime, int flyTime,int damage, String launcherId, SystemTime time){
+    public Missile(String id,Point2D targetCoordinates, int launchTime, int flyTime,int damage, SystemTime time){
         this.id = id;
         this.targetCoordinates = targetCoordinates;
         this.launchTime = launchTime;
         this.flyTime = flyTime;
         this.damage = damage;
         setState(State.LOADED);
-        this.launcherId = launcherId;
         this.time = time;
-        this.listeners = new HashSet<>();
+        this.warEventListeners = new HashSet<>();
 
 
 
@@ -59,7 +59,7 @@ public class Missile implements Runnable, Comparable<Missile> {
         this.flyTime = flyTime;
         setState(State.LOADED);
         this.time = time;
-        this.listeners = new HashSet<>();
+        this.warEventListeners = new HashSet<>();
 
 
 
@@ -152,7 +152,7 @@ public class Missile implements Runnable, Comparable<Missile> {
 while(state == State.INAIR){
     try{
 
-            Thread.sleep(1000/60);
+            Thread.sleep(1000/60);              // Update 60 times per sec
             update();
             if(time.getExactTime() >= launchTime + flyTime) {
                 System.out.println(time.getExactTime());
@@ -167,15 +167,16 @@ while(state == State.INAIR){
 
     }
 
-    synchronized void setWarEventListeners(Set<WarEventListener> listeners){
-        this.listeners = listeners;
+    synchronized void setWarEventListeners(Set<WarEventListener> warEventListeners){
+        this.warEventListeners = warEventListeners;
     }
+
 
     private synchronized void fireUpdateMissileEvent(){
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.UPDATE_COORDINATES);
         e.setCoordinates(coordinates);
-        for(WarEventListener listener: listeners){
+        for(WarEventListener listener: warEventListeners){
             listener.handleWarEvent(e);
         }
     }
@@ -184,7 +185,7 @@ while(state == State.INAIR){
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE);
         e.setMissileId(id);
-        for (WarEventListener listener : listeners){
+        for (WarEventListener listener : warEventListeners){
             listener.handleWarEvent(e);
         }
     }
@@ -193,13 +194,27 @@ while(state == State.INAIR){
         WarEvent e = new WarEvent(id);
         e.setEventType(WarEvent.Event_Type.DESTROY_ANTI_MISSILE_LAUNCHER);
         e.setMissileId(id);
-        for (WarEventListener listener : listeners){
+        for (WarEventListener listener : warEventListeners){
             listener.handleWarEvent(e);
         }
     }
 
     Point2D getVelocity(){
         return velocity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Missile missile = (Missile) o;
+        return Objects.equals(id, missile.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 
     @Override

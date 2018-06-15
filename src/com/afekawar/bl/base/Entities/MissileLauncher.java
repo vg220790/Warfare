@@ -1,5 +1,7 @@
 package com.afekawar.bl.base.Entities;
 
+import com.afekawar.bl.base.Interface.Communication.MissileEvent;
+import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
@@ -22,11 +24,13 @@ public class MissileLauncher implements Runnable {
     private Missile activeMissileEntity;
     private Point2D coordinates;
     private SystemTime time;
-    private Set<WarEventListener> listeners;
+    private Set<WarEventListener> warEventListeners;
+    private Set<MissileEventListener> missileEventListeners;
 
     public MissileLauncher(String id, boolean isHidden, SystemTime time){
 
-        listeners = new HashSet<>();
+        warEventListeners = new HashSet<>();
+        missileEventListeners = new HashSet<>();
 
         int randomNumbersMinX[] = {680,740,610,450};
         int randomNumbersMaxX[] = {760,870,660,620};
@@ -149,7 +153,7 @@ public class MissileLauncher implements Runnable {
                     missileThread.start();
                     activeMissileThread = missileThread;                // Keep the missile thread reference.
                     activeMissileEntity = m;
-                    m.setWarEventListeners(listeners);
+                    m.setWarEventListeners(warEventListeners);
                     fireLaunchMissileEvent();
                 }
                 }
@@ -168,8 +172,11 @@ public class MissileLauncher implements Runnable {
                 System.out.println("Missile Launcher n` " + id + " All missiles out after " + time.getTime() + " seconds");
         }
 
-        public synchronized void addWarEventListener(WarEventListener listener){
-            listeners.add(listener);
+        public synchronized void addWarEventListener(WarEventListener warEventListener){
+            warEventListeners.add(warEventListener);
+        }
+        public synchronized void addMissileEventListeners(MissileEventListener missileEventListener){
+            missileEventListeners.add(missileEventListener);
         }
 
     private synchronized void fireCreateMissileLauncherEvent(){
@@ -177,7 +184,7 @@ public class MissileLauncher implements Runnable {
             e.setEventType(Event_Type.CREATE_LAUNCHER);
             e.setCoordinates(coordinates);
             e.setHidden(isHidden);
-            for(WarEventListener listener: listeners){
+            for(WarEventListener listener: warEventListeners){
                 listener.handleWarEvent(e);
             }
         }
@@ -186,18 +193,25 @@ public class MissileLauncher implements Runnable {
     private synchronized void fireDestroyMissileLauncherEvent(){
         WarEvent e = new WarEvent(id);
         e.setEventType(Event_Type.DESTROY_LAUNCHER);
-        for(WarEventListener listener : listeners){
+        for(WarEventListener listener : warEventListeners){
             listener.handleWarEvent(e);
         }
     }
 
     private synchronized void fireLaunchMissileEvent(){
+            MissileEvent m = new MissileEvent();
+            m.setMissile(activeMissileEntity);
+            for(MissileEventListener missileEventListener : missileEventListeners){
+                missileEventListener.handleMissileLaunch(m);
+            }
+
+
             WarEvent e = new WarEvent(id);
             e.setEventType(Event_Type.LAUNCH_MISSILE);
             e.setCoordinates(coordinates);
             e.setTargetCoordinates(activeMissileEntity.getTargetCoordinates());
             e.setMissileId(activeMissileEntity.getId());
-            for(WarEventListener listener: listeners){
+            for(WarEventListener listener: warEventListeners){
                 listener.handleWarEvent(e);
             }
         }
@@ -206,7 +220,7 @@ public class MissileLauncher implements Runnable {
         WarEvent e = new WarEvent(id);
         e.setEventType(Event_Type.DESTROY_MISSILE);
         e.setMissileId(activeMissileEntity.getId());
-            for(WarEventListener listener: listeners){
+            for(WarEventListener listener: warEventListeners){
                 listener.handleWarEvent(e);
             }
         }
@@ -214,10 +228,11 @@ public class MissileLauncher implements Runnable {
     private synchronized void fireHideMissileLauncherEvent(){
         WarEvent e = new WarEvent(id);
         e.setEventType(Event_Type.HIDE_LAUNCHER);
-        for(WarEventListener listener : listeners){
+        for(WarEventListener listener : warEventListeners){
             listener.handleWarEvent(e);
         }
         }
+
 
 
 

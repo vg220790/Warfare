@@ -13,7 +13,7 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ObjectController {
+public class ObjectController {                          // Gets mock objects parsed through gson, and creates real bl objects that will run as threads.
 
         public void createObjects(WarParser parsedElement, Map<String, MissileLauncher> launchers, Map<String, MissileLauncherDestructor> launcherDestructors, Map<String,MissileDestructor> missileDestructors, SystemTime time){
             StaticTargets targets = new StaticTargets();
@@ -25,7 +25,7 @@ public class ObjectController {
                     int launchTime = Integer.parseInt(missile.getLaunchTime());
                     int flyTime = Integer.parseInt(missile.getFlyTime());
                     int damage = Integer.parseInt(missile.getDamage());
-                    Missile temp = new Missile(missile.getId(),tempTarget.getCoordinates(),launchTime,flyTime,damage,mLauncher.getId(),time);
+                    Missile temp = new Missile(missile.getId(),tempTarget.getCoordinates(),launchTime,flyTime,damage,time);
                     missiles.put(temp.getId(),temp);
                     newLauncher.addMissile(temp);
                 }

@@ -57,6 +57,13 @@ public class MainLogic implements Runnable{
         }
         for(MissileDestructor missileDestructor : missileDestructors.values()){
             missileDestructor.addWarEventListener(app);
+
+            for(MissileLauncher launcher : launchers.values()){
+                launcher.addMissileEventListeners(missileDestructor);
+            }
+
+
+
             Thread th = new Thread(missileDestructor);
             th.setName(missileDestructor.getId());
             th.start();
