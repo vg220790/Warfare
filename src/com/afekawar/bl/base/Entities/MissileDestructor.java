@@ -237,7 +237,7 @@ public class MissileDestructor implements Runnable, MissileEventListener {
     public synchronized void handleMissileLaunch(MissileEvent e) {
         if(targetMissiles.containsKey(e.getMissile()))
             for(Integer destTime : targetMissiles.get(e.getMissile())){
-                missilestoDestroy.put(destTime+time.getTime(),e.getMissile());
+                missilestoDestroy.put(destTime+time.getTime(),e.getMissile());     // Creates pairs of time+missileToDestruct
             }
     }
 }
