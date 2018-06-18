@@ -1,13 +1,13 @@
 package UI;
 
-import GraphicsContent.WarApplication;
-import UI.JSONParser.MockEntities.BaseEntities.M;
-import UI.JSONParser.MockEntities.BaseEntities.MD;
-import UI.JSONParser.MockEntities.BaseEntities.ML;
-import UI.JSONParser.MockEntities.BaseEntities.MLD;
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
-import UI.JSONParser.WarParser;
+import GraphicsContent.GraphicsApplication;
+import JSONParser.MockEntities.BaseEntities.M;
+import JSONParser.MockEntities.BaseEntities.MD;
+import JSONParser.MockEntities.BaseEntities.ML;
+import JSONParser.MockEntities.BaseEntities.LD;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
+import JSONParser.WarParser;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.afekawar.bl.base.MainLogic;
 import javafx.geometry.Pos;
@@ -15,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -55,7 +54,7 @@ class Initialization extends Scene {
         }
         entitiesView.getChildren().add(new Label(""));
         entitiesView.getChildren().add(new Label("Missile Launcher Destructors: "));
-        for (MLD temp : parsedEntities.getMissileLauncherDestructors()) {
+        for (LD temp : parsedEntities.getMissileLauncherDestructors()) {
             HBox destView = new HBox();
             destView.setSpacing(10);
             destView.getChildren().add(new Label("Missile Launcher Destructor Type: " + temp.getType()));
@@ -117,12 +116,12 @@ class Initialization extends Scene {
                  Thread timeThread = new Thread(time);
                  timeThread.start();
 
-                 WarApplication warApplication = new WarApplication(time);
-                 Runnable mainProgram = new MainLogic(time,warApplication,parsedEntities);
+                 GraphicsApplication graphicsApplication = new GraphicsApplication(time);
+                 Runnable mainProgram = new MainLogic(time, graphicsApplication,parsedEntities);
                  Thread mainThread = new Thread(mainProgram);
                  mainThread.start();
 
-                 warApplication.start(window);
+                 graphicsApplication.start(window);
          });
 
     }

@@ -1,8 +1,7 @@
-package UI.JSONParser.MockEntities;
+package JSONParser.MockEntities;
 
-import UI.JSONParser.MockEntities.BaseEntities.MD;
-import UI.JSONParser.MockEntities.BaseEntities.MLD;
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
+import JSONParser.MockEntities.BaseEntities.LD;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,28 +9,28 @@ import java.util.List;
 import java.util.Set;
 
 class MissileLauncherDestructors {
-    private Set<MLD> destructor;
+    private Set<LD> destructor;
 
     public MissileLauncherDestructors(){
         this.destructor = new HashSet<>();
     }
 
-    public MissileLauncherDestructors(List<MLD> destructor) {
+    public MissileLauncherDestructors(List<LD> destructor) {
         this.destructor = new HashSet<>(destructor);
     }
 
-    List<MLD> getDestructor() {
+    List<LD> getDestructor() {
         return new ArrayList<>(destructor);
     }
 
-    public boolean addMissileLauncherDestructor(MLD temp){
+    public boolean addMissileLauncherDestructor(LD temp){
         int prevSize = destructor.size();
         destructor.add(temp);
         return !(destructor.size() == prevSize);
     }
 
     public void addDestLauncher(String destId, DestLauncher temp){
-        for(MLD dest : destructor){
+        for(LD dest : destructor){
             if(dest.getId().equals(destId)){
                 dest.addDestLauncher(temp);
             }

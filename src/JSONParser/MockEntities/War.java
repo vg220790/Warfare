@@ -1,11 +1,11 @@
-package UI.JSONParser.MockEntities;
+package JSONParser.MockEntities;
 
-import UI.JSONParser.MockEntities.BaseEntities.M;
-import UI.JSONParser.MockEntities.BaseEntities.MD;
-import UI.JSONParser.MockEntities.BaseEntities.ML;
-import UI.JSONParser.MockEntities.BaseEntities.MLD;
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
+import JSONParser.MockEntities.BaseEntities.M;
+import JSONParser.MockEntities.BaseEntities.MD;
+import JSONParser.MockEntities.BaseEntities.ML;
+import JSONParser.MockEntities.BaseEntities.LD;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
 
 import java.util.List;
 
@@ -36,14 +36,14 @@ public class War {
         return missileDestructors.getDestructors();
     }
 
-    public List<MLD> getMissileLauncherDestructors() {
+    public List<LD> getMissileLauncherDestructors() {
         return missileLauncherDestructors.getDestructor();
     }
 
     public boolean addMissileLauncher(ML temp){
         return  missileLaunchers.addMissileLauncher(temp);
     }
-    public boolean addMissileLauncherDestructor(MLD temp){
+    public boolean addMissileLauncherDestructor(LD temp){
         return missileLauncherDestructors.addMissileLauncherDestructor(temp);
     }
     public boolean addMissileDestructor(MD temp){

@@ -1,5 +1,6 @@
 package UI;
-import UI.JSONParser.WarParser;
+import JSONParser.WarParser;
+import SharedInterface.ConsoleApplication;
 import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.google.gson.Gson;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Entrance extends Application {
         private Stage window;
@@ -24,7 +26,23 @@ public class Entrance extends Application {
         private VBox root;
         private WarParser parsedEntities;
         public static void main(String[] args) {
-            launch(args);
+            ConsoleApplication consoleApp;
+            int decision = 0;
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("What kind of implementation would you like to load? 1 - console, 2 - graphical ");
+            while(decision != 1 && decision != 2){
+                decision = scanner.nextInt();
+                if(decision != 1 && decision != 2)
+                    System.out.println("Wrong option! 1 - console, 2 - graphical ");
+            }
+            if(decision == 1) {
+                consoleApp = new ConsoleApplication();
+                Thread th = new Thread(consoleApp);
+                th.start();
+            }
+
+            if(decision == 2)
+                launch(args);
         }
 
         @Override

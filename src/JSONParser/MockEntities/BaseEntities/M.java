@@ -1,4 +1,4 @@
-package UI.JSONParser.MockEntities.BaseEntities;
+package JSONParser.MockEntities.BaseEntities;
 
 import java.util.Objects;
 

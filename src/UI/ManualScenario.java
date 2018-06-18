@@ -1,13 +1,12 @@
 package UI;
 
-import UI.JSONParser.MockEntities.BaseEntities.M;
-import UI.JSONParser.MockEntities.BaseEntities.MD;
-import UI.JSONParser.MockEntities.BaseEntities.ML;
-import UI.JSONParser.MockEntities.BaseEntities.MLD;
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
-import UI.JSONParser.WarParser;
-import com.afekawar.bl.base.Entities.MissileLauncher;
+import JSONParser.MockEntities.BaseEntities.M;
+import JSONParser.MockEntities.BaseEntities.MD;
+import JSONParser.MockEntities.BaseEntities.ML;
+import JSONParser.MockEntities.BaseEntities.LD;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
+import JSONParser.WarParser;
 import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
 import com.afekawar.bl.base.Entities.Target;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
@@ -17,14 +16,10 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -122,7 +117,7 @@ public class ManualScenario extends Scene {
                     type = "plane";
                 else
                     type = "ship";
-                MLD temp = new MLD(type,null);
+                LD temp = new LD(type,null);
                 boolean success = parsedEntities.addMissileLauncherDestructor(temp);
 
                 if(success) {
@@ -169,7 +164,7 @@ public class ManualScenario extends Scene {
         destroyLauncher.getChildren().add(timeValue);
         destroyLauncher.getChildren().add(new Text("seconds."));
         destroyLauncher.getChildren().add(new Text("Source Destructor: "));
-        ComboBox<MLD> mldList = new ComboBox<>();
+        ComboBox<LD> mldList = new ComboBox<>();
        // mldList.setVisibleRowCount(10);
         mldList.setMaxHeight(500);
         mldList.setPrefWidth(100);

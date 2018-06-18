@@ -1,8 +1,7 @@
-package UI.JSONParser.MockEntities;
+package JSONParser.MockEntities;
 
-import UI.JSONParser.MockEntities.BaseEntities.M;
-import UI.JSONParser.MockEntities.BaseEntities.ML;
-import com.afekawar.bl.base.Entities.MissileLauncher;
+import JSONParser.MockEntities.BaseEntities.M;
+import JSONParser.MockEntities.BaseEntities.ML;
 
 import java.util.ArrayList;
 import java.util.HashSet;

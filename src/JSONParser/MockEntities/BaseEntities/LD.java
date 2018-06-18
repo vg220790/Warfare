@@ -1,18 +1,18 @@
-package UI.JSONParser.MockEntities.BaseEntities;
+package JSONParser.MockEntities.BaseEntities;
 
-import UI.JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
+import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MLD {
+public class LD {
     private static int idInc = 1;
     private String id;
     private String type;
     private List<DestLauncher> destructedLanucher;
 
-    public MLD(String type, List<DestLauncher> destructedLanucher) {
-        this.id = "MLD30" + idInc++;
+    public LD(String type, List<DestLauncher> destructedLanucher) {
+        this.id = "LD30" + idInc++;
         this.type = type;
         if(destructedLanucher == null)
             this.destructedLanucher = new ArrayList<>();

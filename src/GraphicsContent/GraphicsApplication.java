@@ -5,6 +5,7 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -12,11 +13,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class WarApplication extends Application implements WarEventListener {
+public class GraphicsApplication extends Application implements WarEventListener {
     private Pane root;
     private SystemTime time;
 
-    public WarApplication(SystemTime time){
+    public GraphicsApplication(SystemTime time){
         this.time = time;
     }
 
@@ -67,6 +68,13 @@ public class WarApplication extends Application implements WarEventListener {
     public void start(Stage primaryStage){
         primaryStage.setScene(createContent());
         primaryStage.show();
+
+    }
+
+    public void start(){
+        Stage a = new Stage();
+        a.setScene(createContent());
+        a.show();
 
     }
 
@@ -148,4 +156,6 @@ public class WarApplication extends Application implements WarEventListener {
                 break;
         }
     }
+
+
 }

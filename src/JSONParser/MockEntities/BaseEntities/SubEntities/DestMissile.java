@@ -1,4 +1,4 @@
-package UI.JSONParser.MockEntities.BaseEntities.SubEntities;
+package JSONParser.MockEntities.BaseEntities.SubEntities;
 
 public class DestMissile {
     private String id;
