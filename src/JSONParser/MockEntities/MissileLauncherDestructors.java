@@ -20,6 +20,12 @@ class MissileLauncherDestructors {
     }
 
     List<LD> getDestructor() {
+        for(LD dest : destructor){
+            if(dest.getId() == null)
+                dest.setNextId();
+        }
+
+
         return new ArrayList<>(destructor);
     }
 

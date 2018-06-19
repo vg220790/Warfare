@@ -16,6 +16,7 @@ import java.util.List;
 public class WarParser implements WarInterface {
     private War war;
     private StaticTargets targets;
+    private Runnable mainProgram;
 
     public WarParser(){
         war = new War();

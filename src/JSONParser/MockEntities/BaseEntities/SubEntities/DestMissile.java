@@ -2,13 +2,14 @@ package JSONParser.MockEntities.BaseEntities.SubEntities;
 
 public class DestMissile {
     private String id;
+    private String destructAfterLaunch;
 
     public DestMissile(String id, String destructAfterLaunch) {
         this.id = id;
         this.destructAfterLaunch = destructAfterLaunch;
     }
 
-    private String destructAfterLaunch;
+
 
     public String getId() {
         return id;

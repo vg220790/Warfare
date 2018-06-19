@@ -82,7 +82,9 @@ public class MainLogic implements Runnable{
 
     public void addWarEntity(Object entity){
         WarEntity newEntity;
+
         newEntity = createObject(entity,time);
+        newEntity.addWarEventListener(app);
         if(newEntity instanceof MissileLauncher)
             ((MissileLauncher) newEntity).setMissileEventListeners(missileEventListeners);
         if(newEntity instanceof MissileDestructor)

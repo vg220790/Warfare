@@ -100,8 +100,8 @@ public class MissileLauncher extends WarEntity {
         System.out.println("Missile Launcher n` " + getId() + " Started...");
 
         fireCreateMissileLauncherEvent();
-        while (isWarRunning()){
-            while (!missiles.isEmpty()) {
+
+            while (!missiles.isEmpty() || isWarRunning()) {
                 if (activeMissileThread != null) {
                     try {
                         activeMissileThread.join();               // Wait for previous missile finish it's work
@@ -144,14 +144,14 @@ public class MissileLauncher extends WarEntity {
                         fireLaunchMissileEvent();
                     }
                 }
+                try {
+                    Thread.sleep(1000/60);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
-            try {
-                Thread.sleep(1000/60);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
             if(isAlive)
                 if(activeMissileThread != null)
                     try{
@@ -162,6 +162,8 @@ public class MissileLauncher extends WarEntity {
                     catch (InterruptedException e){
                      //   e.printStackTrace();
                     }
+
+
 
         }
 

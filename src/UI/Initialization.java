@@ -116,8 +116,9 @@ class Initialization extends Scene {
                  Thread timeThread = new Thread(time);
                  timeThread.start();
 
-                 GraphicsApplication graphicsApplication = new GraphicsApplication(time);
+                 GraphicsApplication graphicsApplication = new GraphicsApplication(time,parsedEntities);
                  Runnable mainProgram = new MainLogic(time, graphicsApplication,parsedEntities);
+                 graphicsApplication.setMainProgram((MainLogic)mainProgram);
                  Thread mainThread = new Thread(mainProgram);
                  mainThread.start();
 

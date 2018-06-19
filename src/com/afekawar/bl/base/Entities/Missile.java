@@ -131,7 +131,6 @@ while(state == State.INAIR){
             update();
 
             if(getTime().getExactTime() >= launchTime + flyTime) {
-                System.out.println(getId() + " died: " +getTime().getExactTime());
                 stopThread();
                 }
 

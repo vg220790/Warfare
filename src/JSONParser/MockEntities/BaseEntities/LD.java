@@ -41,4 +41,8 @@ public class LD {
     public String getId(){
         return id;
     }
+
+    public void setNextId(){
+        this.id =  "LD30" + (idInc++);
+    }
 }

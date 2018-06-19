@@ -59,7 +59,7 @@ public class ConsoleApplication implements Runnable  {
                     timeThread.start();
 
                     isWarRunning = true;
-                    this.graphicsApplication = new GraphicsApplication(time);
+                    this.graphicsApplication = new GraphicsApplication(time, warInterface);
                     mainProgram = new MainLogic(time, graphicsApplication,(WarParser)warInterface);
                     Thread mainThread = new Thread(mainProgram);
                     mainThread.start();
@@ -361,7 +361,7 @@ public class ConsoleApplication implements Runnable  {
                 Thread timeThread = new Thread(time);
                 timeThread.start();
 
-                this.graphicsApplication = new GraphicsApplication(time);
+                this.graphicsApplication = new GraphicsApplication(time,warInterface);
                 mainProgram = new MainLogic(time, graphicsApplication,(WarParser)warInterface);
                 Thread mainThread = new Thread(mainProgram);
                 mainThread.start();
