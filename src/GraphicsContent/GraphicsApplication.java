@@ -36,6 +36,7 @@ public class GraphicsApplication extends Application implements WarEventListener
     private String toastMsg;
     private MainLogic mainProgram;
 
+
     public void setMainProgram(MainLogic mainProgram){
         this.mainProgram = mainProgram;
     }
@@ -203,7 +204,7 @@ public class GraphicsApplication extends Application implements WarEventListener
             if(launcherId.getText().length() > 3)
                 launcherId.setText(oldValue);
         });
-        launcherId.setMaxWidth(35);
+        launcherId.setMaxWidth(45);
 
         launcherContainer.getChildren().addAll(addLauncher,launcherId);
 
@@ -212,7 +213,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         GridPane.setConstraints(isHidden,1,0);
         Button addLauncherBtn = new Button("Add Missile Launcher");
         addLauncherBtn.setPadding(new Insets(10));
-        addLauncherBtn.setPrefSize(155,40);
+        addLauncherBtn.setPrefSize(200,40);
         addLauncherBtn.setOnAction(event -> {
             if(!launcherId.getText().equals("")) {
                 MissileLauncher temp = new MissileLauncher("L" + launcherId.getText(), isHidden.isSelected(), null);
@@ -240,7 +241,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         Button addLauncherDestBtn = new Button("Add Launcher Destructor");
 
         addLauncherDestBtn.setPadding(new Insets(10));
-        addLauncherDestBtn.setPrefSize(155,40);
+        addLauncherDestBtn.setPrefSize(200,40);
         GridPane.setConstraints(addLauncherDestBtn,6,1);
         ComboBox<MissileLauncherDestructor.Type> types = new ComboBox<>();
         types.setItems(FXCollections.observableArrayList(MissileLauncherDestructor.Type.AIRCRAFT,MissileLauncherDestructor.Type.BATTLESHIP));
@@ -284,12 +285,12 @@ public class GraphicsApplication extends Application implements WarEventListener
             if(launcherDestId.getText().length() > 3)
                 launcherDestId.setText(oldValue);
         });
-        launcherDestId.setMaxWidth(35);
+        launcherDestId.setMaxWidth(45);
         launcherDestructorContainer.getChildren().addAll(addMissileDestructor,launcherDestId);
 
         Button addMissileDestBtn = new Button("Add Missile Destructor");
         addMissileDestBtn.setPadding(new Insets(10));
-        addMissileDestBtn.setPrefSize(155,40);
+        addMissileDestBtn.setPrefSize(200,40);
         GridPane.setConstraints(addMissileDestBtn,6,2);
         addMissileDestBtn.setOnAction(event -> {
             MissileDestructor temp = new MissileDestructor("D" + launcherDestId.getText(),null);
@@ -319,11 +320,11 @@ public class GraphicsApplication extends Application implements WarEventListener
             if(missileId.getText().length() > 3)
                 missileId.setText(oldValue);
         });
-        missileId.setMaxWidth(35);
+        missileId.setMaxWidth(45);
 
         missileContainer.getChildren().addAll(addMissile,missileId);
         Button addMissileBtn = new Button("Add Missile");
-        addMissileBtn.setPrefSize(155,40);
+        addMissileBtn.setPrefSize(200,40);
         addMissileBtn.setPadding(new Insets(10));
         GridPane.setConstraints(addMissileBtn,6,3);
         HBox targetContainer = new HBox();
@@ -345,7 +346,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         launchTimeText.setTranslateX(37);
         launchTimeContainer.getChildren().addAll(launchTimeLabel,launchTimeText);
         GridPane.setConstraints(launchTimeContainer,2,3);
-        launchTimeText.setMaxWidth(35);
+        launchTimeText.setMaxWidth(45);
         launchTimeText.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 launchTimeText.setText(newValue.replaceAll("[^\\d]", ""));
@@ -358,7 +359,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         flyTimeLabel.setTranslateY(5);
         flyTimeContainer.setPadding(new Insets(10));
         TextField flyTimeText = new TextField("2");
-        flyTimeText.setMaxWidth(35);
+        flyTimeText.setMaxWidth(45);
         GridPane.setConstraints(flyTimeContainer,3,3);
         flyTimeContainer.getChildren().addAll(flyTimeLabel,flyTimeText);
         flyTimeText.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -449,7 +450,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         timeValue.setTranslateX(30);
         timeValueContainer.getChildren().addAll(timeValueLabel,timeValue);
         GridPane.setConstraints(timeValueContainer,2,4);
-        timeValue.setMaxWidth(35);
+        timeValue.setMaxWidth(45);
         timeValue.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 timeValue.setText(newValue.replaceAll("[^\\d]", ""));
@@ -467,7 +468,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         mldList.setItems(FXCollections.observableArrayList((warInterface).getMissileLauncherDestructors()));
         mldList.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> mldList.setItems(FXCollections.observableArrayList((warInterface).getMissileLauncherDestructors())));
         Button addCommand = new Button("Add Command");
-        addCommand.setPrefSize(155,40);
+        addCommand.setPrefSize(200,40);
         GridPane.setConstraints(addCommand,6,4);
         addCommand.setOnAction(event -> {
             if (mldList.getValue() != null && mlList.getValue() != null && !timeValue.getText().equals("")) {
@@ -502,10 +503,10 @@ public class GraphicsApplication extends Application implements WarEventListener
         timeValueLabel.setTranslateY(5);
         timeValueContainer.setPadding(new Insets(10));
         TextField missileTimeValue = new TextField();
-        missileTimeValue.setMaxWidth(35);
+        missileTimeValue.setMaxWidth(45);
         missileTimeValueContainer.getChildren().addAll(missileTimeValueLabel,missileTimeValue);
         GridPane.setConstraints(missileTimeValueContainer,2,5);
-        timeValue.setMaxWidth(35);
+        timeValue.setMaxWidth(45);
         missileTimeValue.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 missileTimeValue.setText(newValue.replaceAll("[^\\d]", ""));
@@ -524,7 +525,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         mdList.setItems(FXCollections.observableArrayList((warInterface).getMissileDestructors()));
         mdList.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> mdList.setItems(FXCollections.observableArrayList((warInterface).getMissileDestructors())));
         Button addMCommand = new Button("Add Command");
-        addMCommand.setPrefSize(155,40);
+        addMCommand.setPrefSize(200,40);
         GridPane.setConstraints(addMCommand,6,5);
         addMCommand.setOnAction(event -> {
             if (mdList.getValue() != null && mList.getValue() != null && !missileTimeValue.getText().equals("")) {

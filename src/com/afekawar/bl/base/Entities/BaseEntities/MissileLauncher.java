@@ -1,5 +1,6 @@
 package com.afekawar.bl.base.Entities.BaseEntities;
 
+import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Communication.MissileEvent;
 import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
@@ -24,7 +25,7 @@ public class MissileLauncher extends WarEntity {
     private Set<MissileEventListener> missileEventListeners;
 
 
-    public MissileLauncher(){
+    public MissileLauncher(){                        // For GSON Parser Object creation.
         super();
         missileEventListeners = new HashSet<>();
 
@@ -36,14 +37,7 @@ public class MissileLauncher extends WarEntity {
 
         int index = ThreadLocalRandom.current().nextInt(0,4);
 
-        if(isHidden) {
-            this.alwaysVisible = false;
-            this.isHidden = true;
-        }
-        else {
-            this.alwaysVisible = true;
-            this.isHidden = false;
-        }
+
         this.isAlive = true;
         missile = new PriorityQueue<>();
         activeMissileThread = null;
@@ -124,6 +118,16 @@ public class MissileLauncher extends WarEntity {
         temp.addAll(missile);
 
         return temp;
+    }
+
+    @Override
+    public void init(WarInterface warInterface){
+        super.init(warInterface);
+
+        this.alwaysVisible = !isHidden;
+
+
+
     }
 
 
