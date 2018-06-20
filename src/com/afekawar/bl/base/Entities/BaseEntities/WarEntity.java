@@ -1,13 +1,18 @@
 package com.afekawar.bl.base.Entities.BaseEntities;
 
+import Logging.MyFormatter;
+import Logging.MyLogger;
 import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
+import com.afekawar.bl.base.Statistics;
 import javafx.geometry.Point2D;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Logger;
 
 
 public abstract class WarEntity implements Runnable {
@@ -16,36 +21,48 @@ public abstract class WarEntity implements Runnable {
     private Point2D velocity;
     private Point2D coordinates;
     private String id;
+    private MyLogger logger;
     private Set<WarEventListener> warEventListeners;
+    private Statistics statistics;
+
 
     public void setCoordinates(Point2D coordinates) {
         this.coordinates = coordinates;
     }
 
-    public WarEntity(){                      // Created before War is started
+    WarEntity(){                      // Created before War is started
         this.warRunning = false;
         this.velocity = new Point2D(0,0);
         this.warEventListeners = new HashSet<>();
     }
 
-    public WarEntity(String id, SystemTime time){
+    WarEntity(String id, SystemTime time){
         this.warRunning = true;
         this.velocity = new Point2D(0,0);
         this.warEventListeners = new HashSet<>();
         this.id = id;
         this.time = time;
     }
-    public WarEntity(String id){                      // Created before War is started
+    WarEntity(String id){                      // Created before War is started
         this.warRunning = false;
         this.velocity = new Point2D(0,0);
         this.warEventListeners = new HashSet<>();
         this.id = id;
     }
+    public void setLogger(MyLogger logger){
+        this.logger = logger;
+        logger.addHandler(this.getClass().getSimpleName() + "Log.txt", getClass().getName());
+    }
+
+    Logger getLogger(){
+        return logger;
+    }
 
 
     public void stopThread(){                                                       // Missile launcher destroy func
         warRunning = false;
-        System.out.println(this.getClass().getSimpleName() + " " + getId() + " Ended at " + getTime().getTime() + " seconds");
+        if(logger != null)
+            logger.info(this.getClass().getSimpleName() + " " + getId() + " Ended at " + getTime().getTime() + " seconds");
     }
 
     public SystemTime getTime() {
@@ -64,7 +81,7 @@ public abstract class WarEntity implements Runnable {
         setCoordinates(coordinates.add(velocity));
     }
 
-    public void setVelocity(Point2D velocity){
+    void setVelocity(Point2D velocity){
         this.velocity = velocity;
     }
     public void setTime(SystemTime time){
@@ -78,7 +95,7 @@ public abstract class WarEntity implements Runnable {
         this.warEventListeners = warEventListeners;
     }
 
-    public Set<WarEventListener> getListeners(){
+    Set<WarEventListener> getListeners(){
         return warEventListeners;
     }
 
@@ -99,14 +116,15 @@ public abstract class WarEntity implements Runnable {
     public synchronized void addWarEventListener(WarEventListener warEventListener){
         warEventListeners.add(warEventListener);
     }
-    public boolean isWarRunning() {
+    boolean isWarRunning() {
         return warRunning;
     }
 
 
     @Override
     public void run(){
-
+        if(logger != null)
+            getLogger().info(getClass().getSimpleName() + " " + id + " Started...");
     }
 
     @Override
@@ -121,6 +139,18 @@ public abstract class WarEntity implements Runnable {
     public void init(WarInterface warInterface){
 
     }
+
+    public void setStatistics(Statistics statistics){
+        this.statistics = statistics;
+    }
+
+    public Statistics getStatistics(){
+        return statistics;
+    }
+
+
+
+
 
 
 

@@ -1,6 +1,8 @@
 package com.afekawar.bl.base;
 
 import GraphicsContent.GraphicsApplication;
+import Logging.MyFormatter;
+import Logging.MyLogger;
 import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Entities.BaseEntities.*;
 import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
@@ -8,6 +10,9 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 
 
 import java.util.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 public class MainLogic implements Runnable{
 
@@ -19,6 +24,9 @@ public class MainLogic implements Runnable{
     private List<Thread> threads;
     private boolean warRunning;
     private Set<MissileEventListener> missileEventListeners;
+    private MyLogger logger;
+    private Statistics statistics;
+
 
     public MainLogic(SystemTime time, GraphicsApplication app, WarInterface warInterface){
         this.missiles = new HashMap<>();
@@ -29,13 +37,16 @@ public class MainLogic implements Runnable{
         this.warInterface.setMainProgram(this);
         entities = new HashMap<>();
         threads = new ArrayList<>();
+        logger = new MyLogger("SystemLog");
+        logger.addHandler("SystemLog.txt",getClass().getName());
+        statistics = new Statistics();
 
 
     }
 
     @Override
     public void run() {
-        System.out.println("System starts");
+        logger.info("System starts");
 
         warRunning = true;
         // Create Entities.
@@ -49,20 +60,10 @@ public class MainLogic implements Runnable{
         }
 
         for(WarEntity entity : entities.values()){
-            entity.startWar();
             entity.init(warInterface);            // Init some static variables after parsing from JSON file...
-            entity.addWarEventListener(app);
-            entity.setTime(time);
+            entity.startWar();
 
-            if(entity instanceof MissileDestructor)
-                missileEventListeners.add((MissileDestructor)entity);
-            if(entity instanceof MissileLauncher)
-                ((MissileLauncher) entity).setMissileEventListeners(missileEventListeners);
-
-            Thread th = new Thread(entity);
-            th.setName(entity.getId());
-            threads.add(th);
-            th.start();
+            addWarEntity(entity);
         }
 
         while(warRunning){
@@ -86,15 +87,21 @@ public class MainLogic implements Runnable{
             }
         }
 
-        System.out.println("System Halts");
+        logger.info("System Halts");
+        for (Handler handler : logger.getMyFileHandlers().values())
+            handler.close();
+
         System.exit(0);
     }
 
     public void haltSystem(){
         warRunning = false;
+
     }
 
     public void addWarEntity(WarEntity entity){
+        entity.setStatistics(statistics);
+        entity.setLogger(logger);
         entity.setTime(time);
         entity.addWarEventListener(app);
         if(entity instanceof MissileLauncher)
@@ -102,12 +109,16 @@ public class MainLogic implements Runnable{
         if(entity instanceof MissileDestructor)
             missileEventListeners.add((MissileDestructor)entity);
 
-
-        entities.put(entity.getId(),entity);
+        if(!entities.containsKey(entity.getId()))
+            entities.put(entity.getId(),entity);
         Thread th = new Thread(entity);
         th.setName(entity.getId());
         threads.add(th);
         th.start();
+    }
+
+    public void addMissileEntity(WarEntity missile){
+        missiles.put(missile.getId(),missile);
     }
 
     public void addDestLauncherCommand(String destructorId, int destTime, String launcherId){
@@ -135,5 +146,10 @@ public class MainLogic implements Runnable{
 
             entities.put(mDestructor.getId(), mDestructor);
         }
+    }
+
+
+    public String getStats(){
+        return statistics.toString();
     }
 }

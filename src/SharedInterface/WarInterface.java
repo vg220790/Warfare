@@ -22,7 +22,7 @@ public interface WarInterface {
     List<Target> getTargets();
     Target getTargetByName(String name);
     void setMainProgram(MainLogic mainProgram);
-    void showStats();
+    String showStats();
     void haltSystem();
 
 }

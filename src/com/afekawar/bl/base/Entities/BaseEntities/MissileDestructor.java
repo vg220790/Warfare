@@ -8,19 +8,18 @@ import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
-import java.beans.Transient;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
 // import java.util.logging.Logger;
 
 public class MissileDestructor extends WarEntity implements MissileEventListener {
     /* *************************************************************
      * ******************** Fields and Properties ******************
      * ************************************************************* */
-    enum Status {WAITING_MISSILE, PREPARING, DESTROYING}
+    public enum Status {WAITING_MISSILE, PREPARING, DESTROYING}
     private Status status;
     private List<DestMissile> destructdMissile;
-  //  private Logger logger;                      // TODO - Implement Logger
     private HashMap<WarEntity, TreeSet<Integer>> targetMissiles;
     private int destructLength;           // Time takes to destroy a missile.
     private Missile activeDestMissile;     // Missile that the destructor currently trying to take down.
@@ -56,15 +55,7 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
      * ******************** Getters and Setters ********************
      * ************************************************************* */
 
-    /*
-    public Logger getLogger() {
-        return logger;
-    }
 
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
-    */
 
     public void addTargetMissile(int destrTime, WarEntity missile) {
         if(targetMissiles.get(missile) == null){
@@ -104,7 +95,7 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
      * ************************************************************* */
     @Override
     public void run() {
-        System.out.println("Missile Destructor n` " + getId() + " Started...");
+        super.run();
         fireCreateMissileDestructorEvent();
 
         while(isWarRunning()){
@@ -154,6 +145,7 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
                     }
                 }
                 if (activeDestMissile.getState() == Missile.State.INAIR) {
+                    targetMissiles.remove(activeDestMissile);
                     activeDestMissile.setState(Missile.State.DEAD);
                     activeDestMissile.stopThread();
 
@@ -166,9 +158,6 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
         }
 
         }
-
-
-        System.out.println("Missile Destructor n` " + getId() + " Ended...");
 
     }
 
@@ -183,7 +172,7 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
         antiMissileThread.start();
         antiMissile.setWarEventListeners(getListeners());
         fireLaunchAntiMissileEvent();
-        System.out.println("Missile Destructor n` " + getId() + " Launched anti missile rocket towards Missile n` " + id + " at " + getTime().getTime() + " seconds..");
+        getLogger().info("Missile Destructor n` " + getId() + " Launched anti missile rocket towards Missile n` " + id + " at " + getTime().getTime() + " seconds..");
     }
 
     public synchronized void addWarEventListener(WarEventListener listener){
@@ -226,6 +215,18 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
             for(Integer destTime : targetMissiles.get(e.getMissile())){
                 missilesToDestroy.put(destTime+getTime().getTime(),e.getMissile());     // Creates pairs of time+missileToDestruct
             }
+    }
+
+    public Status getStatus(){
+        return status;
+    }
+
+    public void setStatus(Status status){
+        this.status = status;
+    }
+
+    public void setMissileToDestroy(Missile missile){
+        missilesToDestroy.put(getTime().getTime() + 5, missile);
     }
 }
 

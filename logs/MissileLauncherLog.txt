@@ -1,0 +1,2 @@
+20/06/2018 22:22:44 INFO	-->	Missile n` M3 From Launcher n` L5 Launched at 51 seconds towards Beer-Sheva
+20/06/2018 22:22:56 INFO	-->	Missile n` M3 Reached it's destination and caused 1500$ Damage!

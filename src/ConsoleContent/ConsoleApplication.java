@@ -10,6 +10,7 @@ import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncherDestructor;
 import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.afekawar.bl.base.MainLogic;
+import com.afekawar.bl.base.Statistics;
 import com.google.gson.Gson;
 import javafx.geometry.Point2D;
 
@@ -349,6 +350,9 @@ public class ConsoleApplication implements Runnable  {
                 decision = -1;
                 break;
             case 7:
+                System.out.println(warInterface.showStats());
+                success = false;
+                decision = -1;
                 break;
             case 8:
                 if(isWarRunning)

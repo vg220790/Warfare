@@ -14,12 +14,24 @@ import javafx.util.Duration;
 
 public final class Toast
 {
-    public enum msgType {LOG,ERROR}
+    public enum msgType {LOG,ERROR,STATISTICS}
     public static void makeText(Stage ownerStage, String toastMsg, msgType messageType)
     {
-        int toastDelay = 1500;
-        int fadeInDelay = 500;
-        int fadeOutDelay= 500;
+        int toastDelay;
+        int fadeInDelay;
+        int fadeOutDelay;
+
+        if(messageType == msgType.STATISTICS){
+            fadeOutDelay = 3000;
+            toastDelay = 3000;
+            fadeInDelay = 500;
+        }
+        else{
+            fadeOutDelay = 500;
+            toastDelay = 1500;
+            fadeInDelay = 500;
+        }
+
 
         Stage toastStage=new Stage();
         toastStage.initOwner(ownerStage);
@@ -28,16 +40,22 @@ public final class Toast
 
         Text text = new Text(toastMsg);
         text.setFont(Font.font("Verdana", 20));
-        if(messageType == msgType.LOG)
+        if(messageType == msgType.ERROR)
+            text.setFill(Color.RED);
+        else if(messageType == msgType.LOG)
             text.setFill(Color.BLUE);
         else
-            text.setFill(Color.RED);
+            text.setFill(Color.YELLOW);
 
 
         VBox root = new VBox();
         root.getChildren().add(text);
-        root.setStyle("-fx-background-radius: 20; -fx-background-color: rgba(0, 0, 0, 0.2); -fx-padding: 20px;");
-        root.setTranslateY(900);
+        root.setStyle("-fx-background-radius: 20; -fx-background-color: rgba(0, 0, 0, 0.4); -fx-padding: 20px;");
+        if(messageType == msgType.STATISTICS){
+            root.setTranslateY(20);
+        }
+        else
+            root.setTranslateY(900);
         root.setOpacity(0);
 
         Scene scene = new Scene(root);
@@ -66,4 +84,5 @@ public final class Toast
                 }).start());
         fadeInTimeline.play();
     }
+
 }

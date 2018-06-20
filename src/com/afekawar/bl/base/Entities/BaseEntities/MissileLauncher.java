@@ -9,6 +9,8 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
+
 import com.afekawar.bl.base.Interface.Communication.WarEvent.*;
 
 public class MissileLauncher extends WarEntity {
@@ -84,15 +86,6 @@ public class MissileLauncher extends WarEntity {
     public boolean getAlive() {
         return isAlive;
     }
-    /*
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
-    */
 
     public boolean addMissile(Missile temp){
         return this.missile.offer(temp);
@@ -139,7 +132,7 @@ public class MissileLauncher extends WarEntity {
      * ************************************************************* */
     @Override
     public void run() {
-        System.out.println("Missile Launcher n` " + getId() + " Started...");
+        super.run();
 
         fireCreateMissileLauncherEvent();
 
@@ -150,8 +143,20 @@ public class MissileLauncher extends WarEntity {
                         Thread.sleep(20);                   // To let time for graphics to update..
                         fireDestroyMissileEvent();
                         activeMissileThread = null;
+                        if(activeMissileEntity.getLaunchTime() + activeMissileEntity.getFlyTime() > getTime().getTime()){
+                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Got destroyed at: " + getTime().getTime() + " seconds.");
+                            getStatistics().addDestroyedMissile();
+                        }
+                        else {
+                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Reached it's destination and caused " + activeMissileEntity.getDamage() + "$ Damage!");
+                            getStatistics().addMissileReachedDestination();
+                            getStatistics().addDamage(activeMissileEntity.getDamage());
+                        }
+
+
+
                     } catch (InterruptedException e) {
-                        //       e.printStackTrace();
+                               getLogger().severe(e.getMessage());
                     }
                 }
                 if (isAlive && !missile.isEmpty()) {
@@ -168,7 +173,7 @@ public class MissileLauncher extends WarEntity {
                                 }
 
 
-                                System.out.println("Launcher n` " + getId() + " Waiting " + waitTime + " seconds till next Missile..");
+                                getLogger().info("Launcher n` " + getId() + " Waiting " + waitTime + " seconds till next Missile..");
                                 Thread.sleep(waitTime * 1000);
 
                             } catch (InterruptedException e) {
@@ -177,8 +182,8 @@ public class MissileLauncher extends WarEntity {
                         isHidden = false;
                         int launchTime = getTime().getTime();           // Missile's actual launch time might change, if the launcher was busy with another missile.
                         m.setLaunchTime(launchTime);
-
-                        System.out.println("Missile n` " + m.getId() + " From Launcher n` " + getId() + " Launched at " + launchTime + " seconds");
+                        getStatistics().addLaunchedMissile();
+                        getLogger().info("Missile n` " + m.getId() + " From Launcher n` " + getId() + " Launched at " + launchTime + " seconds towards " + m.getDestination());
                         Thread missileThread = new Thread(m);
                         missileThread.setName(m.getId());
                         missileThread.start();
@@ -202,10 +207,19 @@ public class MissileLauncher extends WarEntity {
                         activeMissileThread.join();
                         Thread.sleep(20);
                         fireDestroyMissileEvent();
+                        if(activeMissileEntity.getLaunchTime() + activeMissileEntity.getFlyTime() > getTime().getTime()){
+                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Got destroyed at: " + getTime().getTime() + " seconds.");
+                            getStatistics().addDestroyedMissile();
+                        }
+                        else {
+                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Reached it's destination and caused " + activeMissileEntity.getDamage() + "$ Damage!");
+                            getStatistics().addMissileReachedDestination();
+                            getStatistics().addDamage(activeMissileEntity.getDamage());
+                        }
                         activeMissileThread = null;
                     }
                     catch (InterruptedException e){
-                     //   e.printStackTrace();
+                        getLogger().severe(e.getMessage());
                     }
 
 

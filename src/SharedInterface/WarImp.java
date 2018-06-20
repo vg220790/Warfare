@@ -58,8 +58,8 @@ public class WarImp implements WarInterface {
     }
 
     @Override
-    public void showStats() {
-
+    public String showStats() {
+        return mainProgram.getStats();
     }
 
     @Override
@@ -93,6 +93,7 @@ public class WarImp implements WarInterface {
             if (t.equals(temp))
                 return false;
         }
+        mainProgram.addMissileEntity(temp);
         return war.addMissile(launcherId,temp);
     }
 

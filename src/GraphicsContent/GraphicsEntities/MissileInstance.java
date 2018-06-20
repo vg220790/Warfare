@@ -18,7 +18,6 @@ public class MissileInstance extends GameObject {
 
     @Override
     public void destroy(){
-        System.out.println(getName().getText() + " x: " + getCoordinates().getX() + " y: " + getCoordinates().getY());
         this.setAlive(false);
     }
 

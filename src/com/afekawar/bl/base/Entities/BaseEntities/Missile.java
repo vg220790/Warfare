@@ -1,7 +1,5 @@
 package com.afekawar.bl.base.Entities.BaseEntities;
 
-// import java.util.logging.Logger;
-
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
@@ -19,17 +17,16 @@ public class Missile extends WarEntity implements Comparable<Missile> {
     private Missile targetMissile;
     private MissileLauncher targetLauncher;
     private String destination;
-   // private Logger logger;
     private State state;
 
 
 
-    void setTargetMissile(Missile targetMissile){
+    void setTargetMissile(Missile targetMissile){                // If the missile is anti-missile
         this.targetMissile = targetMissile;
-    }                 // If the missile is anti-missile
-    void setTargetLauncher(MissileLauncher targetLauncher){
+    }
+    void setTargetLauncher(MissileLauncher targetLauncher){       // If the missile is alti-launcher missile
         this.targetLauncher = targetLauncher;
-    } // If the missile is alti-launcher missile
+    }
 
 
     public Missile(){           // For gson parser
@@ -46,6 +43,8 @@ public class Missile extends WarEntity implements Comparable<Missile> {
         setState(State.LOADED);
 
     }
+
+
 
 
 
@@ -85,18 +84,7 @@ public class Missile extends WarEntity implements Comparable<Missile> {
         state = State.DEAD;
     }
 
-    /*
-    public int getDamage() {
-        return damage;
-    }
-    public Logger getLogger() {
-        return logger;
-    }
 
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
-    */
     void setLaunchTime(long launchTime){
         this.launchTime = Math.toIntExact(launchTime);
     }

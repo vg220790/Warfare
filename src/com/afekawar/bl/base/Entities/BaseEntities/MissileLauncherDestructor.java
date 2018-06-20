@@ -8,7 +8,6 @@ import javafx.geometry.Point2D;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-// import java.util.logging.Logger;
 
 
 public class MissileLauncherDestructor extends WarEntity {
@@ -17,27 +16,21 @@ public class MissileLauncherDestructor extends WarEntity {
      * ************************************************************* */
     private static int idInc = 0;
     public enum Type { AIRCRAFT, BATTLESHIP }
-    private Type destType;
+    private Type destType;                                  // Type of launcher destructor
     private String type;
     private int destructLength;           // Time takes to destroy a Missile Launcher.
-    private List<DestLauncher> destructedLanucher;
-    // private Logger logger;
+    private List<DestLauncher> destructedLanucher;                                     // Needed for GSON
+
     private TreeMap<Integer,WarEntity> targetMissileLaunchers; // Will try to destroy target Missile Launcher if not null
 
 
     private MissileLauncher activeDestLauncher;                        // To check which Missile Launcher is destroyed right now
-    private Missile antiMissileLauncher;
+    private Missile antiMissileLauncher;                                // If used to destroy missiles
     private float angle;
 
 
-    public MissileLauncherDestructor(){
+    public MissileLauncherDestructor(){                        // Builder for GSON
         super("LD30" + (1 + idInc++));
-      /*  if(type.equals("plane")){
-            this.destType = Type.AIRCRAFT;
-        }
-        else{
-            this.destType = Type.BATTLESHIP;
-        }*/
         targetMissileLaunchers = new TreeMap<>();
 
         setCoordinates(new Point2D(ThreadLocalRandom.current().nextInt(300, 680 + 1),ThreadLocalRandom.current().nextInt(26, 150 + 1)));  // Set Random coordinate Outside Gaza Strip Border
@@ -67,15 +60,6 @@ public class MissileLauncherDestructor extends WarEntity {
     /* *************************************************************
      * ******************** Getters and Setters ********************
      * ************************************************************* */
-    /*
-    public Logger getLogger() {                                         // TODO - implement Logger..
-        return logger;
-    }
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
-   */
-
 
     public void addDestructedLauncher(int time, WarEntity launcher){
         targetMissileLaunchers.put(time,launcher);
@@ -86,62 +70,66 @@ public class MissileLauncherDestructor extends WarEntity {
     public List<DestLauncher> getDestLauncher(){
         return destructedLanucher;
     }
+
     /* *************************************************************
      * ******************** Run Logic ******************************
      * ************************************************************* */
     @Override
     public void run() {
-            System.out.println("Missile Launcher Destructor n` " + getId() + " Started...");
-            fireCreateMissileLauncherDestructorEvent();
-
-        while(isWarRunning()){
-            while(!targetMissileLaunchers.keySet().isEmpty()){
+        super.run();
+        fireCreateMissileLauncherDestructorEvent();
+        while (isWarRunning()){
+            while (!targetMissileLaunchers.keySet().isEmpty()) {
                 Iterator<Integer> it = targetMissileLaunchers.keySet().iterator();
                 int destructTime = it.next();
-                MissileLauncher launcher = (MissileLauncher)targetMissileLaunchers.get(destructTime);
-                while(getTime().getTime() < destructTime - destructLength){
+                MissileLauncher launcher = (MissileLauncher) targetMissileLaunchers.get(destructTime);
+                while (getTime().getTime() < destructTime - destructLength) {
                     try {
                         Thread.sleep(1000 / 60);
                         update();
-                    } catch (InterruptedException e){
-                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        getLogger().severe(e.getMessage());
                     }
                 }
                 it.remove();
 
-                if(launcher.getAlive()){
+                if (launcher.getAlive()) {
                     try {
                         activeDestLauncher = launcher;                             // Our trigger to let graphics content to know it should launch a Missile at target launcher.
                         launchAntiMissileLauncher(launcher.getId());
-                        while(antiMissileLauncher.getState() == Missile.State.INAIR){
-                            Thread.sleep(1000/60);
+                        while (antiMissileLauncher.getState() == Missile.State.INAIR) {
+                            Thread.sleep(1000 / 60);
                             update();
                         }
 
                         fireDestroyAntiMissileLauncherMissileEvent();
 
                     } catch (InterruptedException e) {
-                        e.printStackTrace();                         // This part shouldn't be interrupted.
+                        getLogger().severe(e.getMessage());
                     }
 
                     if (launcher.getAlive() && !launcher.getHidden()) {
                         activeDestLauncher.stopThread();
+                        getLogger().info("Launcher Destructor " + getId() + " destroyed Missile Launcher n` " + launcher.getId() + " at " + getTime().getTime() + " seconds.");
+                        getStatistics().addDestroyedLauncher();
+                    }
+                    else {
+                        getLogger().info("Launcher Destructor " + getId() + " failed to destroy Missile Launcher n` " + launcher.getId() + " at " + getTime().getTime() + " seconds.");
+
                     }
 
                 }
 
+
+
             }
-
-
-
-
-                try {
-                    Thread.sleep(1000/60);
-                    update();
-                } catch (InterruptedException e){
-                    e.printStackTrace();
-                }
+        try {
+            Thread.sleep(1000 / 60);
+            update();
+        } catch (InterruptedException e) {
+            getLogger().severe(e.getMessage());
         }
+    }
 
     }
 
@@ -172,9 +160,6 @@ public class MissileLauncherDestructor extends WarEntity {
         fireUpdateMissileLauncherEvent();
     }
 
-    public void addDestLauncher(int destTime, MissileLauncher destLauncher){
-        targetMissileLaunchers.put(destTime,destLauncher);
-    }
 
     private void launchAntiMissileLauncher(String id){
         Point2D collisionPoint = new Point2D(activeDestLauncher.getCoordinates().getX(), activeDestLauncher.getCoordinates().getY());
@@ -187,7 +172,7 @@ public class MissileLauncherDestructor extends WarEntity {
         antiMissileLauncherThread.start();
         antiMissileLauncher.setWarEventListeners(getListeners());
         fireLaunchAntiMissileLauncherMissileEvent();
-        System.out.println(destType + " n` " + getId() + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + getTime().getTime() + " seconds..");
+        getLogger().info(destType + " n` " + getId() + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + getTime().getTime() + " seconds..");
     }
 
     public synchronized void addWarEventListener(WarEventListener listener){
@@ -237,7 +222,7 @@ public class MissileLauncherDestructor extends WarEntity {
 
 }
 
-class DestLauncher{
+class DestLauncher{                     // Used for GSON
     private String id;
     private String destructTime;
 
