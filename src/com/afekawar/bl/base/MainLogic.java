@@ -1,7 +1,6 @@
 package com.afekawar.bl.base;
 
 import GraphicsContent.GraphicsApplication;
-import Logging.MyFormatter;
 import Logging.MyLogger;
 import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Entities.BaseEntities.*;
@@ -10,9 +9,7 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 
 
 import java.util.*;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
-import java.util.logging.Logger;
 
 public class MainLogic implements Runnable{
 

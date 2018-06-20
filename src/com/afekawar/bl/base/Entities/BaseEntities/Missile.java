@@ -53,7 +53,7 @@ public class Missile extends WarEntity implements Comparable<Missile> {
      * ******************** Getters and Setters ********************
      * ************************************************************* */
 
-    public Point2D getTargetCoordinates() {
+    Point2D getTargetCoordinates() {
         return targetCoordinates;
     }
     public String getDestination(){

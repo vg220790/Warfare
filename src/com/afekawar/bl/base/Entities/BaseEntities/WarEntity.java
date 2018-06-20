@@ -1,6 +1,5 @@
 package com.afekawar.bl.base.Entities.BaseEntities;
 
-import Logging.MyFormatter;
 import Logging.MyLogger;
 import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
@@ -8,7 +7,6 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.afekawar.bl.base.Statistics;
 import javafx.geometry.Point2D;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -144,7 +142,7 @@ public abstract class WarEntity implements Runnable {
         this.statistics = statistics;
     }
 
-    public Statistics getStatistics(){
+    Statistics getStatistics(){
         return statistics;
     }
 

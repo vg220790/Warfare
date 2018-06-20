@@ -6,7 +6,7 @@ public class Statistics {
     private int missilesLaunched;
     private int missilesReachedDestination;
     private int totatDamage;
-    public Statistics(){
+    Statistics(){
         launchersDestroyed = 0;
         missilesDestroyed = 0;
         missilesLaunched = 0;
@@ -14,54 +14,40 @@ public class Statistics {
         totatDamage = 0;
     }
 
-    public int getLaunchersDestroyed() {
-        return launchersDestroyed;
-    }
 
     public void addDestroyedLauncher() {
         this.launchersDestroyed++;
     }
-
-    public int getMissilesDestroyed() {
-        return missilesDestroyed;
-    }
-
     public void addDestroyedMissile() {
         this.missilesDestroyed++;
     }
-
-    public int getMissilesLaunched() {
-        return missilesLaunched;
-    }
-
     public void addLaunchedMissile() {
         this.missilesLaunched++;
     }
-
-    public int getMissilesReachedDestination() {
-        return missilesReachedDestination;
-    }
-
     public void addMissileReachedDestination() {
         this.missilesReachedDestination++;
     }
-
-    public int getTotatDamage() {
-        return totatDamage;
-    }
-
     public void addDamage(int damage) {
         this.totatDamage += damage;
     }
-
     @Override
     public String toString(){
         StringBuffer sb = new StringBuffer();
-        sb.append("Missiles Launched: " + missilesLaunched + ".\n");
-        sb.append("Missiles Destroyed: " + missilesDestroyed + ".\n");
-        sb.append("Missiles Reached Destination: " + missilesReachedDestination + ".\n");
-        sb.append("Launchers Destroyed: " + launchersDestroyed + ".\n");
-        sb.append("Total Damage: " + totatDamage + "$.\n");
+        sb.append("Missiles Launched: ");
+        sb.append(missilesLaunched);
+        sb.append(".\n");
+        sb.append("Missiles Destroyed: ");
+        sb.append(missilesDestroyed);
+        sb.append(".\n");
+        sb.append("Missiles Reached Destination: ");
+        sb.append(missilesReachedDestination);
+        sb.append(".\n");
+        sb.append("Launchers Destroyed: ");
+        sb.append(launchersDestroyed);
+        sb.append(".\n");
+        sb.append("Total Damage: ");
+        sb.append(totatDamage);
+        sb.append(".\n");
         return sb.toString();
     }
 }

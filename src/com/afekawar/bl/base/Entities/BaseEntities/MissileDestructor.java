@@ -10,8 +10,6 @@ import javafx.geometry.Point2D;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
-// import java.util.logging.Logger;
 
 public class MissileDestructor extends WarEntity implements MissileEventListener {
     /* *************************************************************
@@ -19,17 +17,17 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
      * ************************************************************* */
     public enum Status {WAITING_MISSILE, PREPARING, DESTROYING}
     private Status status;
-    private List<DestMissile> destructdMissile;
+    private List<DestMissile> destructdMissile;                          // Used By GSON parser
     private HashMap<WarEntity, TreeSet<Integer>> targetMissiles;
-    private int destructLength;           // Time takes to destroy a missile.
-    private Missile activeDestMissile;     // Missile that the destructor currently trying to take down.
+    private int destructLength;                                             // Time takes to destroy a missile.
+    private Missile activeDestMissile;                                      // Missile that the destructor currently trying to take down.
     private TreeMap<Integer, Missile> missilesToDestroy;
     private Missile antiMissile;
     private Thread antiMissileThread;
 
 
 
-    public MissileDestructor() {
+    public MissileDestructor() {                // Needed for GSON parser
         super();
         status = Status.WAITING_MISSILE;
         targetMissiles = new HashMap<>();
@@ -217,21 +215,13 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
             }
     }
 
-    public Status getStatus(){
-        return status;
-    }
-
-    public void setStatus(Status status){
-        this.status = status;
-    }
-
     public void setMissileToDestroy(Missile missile){
         missilesToDestroy.put(getTime().getTime() + 5, missile);
     }
 }
 
 class DestMissile {
-    private String id;
+    private String id;                                      // Needed for GSON parser
     private String destructAfterLaunch;
 
     public String getId(){

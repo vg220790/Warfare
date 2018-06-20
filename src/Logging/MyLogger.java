@@ -4,17 +4,15 @@ package Logging;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MyLogger extends Logger {
-    private ConsoleHandler consoleHandler;
     private Map<String,MyFileHandler> handlers;
 
     public MyLogger(String name) {
         super(name,null);
-        consoleHandler = new ConsoleHandler();
+        ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setFormatter(new MyFormatter());
         setUseParentHandlers(false);
         addHandler(consoleHandler);

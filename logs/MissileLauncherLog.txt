@@ -1,2 +1,11 @@
-20/06/2018 22:22:44 INFO	-->	Missile n` M3 From Launcher n` L5 Launched at 51 seconds towards Beer-Sheva
-20/06/2018 22:22:56 INFO	-->	Missile n` M3 Reached it's destination and caused 1500$ Damage!
+20/06/2018 22:33:32 INFO	-->	Launcher n` L102 Waiting 2 seconds till next Missile..
+20/06/2018 22:33:32 INFO	-->	Launcher n` L101 Waiting 2 seconds till next Missile..
+20/06/2018 22:33:32 INFO	-->	Launcher n` L103 Waiting 5 seconds till next Missile..
+20/06/2018 22:33:34 INFO	-->	Missile n` M1 From Launcher n` L101 Launched at 2 seconds towards Sderot
+20/06/2018 22:33:34 INFO	-->	Missile n` M3 From Launcher n` L102 Launched at 2 seconds towards Ofakim
+20/06/2018 22:33:37 INFO	-->	Missile n` M5 From Launcher n` L103 Launched at 5 seconds towards Sderot
+20/06/2018 22:33:39 INFO	-->	Missile n` M3 Reached it's destination and caused 5000$ Damage!
+20/06/2018 22:33:39 INFO	-->	Missile n` M7 From Launcher n` L102 Launched at 7 seconds towards Rahat
+20/06/2018 22:33:40 INFO	-->	Missile n` M7 Got destroyed at: 8 seconds.
+20/06/2018 22:33:41 INFO	-->	Missile n` M1 Got destroyed at: 9 seconds.
+20/06/2018 22:33:45 INFO	-->	Missile n` M5 Got destroyed at: 13 seconds.

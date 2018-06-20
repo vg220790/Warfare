@@ -11,7 +11,6 @@ public interface WarInterface {
     boolean addMissileLauncherDestructor(MissileLauncherDestructor temp);
     boolean addMissileDestructor(MissileDestructor temp);
     boolean addMissile(String launcherId, Missile temp);
-    void launchAntiLauncherMissile();
     void addDestLauncher(String destId, String destLauncherId, int destTime);
     void addDestMissile(String destId, String destMissileId, int destTime);
     List<MissileLauncher> getMissileLaunchers();

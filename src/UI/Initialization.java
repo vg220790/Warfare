@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 class Initialization extends Scene {
 
 
-     Initialization(VBox root, double width, double height, WarInterface parsedEntities, Stage window, Scene prevScene, SystemTime time) {
+     Initialization(VBox root, double width, double height, WarInterface warInterface, Stage window, Scene prevScene, SystemTime time) {
         super(root, width, height);
 
 
@@ -29,7 +29,7 @@ class Initialization extends Scene {
         entitiesView.setSpacing(5);
 
         entitiesView.getChildren().add(new Label("Missile Launchers: "));
-        for (MissileLauncher temp : parsedEntities.getMissileLaunchers()) {
+        for (MissileLauncher temp : warInterface.getMissileLaunchers()) {
             HBox launcherView = new HBox();
             launcherView.setSpacing(10);
             launcherView.getChildren().add(new Label("Missile Launcher ID: " + temp.getId()));
@@ -40,7 +40,7 @@ class Initialization extends Scene {
                 HBox box = new HBox();
                 box.setSpacing(12);
                 box.getChildren().add(new Label("Missile ID: " + mis.getId()));
-                box.getChildren().add(new Label("Missile Destination Coordinates: " + mis.getTargetCoordinates()));
+                box.getChildren().add(new Label("Missile Destination: " + warInterface.getTargetByName(mis.getDestination())));
                 box.getChildren().add(new Label("Missile Launch Time: " + mis.getLaunchTime()));
                 box.getChildren().add(new Label("Missile Fly Time: " + mis.getFlyTime()));
                 box.getChildren().add(new Label("Missile Damage: " + mis.getDamage()));
@@ -52,37 +52,25 @@ class Initialization extends Scene {
         }
         entitiesView.getChildren().add(new Label(""));
         entitiesView.getChildren().add(new Label("Missile Launcher Destructors: "));
-        for (MissileLauncherDestructor temp : parsedEntities.getMissileLauncherDestructors()) {
+        for (MissileLauncherDestructor temp : warInterface.getMissileLauncherDestructors()) {
             HBox destView = new HBox();
             destView.setSpacing(10);
             destView.getChildren().add(new Label("Missile Launcher Destructor Type: " + temp.getType()));
             destView.getChildren().add(new Label("Amount Of Launchers to Destroy: " + String.valueOf(temp.getDestLauncher().size())));
             VBox destroyLauncherList = new VBox();
-            /*for (DestLa dest : temp.getDestructedLanucher()) {
-                HBox box = new HBox();
-                box.setSpacing(12);
-                box.getChildren().add(new Label("Launcher ID: " + dest.getId()));
-                box.getChildren().add(new Label("Destruct Time: " + dest.getDestructTime()));
-                destroyLauncherList.getChildren().add(box);
-            }*/
+
             destView.getChildren().add(destroyLauncherList);
             entitiesView.getChildren().add(destView);
         }
         entitiesView.getChildren().add(new Label(""));
         entitiesView.getChildren().add(new Label("Missile Destructors: "));
-        for (MissileDestructor temp : parsedEntities.getMissileDestructors()) {
+        for (MissileDestructor temp : warInterface.getMissileDestructors()) {
             HBox destView = new HBox();
             destView.setSpacing(10);
             destView.getChildren().add(new Label("Missile Destructor ID: " + temp.getId()));
             destView.getChildren().add(new Label("Amount Of Missiles to Destroy: " + String.valueOf(temp.getDestructdMissile().size())));
             VBox destroyMissilesList = new VBox();
-            /*for (DestMissile dest : temp.getDestructdMissile()) {
-                HBox box = new HBox();
-                box.setSpacing(12);
-                box.getChildren().add(new Label("Missile ID: " + dest.getId()));
-                box.getChildren().add(new Label("Destruct After Launch Time: " + dest.getDestructAfterLaunch()));
-                destroyMissilesList.getChildren().add(box);
-            }*/
+
             destView.getChildren().add(destroyMissilesList);
             entitiesView.getChildren().add(destView);
         }
@@ -114,8 +102,8 @@ class Initialization extends Scene {
                  Thread timeThread = new Thread(time);
                  timeThread.start();
 
-                 GraphicsApplication graphicsApplication = new GraphicsApplication(time,parsedEntities);
-                 Runnable mainProgram = new MainLogic(time, graphicsApplication,parsedEntities);
+                 GraphicsApplication graphicsApplication = new GraphicsApplication(time,warInterface);
+                 Runnable mainProgram = new MainLogic(time, graphicsApplication,warInterface);
                  graphicsApplication.setMainProgram((MainLogic)mainProgram);
                  Thread mainThread = new Thread(mainProgram);
                  mainThread.start();

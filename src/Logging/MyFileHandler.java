@@ -8,7 +8,7 @@ import java.util.logging.LogRecord;
 public class MyFileHandler extends FileHandler{
     private transient String pattern;
     private String sourceClassName;
-    public MyFileHandler(String pattern, String sourceClassName) throws IOException, SecurityException {
+    MyFileHandler(String pattern, String sourceClassName) throws IOException, SecurityException {
         super(pattern);
         this.pattern = pattern;
         this.sourceClassName = sourceClassName;

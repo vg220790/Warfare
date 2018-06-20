@@ -9,7 +9,6 @@ import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
 
 import com.afekawar.bl.base.Interface.Communication.WarEvent.*;
 

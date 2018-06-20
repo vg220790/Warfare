@@ -99,11 +99,6 @@ public class WarImp implements WarInterface {
 
 
     @Override
-    public void launchAntiLauncherMissile() {
-
-    }
-
-    @Override
     public List<Missile> getAllMissiles(){
         return war.getAllMissiles();
     }
