@@ -1,5 +1,8 @@
 package ConsoleContent;
 
+// Max Golotsvan - 314148123
+// Maksim Lyashenko - 317914877
+
 import GraphicsContent.GraphicsApplication;
 import SharedInterface.WarImp;
 import SharedInterface.WarInterface;

@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d6550424-4ad9-4828-bb88-92dece5397e4" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/MissileDestructorLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/MissileDestructorLog.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/MissileLauncherDestructorLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/MissileLauncherDestructorLog.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/MissileLauncherLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/MissileLauncherLog.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/SystemLog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/logs/SystemLog.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ConsoleContent/ConsoleApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ConsoleContent/ConsoleApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GraphicsContent/GraphicsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GraphicsContent/GraphicsApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logging/MyFileHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logging/MyFileHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logging/MyLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logging/MyLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SharedInterface/WarImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SharedInterface/WarImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SharedInterface/WarInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SharedInterface/WarInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Initialization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Initialization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/Missile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/Missile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/MissileDestructor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/MissileDestructor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/MissileLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/MissileLauncher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/WarEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/WarEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/MainLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/MainLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/afekawar/bl/base/Statistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/afekawar/bl/base/Statistics.java" afterDir="false" />
-    </list>
+    <list default="true" id="d6550424-4ad9-4828-bb88-92dece5397e4" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -117,7 +98,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Missile.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Entrance.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/UI/Entrance.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Missile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/Missile.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="707">
@@ -135,18 +128,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="168">
               <caret line="9" column="36" lean-forward="true" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MissileLaunchers.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Controllers/MissileLaunchers.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -183,7 +164,6 @@
         <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Controllers/MissileDestructors.java" />
         <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Controllers/MissileLauncherDestructors.java" />
         <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/Controllers/MissileLaunchers.java" />
-        <option value="$PROJECT_DIR$/src/UI/Entrance.java" />
         <option value="$PROJECT_DIR$/src/GraphicsContent/Resources/style.css" />
         <option value="$PROJECT_DIR$/src/Logging/Formatter.java" />
         <option value="$PROJECT_DIR$/src/Logging/MyFilter.java" />
@@ -204,6 +184,7 @@
         <option value="$PROJECT_DIR$/src/ConsoleContent/ConsoleApplication.java" />
         <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/MissileDestructor.java" />
         <option value="$PROJECT_DIR$/src/com/afekawar/bl/base/Entities/BaseEntities/Missile.java" />
+        <option value="$PROJECT_DIR$/src/UI/Entrance.java" />
       </list>
     </option>
   </component>
@@ -230,6 +211,12 @@
               <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
               <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Afeka-War-Game" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Afeka-War-Game" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="UI" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -384,11 +371,26 @@
       <option name="project" value="LOCAL" />
       <updated>1529522690403</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="v1.0 - Added Logger, Statistics manager, fixed bugs.&#10;TODO - further fix warnings + qa.">
+      <created>1529523741776</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1529523741776</updated>
+    </task>
+    <task id="LOCAL-00008" summary="v1.0 - Added Logger, Statistics manager, fixed bugs.&#10;TODO - further fix warnings + qa.">
+      <created>1529523918995</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1529523918995</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -398,7 +400,7 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.48996833" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.48996833" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="right" id="Coverage" side_tool="true" weight="0.3296875" />
       <window_info anchor="bottom" id="Terminal" order="7" />
@@ -565,16 +567,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-359">
           <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/UI/Entrance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -859,6 +851,16 @@
           <folding>
             <element signature="e#904#905#0" expanded="true" />
             <element signature="e#1003#1004#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/UI/Entrance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

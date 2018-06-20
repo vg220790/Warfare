@@ -1,5 +1,8 @@
 package UI;
 
+// Max Golotsvan - 314148123
+// Maksim Lyashenko - 317914877
+
 import GraphicsContent.GraphicsApplication;
 import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Entities.BaseEntities.Missile;

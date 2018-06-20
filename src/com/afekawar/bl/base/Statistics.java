@@ -1,5 +1,8 @@
 package com.afekawar.bl.base;
 
+// Max Golotsvan - 314148123
+// Maksim Lyashenko - 317914877
+
 public class Statistics {
     private int launchersDestroyed;
     private int missilesDestroyed;

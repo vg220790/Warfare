@@ -1,5 +1,8 @@
 package UI;
 
+// Max Golotsvan - 314148123
+// Maksim Lyashenko - 317914877
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
