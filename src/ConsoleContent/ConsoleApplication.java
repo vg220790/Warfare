@@ -1,6 +1,8 @@
-package SharedInterface;
+package ConsoleContent;
 
 import GraphicsContent.GraphicsApplication;
+import SharedInterface.WarImp;
+import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Entities.BaseEntities.Missile;
 import com.afekawar.bl.base.Entities.BaseEntities.MissileDestructor;
 import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncher;
@@ -26,15 +28,20 @@ public class ConsoleApplication implements Runnable  {
     public void run() {
         boolean isWarRunning = false;
         WarInterface warInterface = new WarImp();
+        String decisionStr = "";
         int decision = 0;
-        System.out.println("Would you like to load config from JSON? 1 - yes, 2 - no");
         Scanner scanner = new Scanner(System.in);
 
-        while (decision != 1 && decision != 2) {
-            decision = scanner.nextInt();
+        while(decision != 1 && decision != 2) {
+            while (!isNumeric(decisionStr)) {
+                System.out.println("Would you like to load config from JSON? 1 - yes, 2 - no");
+                decisionStr = scanner.next();
+            }
+            decision = Integer.parseInt(decisionStr);
             if(decision != 1 && decision != 2)
-                System.out.println("Wrong input!! Would you like to load config from JSON? 1 - yes, 2 - no");
+                decisionStr = "";
         }
+
         if(decision == 1) {
             File configuration = null;
             JFileChooser fileChooser = new JFileChooser();

@@ -3,4 +3,8 @@
     -fx-background-repeat: stretch;   
     -fx-background-size: 1500 948;
     -fx-background-position: center center;
+
+    -fx-font-size:14px;
+    -fx-font-weight:bold;
 }
+

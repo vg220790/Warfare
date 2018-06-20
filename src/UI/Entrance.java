@@ -2,7 +2,7 @@ package UI;
 
 
 import GraphicsContent.GraphicsApplication;
-import SharedInterface.ConsoleApplication;
+import ConsoleContent.ConsoleApplication;
 import SharedInterface.WarImp;
 import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Time.MyTime;
@@ -33,14 +33,21 @@ public class Entrance extends Application {
         private WarInterface parsedEntities;
         public static void main(String[] args) {
             ConsoleApplication consoleApp;
-            int decision = 0;
             Scanner scanner = new Scanner(System.in);
-            System.out.println("What kind of implementation would you like to load? 1 - console, 2 - graphical ");
-            while(decision != 1 && decision != 2){
-                decision = scanner.nextInt();
+            int decision = 0;
+            String decisionStr = "";
+
+
+            while(decision != 1 && decision != 2) {
+                while (!isNumeric(decisionStr)) {
+                    System.out.println("What kind of implementation would you like to load? 1 - console, 2 - graphical ");
+                    decisionStr = scanner.next();
+                }
+                decision = Integer.parseInt(decisionStr);
                 if(decision != 1 && decision != 2)
-                    System.out.println("Wrong option! 1 - console, 2 - graphical ");
+                    decisionStr = "";
             }
+
             if(decision == 1) {
                 consoleApp = new ConsoleApplication();
                 Thread th = new Thread(consoleApp);
@@ -135,5 +142,18 @@ public class Entrance extends Application {
 
             primaryStage.show();
         }
+
+    private static boolean isNumeric(String str)
+    {
+        try
+        {
+            Double.parseDouble(str);
+        }
+        catch(NumberFormatException nfe)
+        {
+            return false;
+        }
+        return true;
+    }
     }
 

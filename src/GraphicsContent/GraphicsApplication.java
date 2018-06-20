@@ -190,7 +190,7 @@ public class GraphicsApplication extends Application implements WarEventListener
 
 
         HBox launcherContainer = new HBox();
-        Label addLauncher = new Label("Missile Launcher ID:  L");
+        Label addLauncher = new Label("Missile Launcher ID:                 L");
         addLauncher.setTranslateY(5);
         launcherContainer.setPadding(new Insets(5));
         GridPane.setConstraints(launcherContainer,0,0);
@@ -204,7 +204,7 @@ public class GraphicsApplication extends Application implements WarEventListener
                 launcherId.setText(oldValue);
         });
         launcherId.setMaxWidth(35);
-        launcherId.setTranslateX(22);
+
         launcherContainer.getChildren().addAll(addLauncher,launcherId);
 
         CheckBox isHidden = new CheckBox("Is Hidden?");
@@ -270,11 +270,12 @@ public class GraphicsApplication extends Application implements WarEventListener
 
 
         HBox launcherDestructorContainer = new HBox();
-        Label addMissileDestructor = new Label("Missile Destructor ID:  MD");
+        Label addMissileDestructor = new Label("Missile Destructor ID:          MD");
         addMissileDestructor.setTranslateY(5);
         launcherDestructorContainer.setPadding(new Insets(5));
         GridPane.setConstraints(launcherDestructorContainer,0,2);
         TextField launcherDestId = new TextField();
+
         // To restrict user input to only numbers with max 3-digit size
         launcherDestId.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
@@ -305,7 +306,7 @@ public class GraphicsApplication extends Application implements WarEventListener
 
 
         HBox missileContainer = new HBox();
-        Label addMissile = new Label("Missile ID:  M");
+        Label addMissile = new Label("Missile ID:                              M");
         addMissile.setTranslateY(5);
         missileContainer.setPadding(new Insets(10));
         GridPane.setConstraints(missileContainer,0,3);
@@ -319,7 +320,7 @@ public class GraphicsApplication extends Application implements WarEventListener
                 missileId.setText(oldValue);
         });
         missileId.setMaxWidth(35);
-        missileId.setTranslateX(63);
+
         missileContainer.getChildren().addAll(addMissile,missileId);
         Button addMissileBtn = new Button("Add Missile");
         addMissileBtn.setPrefSize(155,40);
