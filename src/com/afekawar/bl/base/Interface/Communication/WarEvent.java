@@ -1,6 +1,6 @@
 package com.afekawar.bl.base.Interface.Communication;
 
-import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncherDestructor;
 import javafx.geometry.Point2D;
 
 public class WarEvent {

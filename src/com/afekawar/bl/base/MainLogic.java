@@ -1,17 +1,11 @@
 package com.afekawar.bl.base;
 
 import GraphicsContent.GraphicsApplication;
-import JSONParser.MockEntities.BaseEntities.LD;
-import JSONParser.MockEntities.BaseEntities.M;
-import JSONParser.MockEntities.BaseEntities.MD;
-import JSONParser.MockEntities.BaseEntities.ML;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
 import SharedInterface.WarInterface;
-import JSONParser.WarParser;
-import com.afekawar.bl.base.Entities.*;
+import com.afekawar.bl.base.Entities.BaseEntities.*;
 import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
+
 
 import java.util.*;
 
@@ -20,19 +14,21 @@ public class MainLogic implements Runnable{
     private WarInterface warInterface;
     private SystemTime time;
     private GraphicsApplication app;
-    private WarParser parsedEntities;
     private Map<String,WarEntity> entities;
     private Map<String,WarEntity> missiles;
+    private List<Thread> threads;
     private boolean warRunning;
     private Set<MissileEventListener> missileEventListeners;
 
-    public MainLogic(SystemTime time, GraphicsApplication app, WarParser parsedEntities){
+    public MainLogic(SystemTime time, GraphicsApplication app, WarInterface warInterface){
         this.missiles = new HashMap<>();
         this.missileEventListeners = new HashSet<>();
         this.time = time;
         this.app = app;
-        this.parsedEntities = parsedEntities;
+        this.warInterface = warInterface;
+        this.warInterface.setMainProgram(this);
         entities = new HashMap<>();
+        threads = new ArrayList<>();
 
 
     }
@@ -40,13 +36,23 @@ public class MainLogic implements Runnable{
     @Override
     public void run() {
         System.out.println("System starts");
+
         warRunning = true;
         // Create Entities.
 
-        createObjects(parsedEntities,entities,missiles,time);
+        createObjects(warInterface,entities,missiles,time);
+
+        for(WarEntity entity : missiles.values()){
+            ((Missile)entity).setTargetCoordinates(warInterface.getTargetByName(((Missile)entity).getDestination()).getCoordinates());
+            entity.setTime(time);
+            entity.startWar();
+        }
 
         for(WarEntity entity : entities.values()){
+            entity.startWar();
+            entity.init(warInterface);            // Init some static variables after parsing from JSON file...
             entity.addWarEventListener(app);
+            entity.setTime(time);
 
             if(entity instanceof MissileDestructor)
                 missileEventListeners.add((MissileDestructor)entity);
@@ -55,6 +61,7 @@ public class MainLogic implements Runnable{
 
             Thread th = new Thread(entity);
             th.setName(entity.getId());
+            threads.add(th);
             th.start();
         }
 
@@ -71,38 +78,38 @@ public class MainLogic implements Runnable{
         for(WarEntity entity : entities.values()){
            entity.stopThread();
         }
-
+        for(Thread th : threads){
+            try {
+                th.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         System.out.println("System Halts");
+        System.exit(0);
     }
 
     public void haltSystem(){
         warRunning = false;
     }
 
-    public void addWarEntity(Object entity){
-        WarEntity newEntity;
-
-        newEntity = createObject(entity,time);
-        newEntity.addWarEventListener(app);
-        if(newEntity instanceof MissileLauncher)
-            ((MissileLauncher) newEntity).setMissileEventListeners(missileEventListeners);
-        if(newEntity instanceof MissileDestructor)
-            missileEventListeners.add((MissileDestructor)newEntity);
+    public void addWarEntity(WarEntity entity){
+        entity.setTime(time);
+        entity.addWarEventListener(app);
+        if(entity instanceof MissileLauncher)
+            ((MissileLauncher) entity).setMissileEventListeners(missileEventListeners);
+        if(entity instanceof MissileDestructor)
+            missileEventListeners.add((MissileDestructor)entity);
 
 
-        entities.put(newEntity.getId(),newEntity);
-        Thread th = new Thread(newEntity);
-        th.setName(newEntity.getId());
+        entities.put(entity.getId(),entity);
+        Thread th = new Thread(entity);
+        th.setName(entity.getId());
+        threads.add(th);
         th.start();
     }
-    public void addMissileEntity(String launcherId, M missile){
-        WarEntity newEntity;
-        newEntity = createObject(missile,time);
-        (newEntity).setCoordinates((entities.get(launcherId)).getCoordinates());
-        missiles.put(newEntity.getId(),newEntity);
-        ((MissileLauncher)entities.get(launcherId)).addMissile((Missile)newEntity);
-    }
+
     public void addDestLauncherCommand(String destructorId, int destTime, String launcherId){
         ((MissileLauncherDestructor)entities.get(destructorId)).addDestructedLauncher(destTime,entities.get(launcherId));
     }
@@ -110,66 +117,23 @@ public class MainLogic implements Runnable{
         ((MissileDestructor)entities.get(destructorId)).addTargetMissile(destTime,missiles.get(missileId));
     }
 
-    public synchronized void createObjects(WarParser parsedElement, Map<String,WarEntity> entities,Map<String,WarEntity> missiles, SystemTime time) {
-        StaticTargets targets = new StaticTargets();
-        for (ML mLauncher : parsedElement.getMissileLaunchers()) {
-            MissileLauncher newLauncher = new MissileLauncher(mLauncher.getId(), mLauncher.isHidden(), time);
-            for (M missile : mLauncher.getMissile()) {
-                Target tempTarget = targets.getTargetByName(missile.getDestination());
-                int launchTime = Integer.parseInt(missile.getLaunchTime());
-                int flyTime = Integer.parseInt(missile.getFlyTime());
-                int damage = Integer.parseInt(missile.getDamage());
-                Missile temp = new Missile(missile.getId(), tempTarget.getCoordinates(), launchTime, flyTime, damage, time);
-                temp.setCoordinates(newLauncher.getCoordinates());
-                missiles.put(temp.getId(),temp);
-                newLauncher.addMissile(temp);
+    private synchronized void createObjects(WarInterface parsedElement, Map<String,WarEntity> entities,Map<String,WarEntity> missiles, SystemTime time) {
+        for (MissileLauncher mLauncher : parsedElement.getMissileLaunchers()) {
+            for (Missile missile : mLauncher.getMissiles()) {
+                missile.setCoordinates(mLauncher.getCoordinates());
+                missiles.put(missile.getId(),missile);
             }
-            entities.put(newLauncher.getId(), newLauncher);
+            entities.put(mLauncher.getId(), mLauncher);
         }
 
-        for (LD mLDestructor : parsedElement.getMissileLauncherDestructors()) {
-            MissileLauncherDestructor newDestructor = new MissileLauncherDestructor(mLDestructor.getType(), time);
-            for (DestLauncher destLauncher : mLDestructor.getDestructedLanucher()) {
-                int destTime = Integer.parseInt(destLauncher.getDestructTime());
-                newDestructor.addDestructedLauncher(destTime, entities.get(destLauncher.getId()));
-            }
-            entities.put(newDestructor.getId(), newDestructor);
+        for (MissileLauncherDestructor mLDestructor : parsedElement.getMissileLauncherDestructors()) {
+
+            entities.put(mLDestructor.getId(), mLDestructor);
         }
 
-        for (MD mDestructor : parsedElement.getMissileDestructors()) {
-            MissileDestructor newDestructor = new MissileDestructor(mDestructor.getId(), time);
-            for (DestMissile destMissile : mDestructor.getDestructdMissile()) {
-                int destAfterLaunch = Integer.parseInt(destMissile.getDestructAfterLaunch());
-                newDestructor.addTargetMissile(destAfterLaunch, missiles.get(destMissile.getId()));
-            }
-            entities.put(newDestructor.getId(), newDestructor);
-        }
+        for (MissileDestructor mDestructor : parsedElement.getMissileDestructors()) {
 
-
-    }
-
-    public synchronized WarEntity createObject(Object entity, SystemTime time){
-        StaticTargets targets = new StaticTargets();
-        if(entity instanceof ML){
-            MissileLauncher newLauncher = new MissileLauncher(((ML) entity).getId(),((ML) entity).isHidden(),time);
-            return newLauncher;
+            entities.put(mDestructor.getId(), mDestructor);
         }
-        if(entity instanceof LD){
-            MissileLauncherDestructor newLauncherDestructor = new MissileLauncherDestructor(((LD) entity).getType(),time);
-            return newLauncherDestructor;
-        }
-        if(entity instanceof MD){
-            MissileDestructor newDestructor = new MissileDestructor(((MD) entity).getId(),time);
-            return newDestructor;
-        }
-        if(entity instanceof M){
-            Target destTarget = targets.getTargetByName(((M) entity).getDestination());
-            int launchTime = Integer.parseInt(((M) entity).getLaunchTime());
-            int flyTime = Integer.parseInt(((M) entity).getFlyTime());
-            int damage = Integer.parseInt(((M) entity).getDamage());
-            Missile newMissile = new Missile(((M) entity).getId(),destTarget.getCoordinates(),launchTime,flyTime,damage,time);
-            return newMissile;
-        }
-        return null;
     }
 }

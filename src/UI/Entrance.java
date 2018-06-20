@@ -1,15 +1,23 @@
 package UI;
-import JSONParser.WarParser;
+
+
+import GraphicsContent.GraphicsApplication;
 import SharedInterface.ConsoleApplication;
+import SharedInterface.WarImp;
+import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
+import com.afekawar.bl.base.MainLogic;
 import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 
 import java.io.File;
 import java.io.FileReader;
@@ -19,12 +27,11 @@ import java.util.Scanner;
 public class Entrance extends Application {
         private Stage window;
         private Scene scene1;
-        private Scene manualScenario;
         private Scene scene2;
         private FileChooser fileChooser;
         private SystemTime time;
         private VBox root;
-        private WarParser parsedEntities;
+        private WarInterface parsedEntities;
         public static void main(String[] args) {
             ConsoleApplication consoleApp;
             int decision = 0;
@@ -50,7 +57,7 @@ public class Entrance extends Application {
             this.window = primaryStage;
             time = new MyTime();
             root = new VBox();
-            parsedEntities = new WarParser();
+            parsedEntities = new WarImp();
 
 
             window.setTitle("Afeka War Game");
@@ -59,6 +66,7 @@ public class Entrance extends Application {
 
             Button configBtn = new Button();
             Button manualBtn = new Button();
+
             configBtn.setMinSize(250,70);
             manualBtn.setMinSize(250,70);
             configBtn.setText("Load Scenario from Configuration File");
@@ -72,7 +80,7 @@ public class Entrance extends Application {
                 Gson gson = new Gson();
 
                 try {
-                    parsedEntities = gson.fromJson(new FileReader(configuration), WarParser.class);
+                    parsedEntities = gson.fromJson(new FileReader(configuration), WarImp.class);
 
 
 
@@ -88,9 +96,16 @@ public class Entrance extends Application {
 
             });
             manualBtn.setOnAction(event -> {
-                manualScenario = new ManualScenario(new VBox(),1500,948, parsedEntities, window, scene1, time);
+                Thread timeThread = new Thread(time);
+                timeThread.start();
 
-                window.setScene(manualScenario);
+                GraphicsApplication graphicsApplication = new GraphicsApplication(time,parsedEntities);
+                Runnable mainProgram = new MainLogic(time, graphicsApplication,parsedEntities);
+                graphicsApplication.setMainProgram((MainLogic)mainProgram);
+                Thread mainThread = new Thread(mainProgram);
+                mainThread.start();
+
+                graphicsApplication.start(window);
                     }
 
             );

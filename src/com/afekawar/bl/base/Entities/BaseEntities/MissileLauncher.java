@@ -1,4 +1,4 @@
-package com.afekawar.bl.base.Entities;
+package com.afekawar.bl.base.Entities.BaseEntities;
 
 import com.afekawar.bl.base.Interface.Communication.MissileEvent;
 import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
@@ -15,13 +15,42 @@ public class MissileLauncher extends WarEntity {
      * ******************** Fields and Properties ******************
      * ************************************************************* */
   //  private Logger logger;             // TODO - implement Logger
-    private Queue<Missile> missiles;
+    private PriorityQueue<Missile> missile;
     private boolean isAlive;
     private boolean isHidden;
     private boolean alwaysVisible;
     private Thread activeMissileThread;            // TODO - Implement proper Stop Thread to Missile Class and replace this with Reference to the Runnable Object
     private Missile activeMissileEntity;
     private Set<MissileEventListener> missileEventListeners;
+
+
+    public MissileLauncher(){
+        super();
+        missileEventListeners = new HashSet<>();
+
+        int randomNumbersMinX[] = {680,740,610,450};
+        int randomNumbersMaxX[] = {760,870,660,620};
+
+        int randomNumbersMinY[] = {140,40,220,400};
+        int randomNumbersMaxY[] = {210,125,300,500};
+
+        int index = ThreadLocalRandom.current().nextInt(0,4);
+
+        if(isHidden) {
+            this.alwaysVisible = false;
+            this.isHidden = true;
+        }
+        else {
+            this.alwaysVisible = true;
+            this.isHidden = false;
+        }
+        this.isAlive = true;
+        missile = new PriorityQueue<>();
+        activeMissileThread = null;
+        activeMissileEntity = null;
+        setCoordinates(new Point2D(ThreadLocalRandom.current().nextInt(randomNumbersMinX[index], randomNumbersMaxX[index] + 1),ThreadLocalRandom.current().nextInt(randomNumbersMinY[index], randomNumbersMaxY[index] + 1)));  // Set Random coordinate within Gaza Strip
+
+    }
 
     public MissileLauncher(String id, boolean isHidden, SystemTime time){
         super(id,time);
@@ -44,7 +73,7 @@ public class MissileLauncher extends WarEntity {
             this.isHidden = false;
         }
         this.isAlive = true;
-        missiles = new PriorityQueue<>();
+        missile = new PriorityQueue<>();
         activeMissileThread = null;
         activeMissileEntity = null;
         setCoordinates(new Point2D(ThreadLocalRandom.current().nextInt(randomNumbersMinX[index], randomNumbersMaxX[index] + 1),ThreadLocalRandom.current().nextInt(randomNumbersMinY[index], randomNumbersMaxY[index] + 1)));  // Set Random coordinate within Gaza Strip
@@ -55,10 +84,10 @@ public class MissileLauncher extends WarEntity {
      * ******************** Getters and Setters ********************
      * ************************************************************* */
 
-    boolean getHidden() {
+    public boolean getHidden() {
         return isHidden;
     }
-    boolean getAlive() {
+    public boolean getAlive() {
         return isAlive;
     }
     /*
@@ -71,8 +100,8 @@ public class MissileLauncher extends WarEntity {
     }
     */
 
-    public void addMissile(Missile temp){
-        this.missiles.offer(temp);
+    public boolean addMissile(Missile temp){
+        return this.missile.offer(temp);
     }
 
 
@@ -84,9 +113,18 @@ public class MissileLauncher extends WarEntity {
         }
         isAlive = false;
         fireDestroyMissileLauncherEvent();
-        missiles.clear();
+        missile.clear();
     }
 
+    public Queue<Missile> getMissiles(){
+        Queue<Missile> temp = new PriorityQueue<>();
+        if(activeMissileEntity != null)
+            if(activeMissileEntity.getState() == Missile.State.INAIR)
+                temp.add(activeMissileEntity);
+        temp.addAll(missile);
+
+        return temp;
+    }
 
 
 
@@ -101,18 +139,20 @@ public class MissileLauncher extends WarEntity {
 
         fireCreateMissileLauncherEvent();
 
-            while (!missiles.isEmpty() || isWarRunning()) {
+            while (!missile.isEmpty() || isWarRunning()) {
                 if (activeMissileThread != null) {
                     try {
                         activeMissileThread.join();               // Wait for previous missile finish it's work
                         Thread.sleep(20);                   // To let time for graphics to update..
                         fireDestroyMissileEvent();
+                        activeMissileThread = null;
                     } catch (InterruptedException e) {
                         //       e.printStackTrace();
                     }
                 }
-                if (isAlive && !missiles.isEmpty()) {
-                    Missile m = missiles.poll();
+                if (isAlive && !missile.isEmpty()) {
+                    Missile m = missile.poll();
+
                     if (m != null) {
                         int waitTime = m.getLaunchTime() - getTime().getTime();     // Check if the next missile's launch time is later than earlier missile finished it's fly...
                         if (waitTime > 0)
@@ -158,6 +198,7 @@ public class MissileLauncher extends WarEntity {
                         activeMissileThread.join();
                         Thread.sleep(20);
                         fireDestroyMissileEvent();
+                        activeMissileThread = null;
                     }
                     catch (InterruptedException e){
                      //   e.printStackTrace();

@@ -1,5 +1,6 @@
-package com.afekawar.bl.base.Entities;
+package com.afekawar.bl.base.Entities.BaseEntities;
 
+import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
@@ -21,6 +22,11 @@ public abstract class WarEntity implements Runnable {
         this.coordinates = coordinates;
     }
 
+    public WarEntity(){                      // Created before War is started
+        this.warRunning = false;
+        this.velocity = new Point2D(0,0);
+        this.warEventListeners = new HashSet<>();
+    }
 
     public WarEntity(String id, SystemTime time){
         this.warRunning = true;
@@ -28,6 +34,12 @@ public abstract class WarEntity implements Runnable {
         this.warEventListeners = new HashSet<>();
         this.id = id;
         this.time = time;
+    }
+    public WarEntity(String id){                      // Created before War is started
+        this.warRunning = false;
+        this.velocity = new Point2D(0,0);
+        this.warEventListeners = new HashSet<>();
+        this.id = id;
     }
 
 
@@ -54,6 +66,9 @@ public abstract class WarEntity implements Runnable {
 
     public void setVelocity(Point2D velocity){
         this.velocity = velocity;
+    }
+    public void setTime(SystemTime time){
+        this.time = time;
     }
     Point2D getVelocity(){
         return velocity;
@@ -91,6 +106,19 @@ public abstract class WarEntity implements Runnable {
 
     @Override
     public void run(){
+
+    }
+
+    @Override
+    public String toString(){
+        return id;
+    }
+
+    public void startWar(){
+        warRunning = true;
+    }
+
+    public void init(WarInterface warInterface){
 
     }
 

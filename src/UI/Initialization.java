@@ -1,13 +1,11 @@
 package UI;
 
 import GraphicsContent.GraphicsApplication;
-import JSONParser.MockEntities.BaseEntities.M;
-import JSONParser.MockEntities.BaseEntities.MD;
-import JSONParser.MockEntities.BaseEntities.ML;
-import JSONParser.MockEntities.BaseEntities.LD;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
-import JSONParser.WarParser;
+import SharedInterface.WarInterface;
+import com.afekawar.bl.base.Entities.BaseEntities.Missile;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileDestructor;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncher;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncherDestructor;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.afekawar.bl.base.MainLogic;
 import javafx.geometry.Pos;
@@ -21,7 +19,7 @@ import javafx.stage.Stage;
 class Initialization extends Scene {
 
 
-     Initialization(VBox root, double width, double height, WarParser parsedEntities, Stage window, Scene prevScene, SystemTime time) {
+     Initialization(VBox root, double width, double height, WarInterface parsedEntities, Stage window, Scene prevScene, SystemTime time) {
         super(root, width, height);
 
 
@@ -31,18 +29,18 @@ class Initialization extends Scene {
         entitiesView.setSpacing(5);
 
         entitiesView.getChildren().add(new Label("Missile Launchers: "));
-        for (ML temp : parsedEntities.getMissileLaunchers()) {
+        for (MissileLauncher temp : parsedEntities.getMissileLaunchers()) {
             HBox launcherView = new HBox();
             launcherView.setSpacing(10);
             launcherView.getChildren().add(new Label("Missile Launcher ID: " + temp.getId()));
-            launcherView.getChildren().add(new Label("isHidden: " + String.valueOf(temp.isHidden())));
-            launcherView.getChildren().add(new Label("Amount Of Missiles: " + String.valueOf(temp.getMissile().size())));
+            launcherView.getChildren().add(new Label("isHidden: " + String.valueOf(temp.getHidden())));
+            launcherView.getChildren().add(new Label("Amount Of Missiles: " + String.valueOf(temp.getMissiles().size())));
             VBox missileList = new VBox();
-            for (M mis : temp.getMissile()) {
+            for (Missile mis : temp.getMissiles()) {
                 HBox box = new HBox();
                 box.setSpacing(12);
                 box.getChildren().add(new Label("Missile ID: " + mis.getId()));
-                box.getChildren().add(new Label("Missile Destination: " + mis.getDestination()));
+                box.getChildren().add(new Label("Missile Destination Coordinates: " + mis.getTargetCoordinates()));
                 box.getChildren().add(new Label("Missile Launch Time: " + mis.getLaunchTime()));
                 box.getChildren().add(new Label("Missile Fly Time: " + mis.getFlyTime()));
                 box.getChildren().add(new Label("Missile Damage: " + mis.getDamage()));
@@ -54,37 +52,37 @@ class Initialization extends Scene {
         }
         entitiesView.getChildren().add(new Label(""));
         entitiesView.getChildren().add(new Label("Missile Launcher Destructors: "));
-        for (LD temp : parsedEntities.getMissileLauncherDestructors()) {
+        for (MissileLauncherDestructor temp : parsedEntities.getMissileLauncherDestructors()) {
             HBox destView = new HBox();
             destView.setSpacing(10);
             destView.getChildren().add(new Label("Missile Launcher Destructor Type: " + temp.getType()));
-            destView.getChildren().add(new Label("Amount Of Launchers to Destroy: " + String.valueOf(temp.getDestructedLanucher().size())));
+            destView.getChildren().add(new Label("Amount Of Launchers to Destroy: " + String.valueOf(temp.getDestLauncher().size())));
             VBox destroyLauncherList = new VBox();
-            for (DestLauncher dest : temp.getDestructedLanucher()) {
+            /*for (DestLa dest : temp.getDestructedLanucher()) {
                 HBox box = new HBox();
                 box.setSpacing(12);
                 box.getChildren().add(new Label("Launcher ID: " + dest.getId()));
                 box.getChildren().add(new Label("Destruct Time: " + dest.getDestructTime()));
                 destroyLauncherList.getChildren().add(box);
-            }
+            }*/
             destView.getChildren().add(destroyLauncherList);
             entitiesView.getChildren().add(destView);
         }
         entitiesView.getChildren().add(new Label(""));
         entitiesView.getChildren().add(new Label("Missile Destructors: "));
-        for (MD temp : parsedEntities.getMissileDestructors()) {
+        for (MissileDestructor temp : parsedEntities.getMissileDestructors()) {
             HBox destView = new HBox();
             destView.setSpacing(10);
             destView.getChildren().add(new Label("Missile Destructor ID: " + temp.getId()));
             destView.getChildren().add(new Label("Amount Of Missiles to Destroy: " + String.valueOf(temp.getDestructdMissile().size())));
             VBox destroyMissilesList = new VBox();
-            for (DestMissile dest : temp.getDestructdMissile()) {
+            /*for (DestMissile dest : temp.getDestructdMissile()) {
                 HBox box = new HBox();
                 box.setSpacing(12);
                 box.getChildren().add(new Label("Missile ID: " + dest.getId()));
                 box.getChildren().add(new Label("Destruct After Launch Time: " + dest.getDestructAfterLaunch()));
                 destroyMissilesList.getChildren().add(box);
-            }
+            }*/
             destView.getChildren().add(destroyMissilesList);
             entitiesView.getChildren().add(destView);
         }

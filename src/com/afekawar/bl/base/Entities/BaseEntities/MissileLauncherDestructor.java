@@ -1,14 +1,12 @@
-package com.afekawar.bl.base.Entities;
+package com.afekawar.bl.base.Entities.BaseEntities;
 
+import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 // import java.util.logging.Logger;
 
@@ -19,9 +17,11 @@ public class MissileLauncherDestructor extends WarEntity {
      * ************************************************************* */
     private static int idInc = 0;
     public enum Type { AIRCRAFT, BATTLESHIP }
-    private Type type;
+    private Type destType;
+    private String type;
     private int destructLength;           // Time takes to destroy a Missile Launcher.
-   // private Logger logger;
+    private List<DestLauncher> destructedLanucher;
+    // private Logger logger;
     private TreeMap<Integer,WarEntity> targetMissileLaunchers; // Will try to destroy target Missile Launcher if not null
 
 
@@ -29,13 +29,31 @@ public class MissileLauncherDestructor extends WarEntity {
     private Missile antiMissileLauncher;
     private float angle;
 
-    public MissileLauncherDestructor(String type, SystemTime time){
-        super("LD30" + (1 + idInc++),time);
-        if(type.equals("plane")){
-            this.type = Type.AIRCRAFT;
+
+    public MissileLauncherDestructor(){
+        super("LD30" + (1 + idInc++));
+      /*  if(type.equals("plane")){
+            this.destType = Type.AIRCRAFT;
         }
         else{
-            this.type = Type.BATTLESHIP;
+            this.destType = Type.BATTLESHIP;
+        }*/
+        targetMissileLaunchers = new TreeMap<>();
+
+        setCoordinates(new Point2D(ThreadLocalRandom.current().nextInt(300, 680 + 1),ThreadLocalRandom.current().nextInt(26, 150 + 1)));  // Set Random coordinate Outside Gaza Strip Border
+        destructLength = 2;
+        activeDestLauncher = null;
+        angle = 0;
+
+    }
+    public MissileLauncherDestructor(String destType, SystemTime time){
+        super("LD30" + (1 + idInc++),time);
+        this.type = destType;
+        if(destType.equals("plane")){
+            this.destType = Type.AIRCRAFT;
+        }
+        else{
+            this.destType = Type.BATTLESHIP;
         }
         targetMissileLaunchers = new TreeMap<>();
 
@@ -62,7 +80,12 @@ public class MissileLauncherDestructor extends WarEntity {
     public void addDestructedLauncher(int time, WarEntity launcher){
         targetMissileLaunchers.put(time,launcher);
     }
-
+    public Type getType(){
+        return destType;
+    }
+    public List<DestLauncher> getDestLauncher(){
+        return destructedLanucher;
+    }
     /* *************************************************************
      * ******************** Run Logic ******************************
      * ************************************************************* */
@@ -123,13 +146,34 @@ public class MissileLauncherDestructor extends WarEntity {
     }
 
     @Override
+    public void init(WarInterface warInterface){
+        super.init(warInterface);
+        if(type.equals("plane"))
+            this.destType = Type.AIRCRAFT;
+        else
+            this.destType = Type.BATTLESHIP;
+
+        for(DestLauncher destLauncher : destructedLanucher){
+            for(MissileLauncher missileLauncher : warInterface.getMissileLaunchers()){
+                if(missileLauncher.getId().equals(destLauncher.getId())){
+                    targetMissileLaunchers.put(destLauncher.getDestTime(),missileLauncher);
+                }
+            }
+        }
+    }
+
+    @Override
     public void update(){
         super.update();
-        if(this.type == MissileLauncherDestructor.Type.AIRCRAFT){
+        if(this.destType == MissileLauncherDestructor.Type.AIRCRAFT){
             angle += Math.PI/16;
             setVelocity(new Point2D(Math.cos(angle/60),  Math.sin(angle/60)));
         }
         fireUpdateMissileLauncherEvent();
+    }
+
+    public void addDestLauncher(int destTime, MissileLauncher destLauncher){
+        targetMissileLaunchers.put(destTime,destLauncher);
     }
 
     private void launchAntiMissileLauncher(String id){
@@ -143,7 +187,7 @@ public class MissileLauncherDestructor extends WarEntity {
         antiMissileLauncherThread.start();
         antiMissileLauncher.setWarEventListeners(getListeners());
         fireLaunchAntiMissileLauncherMissileEvent();
-        System.out.println(type + " n` " + getId() + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + getTime().getTime() + " seconds..");
+        System.out.println(destType + " n` " + getId() + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + getTime().getTime() + " seconds..");
     }
 
     public synchronized void addWarEventListener(WarEventListener listener){
@@ -154,7 +198,7 @@ public class MissileLauncherDestructor extends WarEntity {
         WarEvent e = new WarEvent(getId());
         e.setEventType(WarEvent.Event_Type.CREATE_MISSILE_LAUNCHER_DESTRUCTOR);
         e.setCoordinates(getCoordinates());
-        e.setDestructorType(type);
+        e.setDestructorType(destType);
         for(WarEventListener listener: getListeners()){
             listener.handleWarEvent(e);
         }
@@ -191,4 +235,17 @@ public class MissileLauncherDestructor extends WarEntity {
     }
 
 
+}
+
+class DestLauncher{
+    private String id;
+    private String destructTime;
+
+
+    public String getId(){
+        return id;
+    }
+    int getDestTime(){
+        return Integer.parseInt(destructTime);
+    }
 }

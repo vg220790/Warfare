@@ -1,6 +1,6 @@
 package GraphicsContent.GraphicsEntities;
 
-import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncherDestructor;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 

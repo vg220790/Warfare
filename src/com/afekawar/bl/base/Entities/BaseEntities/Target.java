@@ -1,4 +1,4 @@
-package com.afekawar.bl.base.Entities;
+package com.afekawar.bl.base.Entities.BaseEntities;
 
 import javafx.geometry.Point2D;
 

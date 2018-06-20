@@ -16,7 +16,8 @@ import javafx.util.Duration;
 
 public final class Toast
 {
-    public static void makeText(Stage ownerStage, String toastMsg, ManualScenario.msgType messageType)
+    public enum msgType {LOG,ERROR}
+    public static void makeText(Stage ownerStage, String toastMsg, msgType messageType)
     {
         int toastDelay = 1500;
         int fadeInDelay = 500;
@@ -29,7 +30,7 @@ public final class Toast
 
         Text text = new Text(toastMsg);
         text.setFont(Font.font("Verdana", 20));
-        if(messageType == ManualScenario.msgType.LOG)
+        if(messageType == msgType.LOG)
             text.setFill(Color.BLUE);
         else
             text.setFill(Color.RED);

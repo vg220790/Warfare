@@ -1,5 +1,6 @@
-package com.afekawar.bl.base.Entities;
+package com.afekawar.bl.base.Entities.BaseEntities;
 
+import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Communication.MissileEvent;
 import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
@@ -7,7 +8,7 @@ import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
 
-import javax.swing.text.html.parser.Entity;
+import java.beans.Transient;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 // import java.util.logging.Logger;
@@ -18,6 +19,7 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
      * ************************************************************* */
     enum Status {WAITING_MISSILE, PREPARING, DESTROYING}
     private Status status;
+    private List<DestMissile> destructdMissile;
   //  private Logger logger;                      // TODO - Implement Logger
     private HashMap<WarEntity, TreeSet<Integer>> targetMissiles;
     private int destructLength;           // Time takes to destroy a missile.
@@ -26,6 +28,18 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
     private Missile antiMissile;
     private Thread antiMissileThread;
 
+
+
+    public MissileDestructor() {
+        super();
+        status = Status.WAITING_MISSILE;
+        targetMissiles = new HashMap<>();
+        setCoordinates(new Point2D(ThreadLocalRandom.current().nextInt(800, 1100 + 1),ThreadLocalRandom.current().nextInt(200, 660 + 1)));  // Set Random coordinate within Israel Defense Border
+        destructLength = 2;
+        activeDestMissile = null;
+        antiMissile = null;
+        missilesToDestroy = new TreeMap<>();
+    }
 
     public MissileDestructor(String id, SystemTime time) {
         super(id,time);
@@ -58,6 +72,29 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
             targetMissiles.put(missile,temp);
         }
         targetMissiles.get(missile).add(destrTime);
+    }
+
+
+
+    public List<DestMissile> getDestructdMissile(){
+        return destructdMissile;
+    }
+
+    @Override
+    public void init(WarInterface warInterface){
+        super.init(warInterface);
+
+        for(DestMissile destMissile : destructdMissile){
+            for(Missile missile : warInterface.getAllMissiles()){
+                if(missile.getId().equals(destMissile.getId())){
+                    if(targetMissiles.get(missile) == null){
+                        TreeSet<Integer> temp = new TreeSet<>();
+                        targetMissiles.put(missile,temp);
+                    }
+                    targetMissiles.get(missile).add(destMissile.getDestTime());
+                }
+            }
+        }
     }
 
 
@@ -189,5 +226,17 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
             for(Integer destTime : targetMissiles.get(e.getMissile())){
                 missilesToDestroy.put(destTime+getTime().getTime(),e.getMissile());     // Creates pairs of time+missileToDestruct
             }
+    }
+}
+
+class DestMissile {
+    private String id;
+    private String destructAfterLaunch;
+
+    public String getId(){
+        return id;
+    }
+    int getDestTime(){
+        return Integer.parseInt(destructAfterLaunch);
     }
 }

@@ -1,16 +1,11 @@
-package com.afekawar.bl.base.Entities;
+package com.afekawar.bl.base.Entities.BaseEntities;
 
 // import java.util.logging.Logger;
 
-import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import javafx.geometry.Point2D;
-
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 public class Missile extends WarEntity implements Comparable<Missile> {
     /* *************************************************************
@@ -23,8 +18,10 @@ public class Missile extends WarEntity implements Comparable<Missile> {
     private Point2D targetCoordinates;
     private Missile targetMissile;
     private MissileLauncher targetLauncher;
+    private String destination;
    // private Logger logger;
     private State state;
+
 
 
     void setTargetMissile(Missile targetMissile){
@@ -34,6 +31,11 @@ public class Missile extends WarEntity implements Comparable<Missile> {
         this.targetLauncher = targetLauncher;
     } // If the missile is alti-launcher missile
 
+
+    public Missile(){           // For gson parser
+        super();
+        setState(State.LOADED);
+    }
 
     public Missile(String id,Point2D targetCoordinates, int launchTime, int flyTime,int damage, SystemTime time){
         super(id,time);
@@ -46,18 +48,35 @@ public class Missile extends WarEntity implements Comparable<Missile> {
     }
 
 
+
+
     /* *************************************************************
      * ******************** Getters and Setters ********************
      * ************************************************************* */
 
-    Point2D getTargetCoordinates() {
+    public Point2D getTargetCoordinates() {
         return targetCoordinates;
+    }
+    public String getDestination(){
+        return destination;
+    }
+    public void setDestination(String destination){
+        this.destination = destination;
+    }
+    public void setTargetCoordinates(Point2D targetCoordinates){
+        this.targetCoordinates = targetCoordinates;
     }
     State getState() {
         return state;
     }
-    int getLaunchTime(){
+    public int getLaunchTime(){
         return launchTime;
+    }
+    public int getFlyTime(){
+        return flyTime;
+    }
+    public int getDamage(){
+        return damage;
     }
 
     @Override
@@ -68,7 +87,7 @@ public class Missile extends WarEntity implements Comparable<Missile> {
 
     /*
     public int getDamage() {
-        return damage;activeMissileCoordinates
+        return damage;
     }
     public Logger getLogger() {
         return logger;
@@ -84,9 +103,7 @@ public class Missile extends WarEntity implements Comparable<Missile> {
     void setState(State state) {
         this.state = state;
     }
-   // public void setCoordinates(Point2D coordinates){
- //       this.coordinates = coordinates;
- //   }
+
 
     /* *************************************************************
      * ******************** Run Logic ******************************

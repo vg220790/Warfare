@@ -1,17 +1,15 @@
 package SharedInterface;
 
 import GraphicsContent.GraphicsApplication;
-import JSONParser.MockEntities.BaseEntities.M;
-import JSONParser.MockEntities.BaseEntities.MD;
-import JSONParser.MockEntities.BaseEntities.ML;
-import JSONParser.MockEntities.BaseEntities.LD;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
-import JSONParser.WarParser;
+import com.afekawar.bl.base.Entities.BaseEntities.Missile;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileDestructor;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncher;
+import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncherDestructor;
 import com.afekawar.bl.base.Interface.Time.MyTime;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.afekawar.bl.base.MainLogic;
 import com.google.gson.Gson;
+import javafx.geometry.Point2D;
 
 import javax.swing.*;
 import java.io.File;
@@ -24,13 +22,13 @@ public class ConsoleApplication implements Runnable  {
     private WarInterface warInterface;
     private boolean isWarRunning;
     private Runnable mainProgram;
+    private SystemTime time;
 
 
     @Override
     public void run() {
         isWarRunning = false;
-        warInterface = new WarParser();
-       // parsedEntities = new WarParser();
+        warInterface = new WarImp();
         int decision = 0;
         System.out.println("Would you like to load config from JSON? 1 - yes, 2 - no");
         Scanner scanner = new Scanner(System.in);
@@ -53,14 +51,14 @@ public class ConsoleApplication implements Runnable  {
                 Gson gson = new Gson();
 
                 try {
-                    warInterface = gson.fromJson(new FileReader(configuration), WarParser.class);
+                    warInterface = gson.fromJson(new FileReader(configuration), WarImp.class);
                     SystemTime time = new MyTime();
                     Thread timeThread = new Thread(time);
                     timeThread.start();
 
                     isWarRunning = true;
                     this.graphicsApplication = new GraphicsApplication(time, warInterface);
-                    mainProgram = new MainLogic(time, graphicsApplication,(WarParser)warInterface);
+                    mainProgram = new MainLogic(time, graphicsApplication,warInterface);
                     Thread mainThread = new Thread(mainProgram);
                     mainThread.start();
 
@@ -127,7 +125,7 @@ public class ConsoleApplication implements Runnable  {
                     String hidden = scanner.next();
                     boolean isHidden;
                     isHidden = hidden.equals("yes");
-                    ML temp = new ML(launcherId, isHidden, null);
+                    MissileLauncher temp = new MissileLauncher(launcherId, isHidden, null);
 
 
                     success = warInterface.addMissileLauncher(temp);
@@ -135,9 +133,9 @@ public class ConsoleApplication implements Runnable  {
                     if(!success)
                         System.out.println("Launcher exist/wrong fields!!!");
                     else {
-                        System.out.println(temp.getId() + " Added!!");
                         if(isWarRunning)
-                            ((MainLogic)mainProgram).addWarEntity(temp);
+                            ((MainLogic)mainProgram).addWarEntity(temp);        // If the war runs, start the thread right away.
+                        System.out.println(temp.getId() + " Added!!");
                     }
 
                 }
@@ -149,7 +147,7 @@ public class ConsoleApplication implements Runnable  {
                 while(!success) {
                     System.out.println("Type: type 'plane' for Plane, or anything else for Battleship");
                     String type = scanner.next();
-                    LD temp = new LD(type, null);
+                    MissileLauncherDestructor temp = new MissileLauncherDestructor(type, null);
                     success = warInterface.addMissileLauncherDestructor(temp);
                     if(!success)
                         System.out.println("Launcher Destructor exist/wrong fields!!!");
@@ -172,7 +170,7 @@ public class ConsoleApplication implements Runnable  {
                         launcherId = scanner.next();
                     }
                     launcherId = "MD" + launcherId;
-                    MD temp = new MD(launcherId,null);
+                    MissileDestructor temp = new MissileDestructor(launcherId,null);
 
                     success = warInterface.addMissileDestructor(temp);
 
@@ -189,13 +187,21 @@ public class ConsoleApplication implements Runnable  {
                 success = false;
                 break;
             case 4:
-                System.out.println("Launcher's Id to add missiles to: ONLY NUMBERS ALLOWED");
-                launcherId = scanner.next();
+                boolean launcherExist;
+               launcherId = "";
                 while(!isNumeric(launcherId)){
                     System.out.println("Launcher's Id to add missiles to: ONLY NUMBERS ALLOWED");
                     launcherId = scanner.next();
+
+                launcherExist = (warInterface.getLauncherById("L"+launcherId) != null);
+                    if(!launcherExist){
+                        System.out.println("Launcher With that ID doesn't exists!");
+                        launcherId = "";
+                    }
+
                 }
                 launcherId = "L" + launcherId;
+
                 String amount = "";
                 while(!isNumeric(amount)){
                     System.out.println("Amount of missiles to add: (1-3)");
@@ -220,55 +226,60 @@ public class ConsoleApplication implements Runnable  {
                     mId = "M" + mId;
 
                     System.out.println("Enter Missile destination: type b/n/r/o/s = Beer-Sheva/Netivot/Rahat/Ofakim/Sderot");
-                    String destination = scanner.next();
-                    while(!destination.equals("b") && !destination.equals("n") && !destination.equals("r") && !destination.equals("o") && !destination.equals("s")){
+                    String destinationStr = scanner.next();
+                    while(!destinationStr.equals("b") && !destinationStr.equals("n") && !destinationStr.equals("r") && !destinationStr.equals("o") && !destinationStr.equals("s")){
                         System.out.println("Enter Missile destination: type b/n/r/o/s = Beer-Sheva/Netivot/Rahat/Ofakim/Sderot");
-                        destination = scanner.next();
+                        destinationStr = scanner.next();
                     }
-                    switch (destination){
+                    switch (destinationStr){
                         case "b":
-                            destination = "Beer-Sheva";
+                            destinationStr = "Beer-Sheva";
                             break;
                         case "n":
-                            destination = "Netivot";
+                            destinationStr = "Netivot";
                             break;
                         case "r":
-                            destination = "Rahat";
+                            destinationStr = "Rahat";
                             break;
                         case "o":
-                            destination = "Ofakim";
+                            destinationStr = "Ofakim";
                             break;
                         case "s":
-                            destination = "Sderot";
+                            destinationStr = "Sderot";
                             break;
                     }
                     System.out.println("Missile launch time: ONLY NUMBERS ALLOWED!!");
-                    String launchTime = scanner.next();
-                    while(!isNumeric(launchTime)) {
+                    String launchTimeStr = scanner.next();
+                    while(!isNumeric(launchTimeStr)) {
                         System.out.println("Missile launch time: ONLY NUMBERS ALLOWED!!");
-                        launchTime = scanner.next();
+                        launchTimeStr = scanner.next();
                     }
                     System.out.println("Missile fly time: ONLY NUMBERS ALLOWED!!");
-                    String flyTime = scanner.next();
-                    while(!isNumeric(flyTime)) {
+                    String flyTimeStr = scanner.next();
+                    while(!isNumeric(flyTimeStr)) {
                         System.out.println("Missile fly time: ONLY NUMBERS ALLOWED!!");
-                        flyTime = scanner.next();
+                        flyTimeStr = scanner.next();
                     }
                     System.out.println("Missile's potential damage: ONLY NUMBERS ALLOWED!!");
-                    String damage = scanner.next();
-                    while(!isNumeric(flyTime)) {
+                    String damageStr = scanner.next();
+                    while(!isNumeric(flyTimeStr)) {
                         System.out.println("Missile's potential damage: ONLY NUMBERS ALLOWED!!");
-                        flyTime = scanner.next();
+                        flyTimeStr = scanner.next();
                     }
-                    M tempMissile = new M(mId, destination, launchTime, flyTime, damage);
-                   success =  warInterface.addMissile(launcherId, tempMissile);
+                    Point2D coordinates = warInterface.getTargetByName(destinationStr).getCoordinates();
+                    int launchTime = Integer.parseInt(launchTimeStr);
+                    int flyTime = Integer.parseInt(flyTimeStr);
+                    int damage = Integer.parseInt(damageStr);
 
+
+                    Missile tempMissile = new Missile(mId, coordinates, launchTime, flyTime, damage,time);
+                    tempMissile.setDestination(destinationStr);
+                    tempMissile.setCoordinates(warInterface.getLauncherById(launcherId).getCoordinates());
+                    success =  warInterface.addMissile(launcherId, tempMissile);
                     if(!success)
                         System.out.println("Missile exist/wrong fields!!!");
                     else {
                         System.out.println(tempMissile.getId() + " Added!!");
-                        if(isWarRunning)
-                            ((MainLogic)mainProgram).addMissileEntity(launcherId,tempMissile);
                     }
                 }
                 success = false;
@@ -297,7 +308,7 @@ public class ConsoleApplication implements Runnable  {
                         destTime = scanner.next();
                     }
 
-                    DestLauncher temp = new DestLauncher(destId, destTime);
+                  /*  DestLauncher temp = new DestLauncher(destId, destTime);     TODO
                     success = warInterface.addDestLauncher(launcherId,temp);
                     if(!success)
                         System.out.println("Operation failed (Destructor doesn't exist?)!!!");
@@ -305,7 +316,7 @@ public class ConsoleApplication implements Runnable  {
                         System.out.println("Operation for Destructor " + launcherId + " Added!!");
                         if(isWarRunning)
                             ((MainLogic)mainProgram).addDestLauncherCommand(launcherId,Integer.parseInt(destTime),destId);
-                    }
+                    }*/
 
                 }
                 success = false;
@@ -334,7 +345,7 @@ public class ConsoleApplication implements Runnable  {
                         destTime = scanner.next();
                     }
 
-                    DestMissile temp = new DestMissile(destId, destTime);
+                    /*DestMissile temp = new DestMissile(destId, destTime);        TODO
                     success = warInterface.addDestMissile(launcherId,temp);
                     if(!success)
                         System.out.println("Operation failed (Destructor doesn't exist?)!!!");
@@ -342,7 +353,7 @@ public class ConsoleApplication implements Runnable  {
                         System.out.println("Operation for Destructor " + launcherId + " Added!!");
                         if(isWarRunning)
                             ((MainLogic)mainProgram).addDestMissileCommand(launcherId,Integer.parseInt(destTime),destId);
-                    }
+                    }*/
 
                 }
                 success = false;
@@ -357,12 +368,12 @@ public class ConsoleApplication implements Runnable  {
                 break;
             case 0:
                 isWarRunning = true;
-                SystemTime time = new MyTime();
+                time = new MyTime();
                 Thread timeThread = new Thread(time);
                 timeThread.start();
 
                 this.graphicsApplication = new GraphicsApplication(time,warInterface);
-                mainProgram = new MainLogic(time, graphicsApplication,(WarParser)warInterface);
+                mainProgram = new MainLogic(time, graphicsApplication,warInterface);
                 Thread mainThread = new Thread(mainProgram);
                 mainThread.start();
                 decision = -1;

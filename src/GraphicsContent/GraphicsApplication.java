@@ -1,17 +1,9 @@
 package GraphicsContent;
 import GraphicsContent.GraphicsEntities.*;
-import JSONParser.MockEntities.BaseEntities.LD;
-import JSONParser.MockEntities.BaseEntities.M;
-import JSONParser.MockEntities.BaseEntities.MD;
-import JSONParser.MockEntities.BaseEntities.ML;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestLauncher;
-import JSONParser.MockEntities.BaseEntities.SubEntities.DestMissile;
-import JSONParser.WarParser;
 import SharedInterface.WarInterface;
-import UI.ManualScenario;
+import UI.Toast.msgType;
 import UI.Toast;
-import com.afekawar.bl.base.Entities.MissileLauncherDestructor;
-import com.afekawar.bl.base.Entities.Target;
+import com.afekawar.bl.base.Entities.BaseEntities.*;
 import com.afekawar.bl.base.Interface.Communication.*;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 import com.afekawar.bl.base.MainLogic;
@@ -23,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 
 
 import java.util.HashMap;
@@ -70,8 +64,6 @@ public class GraphicsApplication extends Application implements WarEventListener
         gridPane = createControlPanel();
 
         root.getChildren().add(gridPane);
-
-
 
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(this.getClass().getResource("Resources/style.css").toExternalForm());
@@ -193,7 +185,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         }
     }
 
-    public GridPane createControlPanel(){
+    private GridPane createControlPanel(){
         gridPane = new GridPane();
         gridPane.setPadding(new Insets(10,10,10,10));
         gridPane.setVgap(1);
@@ -232,20 +224,20 @@ public class GraphicsApplication extends Application implements WarEventListener
             @Override
             public void handle(ActionEvent event) {
                 if(!launcherId.getText().equals("")) {
-                    ML temp = new ML("L" + launcherId.getText(), isHidden.isSelected(), null);
+                    MissileLauncher temp = new MissileLauncher("L" + launcherId.getText(), isHidden.isSelected(), null);
                     boolean success = warInterface.addMissileLauncher(temp);
                     if (success) {
                         mainProgram.addWarEntity(temp);
                         toastMsg = "Missile Launcher " + temp.getId() + " was added...";
-                        Toast.makeText(stage, toastMsg, ManualScenario.msgType.LOG);
+                        Toast.makeText(stage, toastMsg, msgType.LOG);
                     } else {
                         toastMsg = "Failed to add Missile Launcher " + temp.getId();
-                        Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                        Toast.makeText(stage, toastMsg, msgType.ERROR);
                     }
                 }
                 else {
                     toastMsg = "Launcher ID can't be empty! ";
-                    Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                    Toast.makeText(stage, toastMsg, msgType.ERROR);
                 }
 
             }
@@ -274,17 +266,17 @@ public class GraphicsApplication extends Application implements WarEventListener
                     type = "plane";
                 else
                     type = "ship";
-                LD temp = new LD(type,null);
+                MissileLauncherDestructor temp = new MissileLauncherDestructor(type,null);
                 boolean success = warInterface.addMissileLauncherDestructor(temp);
 
                 if(success) {
                     mainProgram.addWarEntity(temp);
                     toastMsg = "Missile Launcher Destructor " + temp.getId() + " was added...";
-                    Toast.makeText(stage, toastMsg, ManualScenario.msgType.LOG);
+                    Toast.makeText(stage, toastMsg, msgType.LOG);
                 }
                 else {
                     toastMsg = "Failed to add Missile Launcher Destructor " + temp.getId();
-                    Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                    Toast.makeText(stage, toastMsg, msgType.ERROR);
                 }
             }
         });
@@ -315,15 +307,15 @@ public class GraphicsApplication extends Application implements WarEventListener
         addMissileDestBtn.setPrefSize(155,40);
         GridPane.setConstraints(addMissileDestBtn,6,2);
         addMissileDestBtn.setOnAction(event -> {
-            MD temp = new MD("D" + launcherDestId.getText(),null);
+            MissileDestructor temp = new MissileDestructor("D" + launcherDestId.getText(),null);
             boolean success = warInterface.addMissileDestructor(temp);
             if(success) {
                 mainProgram.addWarEntity(temp);
                 toastMsg = "Missile Destructor " + temp.getId() + " was added...";
-                Toast.makeText(stage, toastMsg, ManualScenario.msgType.LOG);
+                Toast.makeText(stage, toastMsg, msgType.LOG);
             } else {
                 toastMsg = "Failed to add Missile Destructor " + temp.getId();
-                Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                Toast.makeText(stage, toastMsg, msgType.ERROR);
             }
         });
 
@@ -361,83 +353,83 @@ public class GraphicsApplication extends Application implements WarEventListener
         GridPane.setConstraints(targetContainer,1,3);
         targetsList.setMaxHeight(200);
         targetsList.setVisibleRowCount(10);
-        targetsList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getTargets()));
+        targetsList.setItems(FXCollections.observableArrayList((warInterface).getTargets()));
         targetsList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                targetsList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getTargets()));
+                targetsList.setItems(FXCollections.observableArrayList((warInterface).getTargets()));
             }
         });
         HBox launchTimeContainer = new HBox();
         launchTimeContainer.setPadding(new Insets(10));
         Label launchTimeLabel = new Label("Launch Time: ");
         launchTimeLabel.setTranslateY(5);
-        TextField launchTime = new TextField();
-        launchTime.setTranslateX(37);
-        launchTimeContainer.getChildren().addAll(launchTimeLabel,launchTime);
+        TextField launchTimeText = new TextField();
+        launchTimeText.setTranslateX(37);
+        launchTimeContainer.getChildren().addAll(launchTimeLabel,launchTimeText);
         GridPane.setConstraints(launchTimeContainer,2,3);
-        launchTime.setMaxWidth(35);
-        launchTime.textProperty().addListener(new ChangeListener<String>() {
+        launchTimeText.setMaxWidth(35);
+        launchTimeText.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    launchTime.setText(newValue.replaceAll("[^\\d]", ""));
+                    launchTimeText.setText(newValue.replaceAll("[^\\d]", ""));
                 }
-                if(launchTime.getText().length() > 3)
-                    launchTime.setText(oldValue);
+                if(launchTimeText.getText().length() > 3)
+                    launchTimeText.setText(oldValue);
             }
         });
         HBox flyTimeContainer = new HBox();
         Label flyTimeLabel = new Label("Fly Time: ");
         flyTimeLabel.setTranslateY(5);
         flyTimeContainer.setPadding(new Insets(10));
-        TextField flyTime = new TextField("2");
-        flyTime.setMaxWidth(35);
+        TextField flyTimeText = new TextField("2");
+        flyTimeText.setMaxWidth(35);
         GridPane.setConstraints(flyTimeContainer,3,3);
-        flyTimeContainer.getChildren().addAll(flyTimeLabel,flyTime);
-        flyTime.textProperty().addListener(new ChangeListener<String>() {
+        flyTimeContainer.getChildren().addAll(flyTimeLabel,flyTimeText);
+        flyTimeText.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    flyTime.setText(newValue.replaceAll("[^\\d]", ""));
+                    flyTimeText.setText(newValue.replaceAll("[^\\d]", ""));
                 }
-                if(flyTime.getText().length() > 2)
-                    flyTime.setText(oldValue);
+                if(flyTimeText.getText().length() > 2)
+                    flyTimeText.setText(oldValue);
             }
         });
         HBox damageContainer = new HBox();
         damageContainer.setPadding(new Insets(10));
         Label damageLabel = new Label("Damage: ");
         damageLabel.setTranslateY(5);
-        TextField damage = new TextField("1500");
-        damageContainer.getChildren().addAll(damageLabel,damage);
+        TextField damageText = new TextField("1500");
+        damageContainer.getChildren().addAll(damageLabel,damageText);
         GridPane.setConstraints(damageContainer,4,3);
-        damage.setMaxWidth(50);
-        damage.textProperty().addListener(new ChangeListener<String>() {
+        damageText.setMaxWidth(50);
+        damageText.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                 if (!newValue.matches("\\d*")) {
-                    damage.setText(newValue.replaceAll("[^\\d]", ""));
+                    damageText.setText(newValue.replaceAll("[^\\d]", ""));
                 }
-                if(damage.getText().length() > 4)
-                    damage.setText(oldValue);
+                if(damageText.getText().length() > 4)
+                    damageText.setText(oldValue);
             }
         });
         HBox sourceContainer = new HBox();
         GridPane.setConstraints(sourceContainer,5,3);
         sourceContainer.setPadding(new Insets(3));
-        ComboBox<ML> launcherList = new ComboBox<>();
+        ComboBox<MissileLauncher> launcherList = new ComboBox<>();
         launcherList.setTranslateX(4);
         launcherList.setVisibleRowCount(10);
         launcherList.setMaxHeight(200);
-        launcherList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileLaunchers()));
+        launcherList.setItems(FXCollections.observableArrayList((warInterface).getMissileLaunchers()));
         launcherList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                launcherList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileLaunchers()));
+                launcherList.setItems(FXCollections.observableArrayList((warInterface).getMissileLaunchers()));
             }
         });
         Label sourceLabel = new Label("Source Launcher: ");
@@ -446,24 +438,29 @@ public class GraphicsApplication extends Application implements WarEventListener
         sourceContainer.getChildren().add(launcherList);
 
         addMissileBtn.setOnAction(event -> {
-            if (!missileId.getText().equals("") && targetsList.getValue() != null && !launchTime.getText().equals("") && !flyTime.getText().equals("") && !damage.getText().equals("") && launcherList.getValue() != null) {
+            if (!missileId.getText().equals("") && targetsList.getValue() != null && !launchTimeText.getText().equals("") && !flyTimeText.getText().equals("") && !damageText.getText().equals("") && launcherList.getValue() != null) {
 
-                M temp = new M("M" + missileId.getText(), targetsList.getValue().toString(), launchTime.getText(), flyTime.getText(), damage.getText());
+                int launchTime = Integer.parseInt(launchTimeText.getText());
+                int flyTime = Integer.parseInt(flyTimeText.getText());
+                int damage = Integer.parseInt(damageText.getText());
+                Point2D coordinates =targetsList.getValue().getCoordinates();
+
+                Missile temp = new Missile("M" + missileId.getText(), coordinates, launchTime, flyTime, damage,time);
+                temp.setCoordinates(launcherList.getValue().getCoordinates());
                 boolean success = warInterface.addMissile(launcherList.getValue().toString(), temp);
 
                 if (success) {
-                    mainProgram.addMissileEntity(launcherList.getValue().toString(),temp);
                     toastMsg = "Missile " + temp.getId() + " was added to Launcher " + launcherList.getValue().toString();
-                    Toast.makeText(stage, toastMsg, ManualScenario.msgType.LOG);
+                    Toast.makeText(stage, toastMsg, msgType.LOG);
                 } else {
                     toastMsg = "Missile " + temp.getId() + " failed to load!!! ";
-                    Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                    Toast.makeText(stage, toastMsg, msgType.ERROR);
                 }
 
             }
             else {
                 toastMsg = "Error in one of the Create Missile's fields";
-                Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                Toast.makeText(stage, toastMsg, msgType.ERROR);
             }
 
         });
@@ -475,17 +472,17 @@ public class GraphicsApplication extends Application implements WarEventListener
 
         HBox launcherListContainer = new HBox();
         Label launcherListLabel = new Label("Target Launcher: ");
-        ComboBox<ML> mlList = new ComboBox<>();
+        ComboBox<MissileLauncher> mlList = new ComboBox<>();
         mlList.setTranslateX(9);
         launcherListContainer.getChildren().addAll(launcherListLabel,mlList);
         GridPane.setConstraints(launcherListContainer,1,4);
         mlList.setVisibleRowCount(10);
         mlList.setMaxHeight(600);
-        mlList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileLaunchers()));
+        mlList.setItems(FXCollections.observableArrayList((warInterface).getMissileLaunchers()));
         mlList.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mlList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileLaunchers()));
+                mlList.setItems(FXCollections.observableArrayList((warInterface).getMissileLaunchers()));
             }
         });
 
@@ -511,16 +508,16 @@ public class GraphicsApplication extends Application implements WarEventListener
         });
         HBox sourceDestContainer = new HBox();
         Label sourceDestLabel = new Label("Source Destructor: ");
-        ComboBox<LD> mldList = new ComboBox<>();
+        ComboBox<MissileLauncherDestructor> mldList = new ComboBox<>();
         sourceDestContainer.getChildren().addAll(sourceDestLabel,mldList);
         GridPane.setConstraints(sourceDestContainer,5,4);
         mldList.setMaxHeight(500);
         mldList.setPrefWidth(100);
-        mldList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileLauncherDestructors()));
+        mldList.setItems(FXCollections.observableArrayList((warInterface).getMissileLauncherDestructors()));
         mldList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mldList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileLauncherDestructors()));
+                mldList.setItems(FXCollections.observableArrayList((warInterface).getMissileLauncherDestructors()));
             }
         });
         Button addCommand = new Button("Add Command");
@@ -529,15 +526,13 @@ public class GraphicsApplication extends Application implements WarEventListener
         addCommand.setOnAction(event -> {
             if (mldList.getValue() != null && mlList.getValue() != null && !timeValue.getText().equals("")) {
 
-                DestLauncher temp = new DestLauncher(mlList.getValue().getId(), timeValue.getText());
-                warInterface.addDestLauncher(mldList.getValue().getId(), temp);
-                mainProgram.addDestLauncherCommand(mldList.getValue().getId(),Integer.parseInt(timeValue.getText()),mlList.getValue().getId());
-                toastMsg = "Destroy Launcher Command " + temp.getId() + " was added...";
-                Toast.makeText(stage, toastMsg, ManualScenario.msgType.LOG);
+                warInterface.addDestLauncher(mldList.getValue().getId(),mlList.getValue().getId(),Integer.parseInt(timeValue.getText()));
+                toastMsg = "Destroy Launcher Command "; //+ temp.getId() + " was added..."; // TODO
+                Toast.makeText(stage, toastMsg, msgType.LOG);
             }
             else{
                 toastMsg = "Error in one of the 'Destroy Launcher' fields";
-                Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                Toast.makeText(stage, toastMsg, msgType.ERROR);
             }
         });
 
@@ -546,17 +541,17 @@ public class GraphicsApplication extends Application implements WarEventListener
         GridPane.setConstraints(addDestMissileCommand,0,5);
         HBox missileListContainer = new HBox();
         Label missileListLabel = new Label("Target Missile: ");
-        ComboBox<M> mList = new ComboBox<>();
+        ComboBox<Missile> mList = new ComboBox<>();
         mList.setTranslateX(20);
         GridPane.setConstraints(missileListContainer,1,5);
         missileListContainer.getChildren().addAll(missileListLabel,mList);
         mList.setVisibleRowCount(10);
         mList.setMaxHeight(600);
-        mList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getAllMissiles()));
+        mList.setItems(FXCollections.observableArrayList((warInterface).getAllMissiles()));
         mList.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getAllMissiles()));
+                mList.setItems(FXCollections.observableArrayList((warInterface).getAllMissiles()));
             }
         });
 
@@ -584,16 +579,16 @@ public class GraphicsApplication extends Application implements WarEventListener
 
         HBox sourceMissileDestContainer = new HBox();
         Label sourceMissileDestLabel = new Label("Source Destructor: ");
-        ComboBox<MD> mdList = new ComboBox<>();
+        ComboBox<MissileDestructor> mdList = new ComboBox<>();
         sourceMissileDestContainer.getChildren().addAll(sourceMissileDestLabel,mdList);
         GridPane.setConstraints(sourceMissileDestContainer,5,5);
         mdList.setMaxHeight(500);
         mdList.setPrefWidth(100);
-        mdList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileDestructors()));
+        mdList.setItems(FXCollections.observableArrayList((warInterface).getMissileDestructors()));
         mdList.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mdList.setItems(FXCollections.observableArrayList(((WarParser)warInterface).getMissileDestructors()));
+                mdList.setItems(FXCollections.observableArrayList((warInterface).getMissileDestructors()));
             }
         });
         Button addMCommand = new Button("Add Command");
@@ -602,16 +597,13 @@ public class GraphicsApplication extends Application implements WarEventListener
         addMCommand.setOnAction(event -> {
             if (mdList.getValue() != null && mList.getValue() != null && !missileTimeValue.getText().equals("")) {
 
+                warInterface.addDestMissile(mdList.getValue().getId(),mList.getValue().getId(),Integer.parseInt(missileTimeValue.getText()));
 
-                DestMissile temp = new DestMissile(mList.getValue().getId(), missileTimeValue.getText());
-                warInterface.addDestMissile(mdList.getValue().getId(), temp);
-                mainProgram.addDestMissileCommand(mdList.getValue().getId(),Integer.parseInt(missileTimeValue.getText()),mList.getValue().getId());
-
-                toastMsg = "Destroy Missile Command " + temp.getId() + " was added...";
-                Toast.makeText(stage, toastMsg, ManualScenario.msgType.LOG);
+                toastMsg = "Destroy Missile Command ";// + temp.getId() + " was added...";
+                Toast.makeText(stage, toastMsg, msgType.LOG);
             } else {
                 toastMsg = "Error in one of the 'Destroy Missile's fields";
-                Toast.makeText(stage, toastMsg, ManualScenario.msgType.ERROR);
+                Toast.makeText(stage, toastMsg, msgType.ERROR);
             }
         });
 
