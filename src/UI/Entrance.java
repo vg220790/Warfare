@@ -1,6 +1,9 @@
 package UI;
 
 
+// Max Golotsvan - 314148123
+// Maksim Lyashenko - 317914877
+
 import GraphicsContent.GraphicsApplication;
 import ConsoleContent.ConsoleApplication;
 import SharedInterface.WarImp;
