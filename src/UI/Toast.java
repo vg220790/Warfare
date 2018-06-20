@@ -3,9 +3,7 @@ package UI;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -51,24 +49,21 @@ public final class Toast
         KeyFrame fadeInKey1 = new KeyFrame(Duration.millis(fadeInDelay), new KeyValue (toastStage.getScene().getRoot().opacityProperty(), 1));
         fadeInTimeline.getKeyFrames().add(fadeInKey1);
         fadeInTimeline.setOnFinished((ae) ->
-        {
-            new Thread(() -> {
-                try
-                {
-                    Thread.sleep(toastDelay);
-                }
-                catch (InterruptedException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                Timeline fadeOutTimeline = new Timeline();
-                KeyFrame fadeOutKey1 = new KeyFrame(Duration.millis(fadeOutDelay), new KeyValue (toastStage.getScene().getRoot().opacityProperty(), 0));
-                fadeOutTimeline.getKeyFrames().add(fadeOutKey1);
-                fadeOutTimeline.setOnFinished((aeb) -> toastStage.close());
-                fadeOutTimeline.play();
-            }).start();
-        });
+                new Thread(() -> {
+                    try
+                    {
+                        Thread.sleep(toastDelay);
+                    }
+                    catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    Timeline fadeOutTimeline = new Timeline();
+                    KeyFrame fadeOutKey1 = new KeyFrame(Duration.millis(fadeOutDelay), new KeyValue (toastStage.getScene().getRoot().opacityProperty(), 0));
+                    fadeOutTimeline.getKeyFrames().add(fadeOutKey1);
+                    fadeOutTimeline.setOnFinished((aeb) -> toastStage.close());
+                    fadeOutTimeline.play();
+                }).start());
         fadeInTimeline.play();
     }
 }

@@ -49,14 +49,12 @@ public class WarImp implements WarInterface {
     }
 
     @Override
-    public boolean addDestLauncher(String destId, String destLauncherId, int destTime){
+    public void addDestLauncher(String destId, String destLauncherId, int destTime){
         mainProgram.addDestLauncherCommand(destId,destTime,destLauncherId);
-        return true;
     }
     @Override
-    public boolean addDestMissile(String destId, String destMissileId, int destTime){
+    public void addDestMissile(String destId, String destMissileId, int destTime){
         mainProgram.addDestMissileCommand(destId,destTime,destMissileId);
-        return true;
     }
 
     @Override
@@ -66,7 +64,7 @@ public class WarImp implements WarInterface {
 
     @Override
     public void haltSystem() {
-
+        mainProgram.haltSystem();
     }
 
     @Override

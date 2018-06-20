@@ -18,9 +18,6 @@ public class MissileLaunchers {
         this.launcher = new HashSet<>();
     }
 
-    public MissileLaunchers(List<MissileLauncher> launcher) {
-        this.launcher = new HashSet<>(launcher);
-    }
 
     public List<MissileLauncher> getLauncher() {
         List<MissileLauncher> launcherList = new ArrayList<>();
@@ -40,7 +37,7 @@ public class MissileLaunchers {
     public boolean addMissile(String launcherId, Missile temp){
         for(MissileLauncher mLauncher : launcher ){
             if(mLauncher.getId().equals(launcherId)){
-                return mLauncher.addMissile(temp);         // TODO boolean
+                return mLauncher.addMissile(temp);
             }
         }
         return false;
@@ -50,7 +47,7 @@ public class MissileLaunchers {
         List<Missile> temp = new ArrayList<>();
         for(MissileLauncher ml : launcher){
             List<Missile> tempList = new ArrayList<>(ml.getMissiles());
-             temp.addAll(tempList);      // TODO get all missiles from launcher
+             temp.addAll(tempList);
         }
         return temp;
     }

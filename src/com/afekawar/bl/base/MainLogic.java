@@ -40,7 +40,7 @@ public class MainLogic implements Runnable{
         warRunning = true;
         // Create Entities.
 
-        createObjects(warInterface,entities,missiles,time);
+        createObjects(warInterface,entities,missiles);
 
         for(WarEntity entity : missiles.values()){
             ((Missile)entity).setTargetCoordinates(warInterface.getTargetByName(((Missile)entity).getDestination()).getCoordinates());
@@ -117,7 +117,7 @@ public class MainLogic implements Runnable{
         ((MissileDestructor)entities.get(destructorId)).addTargetMissile(destTime,missiles.get(missileId));
     }
 
-    private synchronized void createObjects(WarInterface parsedElement, Map<String,WarEntity> entities,Map<String,WarEntity> missiles, SystemTime time) {
+    private synchronized void createObjects(WarInterface parsedElement, Map<String,WarEntity> entities,Map<String,WarEntity> missiles) {
         for (MissileLauncher mLauncher : parsedElement.getMissileLaunchers()) {
             for (Missile missile : mLauncher.getMissiles()) {
                 missile.setCoordinates(mLauncher.getCoordinates());

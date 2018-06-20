@@ -19,7 +19,7 @@ public class MissileLauncher extends WarEntity {
     private boolean isAlive;
     private boolean isHidden;
     private boolean alwaysVisible;
-    private Thread activeMissileThread;            // TODO - Implement proper Stop Thread to Missile Class and replace this with Reference to the Runnable Object
+    private Thread activeMissileThread;
     private Missile activeMissileEntity;
     private Set<MissileEventListener> missileEventListeners;
 

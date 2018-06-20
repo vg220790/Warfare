@@ -18,17 +18,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ConsoleApplication implements Runnable  {
-    private GraphicsApplication graphicsApplication;
-    private WarInterface warInterface;
-    private boolean isWarRunning;
     private Runnable mainProgram;
     private SystemTime time;
 
 
     @Override
     public void run() {
-        isWarRunning = false;
-        warInterface = new WarImp();
+        boolean isWarRunning = false;
+        WarInterface warInterface = new WarImp();
         int decision = 0;
         System.out.println("Would you like to load config from JSON? 1 - yes, 2 - no");
         Scanner scanner = new Scanner(System.in);
@@ -52,12 +49,12 @@ public class ConsoleApplication implements Runnable  {
 
                 try {
                     warInterface = gson.fromJson(new FileReader(configuration), WarImp.class);
-                    SystemTime time = new MyTime();
+                    time = new MyTime();
                     Thread timeThread = new Thread(time);
                     timeThread.start();
 
                     isWarRunning = true;
-                    this.graphicsApplication = new GraphicsApplication(time, warInterface);
+                    GraphicsApplication graphicsApplication = new GraphicsApplication(time, warInterface);
                     mainProgram = new MainLogic(time, graphicsApplication,warInterface);
                     Thread mainThread = new Thread(mainProgram);
                     mainThread.start();
@@ -74,7 +71,7 @@ public class ConsoleApplication implements Runnable  {
 
         }
 
-            decision = -1;
+            decision = 9999;
             boolean success = false;
             String launcherId;
             int numAmount = 0;
@@ -308,16 +305,9 @@ public class ConsoleApplication implements Runnable  {
                         destTime = scanner.next();
                     }
 
-                  /*  DestLauncher temp = new DestLauncher(destId, destTime);     TODO
-                    success = warInterface.addDestLauncher(launcherId,temp);
-                    if(!success)
-                        System.out.println("Operation failed (Destructor doesn't exist?)!!!");
-                    else {
-                        System.out.println("Operation for Destructor " + launcherId + " Added!!");
-                        if(isWarRunning)
-                            ((MainLogic)mainProgram).addDestLauncherCommand(launcherId,Integer.parseInt(destTime),destId);
-                    }*/
-
+                    warInterface.addDestLauncher(launcherId,destId,Integer.parseInt(destTime));
+                    success = true;
+                    System.out.println("Operation for Destructor " + launcherId + " Added!!");
                 }
                 success = false;
                 decision = -1;
@@ -344,17 +334,9 @@ public class ConsoleApplication implements Runnable  {
                         System.out.println("Destruct Time After Launch: ONLY NUMBERS ALLOWED!!");
                         destTime = scanner.next();
                     }
-
-                    /*DestMissile temp = new DestMissile(destId, destTime);        TODO
-                    success = warInterface.addDestMissile(launcherId,temp);
-                    if(!success)
-                        System.out.println("Operation failed (Destructor doesn't exist?)!!!");
-                    else {
-                        System.out.println("Operation for Destructor " + launcherId + " Added!!");
-                        if(isWarRunning)
-                            ((MainLogic)mainProgram).addDestMissileCommand(launcherId,Integer.parseInt(destTime),destId);
-                    }*/
-
+                    warInterface.addDestMissile(launcherId,destId,Integer.parseInt(destTime));
+                    System.out.println("Operation for Destructor " + launcherId + " Added!!");
+                    success = true;
                 }
                 success = false;
                 decision = -1;
@@ -363,7 +345,7 @@ public class ConsoleApplication implements Runnable  {
                 break;
             case 8:
                 if(isWarRunning)
-                    ((MainLogic)mainProgram).haltSystem();
+                    warInterface.haltSystem();
 
                 break;
             case 0:
@@ -372,7 +354,7 @@ public class ConsoleApplication implements Runnable  {
                 Thread timeThread = new Thread(time);
                 timeThread.start();
 
-                this.graphicsApplication = new GraphicsApplication(time,warInterface);
+                GraphicsApplication graphicsApplication = new GraphicsApplication(time,warInterface);
                 mainProgram = new MainLogic(time, graphicsApplication,warInterface);
                 Thread mainThread = new Thread(mainProgram);
                 mainThread.start();
@@ -385,11 +367,11 @@ public class ConsoleApplication implements Runnable  {
 
     }
 
-    public static boolean isNumeric(String str)
+    private static boolean isNumeric(String str)
     {
         try
         {
-            double d = Double.parseDouble(str);
+            Double.parseDouble(str);
         }
         catch(NumberFormatException nfe)
         {

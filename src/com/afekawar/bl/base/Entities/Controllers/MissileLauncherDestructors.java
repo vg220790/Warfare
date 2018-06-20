@@ -1,8 +1,5 @@
 package com.afekawar.bl.base.Entities.Controllers;
 
-
-
-import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncher;
 import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncherDestructor;
 
 import java.util.ArrayList;
@@ -29,13 +26,7 @@ public class MissileLauncherDestructors {
         return !(destructor.size() == prevSize);
     }
 
-    public void addDestLauncher(String destId, MissileLauncher destLauncher, int destTime){
-        for(MissileLauncherDestructor dest : destructor){
-            if(dest.getId().equals(destId)){
-                dest.addDestLauncher(destTime,destLauncher);
-            }
-        }
-    }
+
 }
 
 

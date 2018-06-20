@@ -30,7 +30,6 @@ public class Entrance extends Application {
         private Scene scene2;
         private FileChooser fileChooser;
         private SystemTime time;
-        private VBox root;
         private WarInterface parsedEntities;
         public static void main(String[] args) {
             ConsoleApplication consoleApp;
@@ -56,7 +55,6 @@ public class Entrance extends Application {
         public void start(Stage primaryStage) {
             this.window = primaryStage;
             time = new MyTime();
-            root = new VBox();
             parsedEntities = new WarImp();
 
 

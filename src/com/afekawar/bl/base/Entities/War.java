@@ -24,14 +24,6 @@ public class War {
         this.missileLauncherDestructors = new MissileLauncherDestructors();
     }
 
-    public War(MissileLaunchers missileLaunchers, MissileDestructors missileDestructors, MissileLauncherDestructors missileLauncherDestructors) {
-        this.missileLaunchers = missileLaunchers;
-        this.missileDestructors = missileDestructors;
-        this.missileLauncherDestructors = missileLauncherDestructors;
-    }
-
-
-
     public List<MissileLauncher> getMissileLaunchers() {
         return missileLaunchers.getLauncher();
     }
@@ -52,14 +44,6 @@ public class War {
     }
     public boolean addMissileDestructor(MissileDestructor temp){
         return missileDestructors.addMissileDestructor(temp);
-    }
-
-    public void addDestLauncher(String destId, MissileLauncher destLauncher, int destTime){
-
-        missileLauncherDestructors.addDestLauncher(destId,destLauncher,destTime);
-    }
-    public void addDestMissile(String destId, Missile destMissile, int destTime){
-        missileDestructors.addDestMissile(destId,destMissile,destTime);
     }
     public boolean addMissile(String launcherId, Missile temp){
         return missileLaunchers.addMissile(launcherId,temp);
