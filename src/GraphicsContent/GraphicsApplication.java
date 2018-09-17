@@ -55,7 +55,7 @@ public class GraphicsApplication extends Application implements WarEventListener
 
     private Scene createContent(){
         root = new Pane();
-        root.setPrefSize(1500,948);
+        root.setPrefSize(1500,960);
         root.setId("pane");
         Text timeView = new Text("");
         timeView.setStyle("-fx-font: bold 18px \"Serif\"");
@@ -203,7 +203,7 @@ public class GraphicsApplication extends Application implements WarEventListener
         gridPane.setPadding(new Insets(10,10,10,10));
         gridPane.setVgap(1);
         gridPane.setHgap(8);
-        gridPane.setTranslateY(600);
+        gridPane.setTranslateY(400);
 
 
         HBox launcherContainer = new HBox();

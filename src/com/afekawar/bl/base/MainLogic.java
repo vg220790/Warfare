@@ -10,6 +10,7 @@ import com.afekawar.bl.base.Entities.BaseEntities.*;
 import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
 
+import Database.DBManager;
 
 import java.util.*;
 import java.util.logging.Handler;
@@ -27,6 +28,10 @@ public class MainLogic implements Runnable{
     private MyLogger logger;
     private Statistics statistics;
 
+    ////////////////////// 
+    // added DB Manager //
+    //////////////////////
+    private DBManager dbManager;
 
     public MainLogic(SystemTime time, GraphicsApplication app, WarInterface warInterface){
         this.missiles = new HashMap<>();
@@ -40,7 +45,9 @@ public class MainLogic implements Runnable{
         logger = new MyLogger("SystemLog");
         logger.addHandler("SystemLog.txt",getClass().getName());
         statistics = new Statistics();
-
+        /////////////////////////////////////
+        dbManager = DBManager.getInstance();
+        /////////////////////////////////////
 
     }
 
@@ -65,9 +72,12 @@ public class MainLogic implements Runnable{
 
             addWarEntity(entity);
         }
+        
+        dbManager.updateAllDBTables();
 
         while(warRunning){
             try {
+            	dbManager.updateAllDBTables();
                 Thread.sleep(1000/60);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -86,7 +96,9 @@ public class MainLogic implements Runnable{
                 e.printStackTrace();
             }
         }
-
+        dbManager.updateAllDBTables();
+        dbManager.getConnection().showAllCollections();
+        dbManager.getConnection().closeDB();
         logger.info("System Halts");
         for (Handler handler : logger.getMyFileHandlers().values())
             handler.close();
@@ -135,17 +147,22 @@ public class MainLogic implements Runnable{
                 missiles.put(missile.getId(),missile);
             }
             entities.put(mLauncher.getId(), mLauncher);
+            dbManager.addNewDb_MissileLauncher(mLauncher);
         }
 
         for (MissileLauncherDestructor mLDestructor : parsedElement.getMissileLauncherDestructors()) {
 
             entities.put(mLDestructor.getId(), mLDestructor);
+            dbManager.addNewDb_MissileLauncherDestructor(mLDestructor);
         }
 
         for (MissileDestructor mDestructor : parsedElement.getMissileDestructors()) {
 
             entities.put(mDestructor.getId(), mDestructor);
+            dbManager.addNewDb_MissileDestructor(mDestructor);
         }
+        
+        dbManager.startDBTables();
     }
 
 

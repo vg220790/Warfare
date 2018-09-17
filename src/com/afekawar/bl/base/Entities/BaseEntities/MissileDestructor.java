@@ -6,6 +6,10 @@ import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
+
+import Database.DBDestructionAttempt_Info;
+import Database.DBInfo_MissileDestructor;
+import Database.DBInfo_MissileLauncher;
 import javafx.geometry.Point2D;
 
 import java.util.*;
@@ -24,7 +28,7 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
     private TreeMap<Integer, Missile> missilesToDestroy;
     private Missile antiMissile;
     private Thread antiMissileThread;
-
+    private DBInfo_MissileDestructor infoRef;
 
 
     public MissileDestructor() {                // Needed for GSON parser
@@ -62,8 +66,14 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
         }
         targetMissiles.get(missile).add(destrTime);
     }
+    
+    public DBInfo_MissileDestructor getInfoRef() {
+    	return this.infoRef;
+    }
 
-
+    public void setInfoRef(DBInfo_MissileDestructor infoRef) {
+		this.infoRef = infoRef;
+	}
 
     public List<DestMissile> getDestructdMissile(){
         return destructdMissile;
@@ -135,6 +145,15 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
             break;
             case DESTROYING:
                 if (activeDestMissile.getState() == Missile.State.INAIR) {
+                	///////////////////////////////////////////////////
+                	////updating data for DB - attempting interception
+                	this.infoRef.incrementTotalNumOfInterceptionAttempts();
+                	this.infoRef.setCurrentDestructionAttempt(new DBDestructionAttempt_Info(
+                			getId(), 
+                			"missile destructor", 
+                			activeDestMissile.getId(), 
+                			"missile"));
+                	///////////////////////////////////////////////////
                     try {
                         launchAntiMissile(activeDestMissile.getId());
                         antiMissileThread.join();
@@ -146,10 +165,15 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
                     targetMissiles.remove(activeDestMissile);
                     activeDestMissile.setState(Missile.State.DEAD);
                     activeDestMissile.stopThread();
-
-
-
+                    ///////////////////////////////////////////////
+                    ////updating data for DB - hit target missile
+                    this.infoRef.incrementNumOfInterceptedMissiles();
+                    this.infoRef.updateTotalDamageAvoided(activeDestMissile.getDamage());
+                    this.infoRef.getCurrent_destruction_attempt().setDestruction_successful(true);
+                    ///////////////////////////////////////////////
                 }
+                this.infoRef.getCurrent_destruction_attempt().setEnd_time(getTime().getTime());
+                this.infoRef.endCurrentDestructionAttempt();
                 fireDestroyAntiMissileEvent();
                 status = Status.WAITING_MISSILE;
                 break;
@@ -170,7 +194,9 @@ public class MissileDestructor extends WarEntity implements MissileEventListener
         antiMissileThread.start();
         antiMissile.setWarEventListeners(getListeners());
         fireLaunchAntiMissileEvent();
-        getLogger().info("Missile Destructor n` " + getId() + " Launched anti missile rocket towards Missile n` " + id + " at " + getTime().getTime() + " seconds..");
+        int interception_start_time = getTime().getTime();
+        this.infoRef.getCurrent_destruction_attempt().setStart_time(interception_start_time);
+        getLogger().info("Missile Destructor n` " + getId() + " Launched anti missile rocket towards Missile n` " + id + " at " + interception_start_time + " seconds..");
     }
 
     public synchronized void addWarEventListener(WarEventListener listener){

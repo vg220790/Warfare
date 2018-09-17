@@ -6,6 +6,9 @@ import com.afekawar.bl.base.Interface.Communication.MissileEventListener;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
+
+import Database.DBInfo_MissileLauncher;
+import Database.DBLaunch_Info;
 import javafx.geometry.Point2D;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,9 +27,11 @@ public class MissileLauncher extends WarEntity {
     private Thread activeMissileThread;
     private Missile activeMissileEntity;
     private Set<MissileEventListener> missileEventListeners;
+    private DBInfo_MissileLauncher infoRef;
+    int missile_destruction_time;
+    
 
-
-    public MissileLauncher(){                        // For GSON Parser Object creation.
+	public MissileLauncher(){                        // For GSON Parser Object creation.
         super();
         missileEventListeners = new HashSet<>();
 
@@ -82,6 +87,9 @@ public class MissileLauncher extends WarEntity {
     public boolean getHidden() {
         return isHidden;
     }
+    public boolean getAlwaysVisible() {
+        return alwaysVisible;
+    }
     public boolean getAlive() {
         return isAlive;
     }
@@ -89,12 +97,22 @@ public class MissileLauncher extends WarEntity {
     public boolean addMissile(Missile temp){
         return this.missile.offer(temp);
     }
+    public DBInfo_MissileLauncher getInfoRef() {
+		return infoRef;
+	}
+
+	public void setInfoRef(DBInfo_MissileLauncher infoRef) {
+		this.infoRef = infoRef;
+	}
 
 
     @Override
     public void stopThread(){                                                       // Missile launcher destroy func
-        super.stopThread();
+        this.infoRef.setIsDestroyed(true);
+    	super.stopThread();
         if(activeMissileThread != null) {
+        	//this.infoRef.incrementNumOfMissilesDestroyedWhenLauncherGotHit();
+        	//this.infoRef.updateNumOfInterceptedMissiles();
             activeMissileEntity.stopThread();
         }
         isAlive = false;
@@ -142,14 +160,32 @@ public class MissileLauncher extends WarEntity {
                         Thread.sleep(20);                   // To let time for graphics to update..
                         fireDestroyMissileEvent();
                         activeMissileThread = null;
-                        if(activeMissileEntity.getLaunchTime() + activeMissileEntity.getFlyTime() > getTime().getTime()){
-                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Got destroyed at: " + getTime().getTime() + " seconds.");
+                        missile_destruction_time = getTime().getTime();
+                        if(activeMissileEntity.getLaunchTime() + activeMissileEntity.getFlyTime() > missile_destruction_time){
+                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Got destroyed at: " + missile_destruction_time + " seconds.");
                             getStatistics().addDestroyedMissile();
+                            ///////////////////////////////////////////////
+                            ////updating data for DB - destroyed missile
+                            this.infoRef.incrementTotalNumOfDestroyedMissiles();
+                            this.infoRef.getCurrent_launch().setReached_target(false);
+                            this.infoRef.getCurrent_launch().setReal_damage(0);
+                            this.infoRef.getCurrent_launch().setEnd_time(missile_destruction_time);
+                            this.infoRef.endCurrentLaunch();
+                            ///////////////////////////////////////////////
                         }
                         else {
                             getLogger().info("Missile n` " + activeMissileEntity.getId() + " Reached it's destination and caused " + activeMissileEntity.getDamage() + "$ Damage!");
                             getStatistics().addMissileReachedDestination();
                             getStatistics().addDamage(activeMissileEntity.getDamage());
+                            ////////////////////////////////////////////////////////////////
+                            ////updating data for DB - hit target missile
+                            this.infoRef.incrementTotalNumOfHits();
+                            this.infoRef.updateTotalDamage(activeMissileEntity.getDamage());
+                            this.infoRef.getCurrent_launch().setReached_target(true);
+                            this.infoRef.getCurrent_launch().setReal_damage(this.infoRef.getCurrent_launch().getSupposed_damage());
+                            this.infoRef.getCurrent_launch().setEnd_time(missile_destruction_time);
+                            this.infoRef.endCurrentLaunch();
+                            ////////////////////////////////////////////////////////////////
                         }
 
 
@@ -182,6 +218,16 @@ public class MissileLauncher extends WarEntity {
                         int launchTime = getTime().getTime();           // Missile's actual launch time might change, if the launcher was busy with another missile.
                         m.setLaunchTime(launchTime);
                         getStatistics().addLaunchedMissile();
+                        //////////////////////////////////////////////
+                        ////////// updating info for db //////////////
+                        this.infoRef.incrementTotalNumOfFiredMissiles();
+                        this.infoRef.setCurrentLaunch(new DBLaunch_Info(
+                        		this.getId(), 
+                        		m.getId(), 
+                        		m.getLaunchTime(), 
+                        		m.getDestination(), 
+                        		m.getDamage()));
+                        //////////////////////////////////////////////
                         getLogger().info("Missile n` " + m.getId() + " From Launcher n` " + getId() + " Launched at " + launchTime + " seconds towards " + m.getDestination());
                         Thread missileThread = new Thread(m);
                         missileThread.setName(m.getId());
@@ -206,14 +252,34 @@ public class MissileLauncher extends WarEntity {
                         activeMissileThread.join();
                         Thread.sleep(20);
                         fireDestroyMissileEvent();
-                        if(activeMissileEntity.getLaunchTime() + activeMissileEntity.getFlyTime() > getTime().getTime()){
-                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Got destroyed at: " + getTime().getTime() + " seconds.");
+                        missile_destruction_time = getTime().getTime();
+                        if(activeMissileEntity.getLaunchTime() + activeMissileEntity.getFlyTime() > missile_destruction_time){
+                        	
+                            getLogger().info("Missile n` " + activeMissileEntity.getId() + " Got destroyed at: " + missile_destruction_time + " seconds.");
                             getStatistics().addDestroyedMissile();
+                            ///////////////////////////////////////////////
+                            ////updating data for DB - intercepted missile
+                            this.infoRef.incrementTotalNumOfDestroyedMissiles();
+                            this.infoRef.getCurrent_launch().setReached_target(false);
+                            this.infoRef.getCurrent_launch().setReal_damage(0);
+                            this.infoRef.getCurrent_launch().setEnd_time(missile_destruction_time);
+                            this.infoRef.endCurrentLaunch();
+                            ///////////////////////////////////////////////
+                           
                         }
                         else {
                             getLogger().info("Missile n` " + activeMissileEntity.getId() + " Reached it's destination and caused " + activeMissileEntity.getDamage() + "$ Damage!");
                             getStatistics().addMissileReachedDestination();
                             getStatistics().addDamage(activeMissileEntity.getDamage());
+                            ////////////////////////////////////////////////////////////////
+                            ////updating data for DB - hit target missile
+                            this.infoRef.incrementTotalNumOfHits();
+                            this.infoRef.updateTotalDamage(activeMissileEntity.getDamage());
+                            this.infoRef.getCurrent_launch().setReached_target(true);
+                            this.infoRef.getCurrent_launch().setReal_damage(this.infoRef.getCurrent_launch().getSupposed_damage());
+                            this.infoRef.getCurrent_launch().setEnd_time(missile_destruction_time);
+                            this.infoRef.endCurrentLaunch();
+                            ////////////////////////////////////////////////////////////////
                         }
                         activeMissileThread = null;
                     }

@@ -1,1 +1,2 @@
-20/06/2018 22:37:23 INFO	-->	System starts
+17/09/2018 13:28:54 INFO	-->	System starts
+17/09/2018 13:29:31 INFO	-->	System Halts

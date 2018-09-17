@@ -12,17 +12,21 @@ import com.afekawar.bl.base.Entities.Controllers.MissileDestructors;
 import com.afekawar.bl.base.Entities.Controllers.MissileLauncherDestructors;
 import com.afekawar.bl.base.Entities.Controllers.MissileLaunchers;
 
+import Database.DBManager;
+
 import java.util.List;
 
 public class War {
     private MissileLaunchers missileLaunchers;
     private MissileDestructors missileDestructors;
     private MissileLauncherDestructors missileLauncherDestructors;
+    private DBManager dbManager;
 
     public War(){
         this.missileLaunchers = new MissileLaunchers();
         this.missileDestructors = new MissileDestructors();
         this.missileLauncherDestructors = new MissileLauncherDestructors();
+        this.dbManager = DBManager.getInstance();
     }
 
     public List<MissileLauncher> getMissileLaunchers() {
@@ -38,12 +42,15 @@ public class War {
     }
 
     public boolean addMissileLauncher(MissileLauncher temp){
+    	dbManager.addNewDb_MissileLauncher(temp);
         return  missileLaunchers.addMissileLauncher(temp);
     }
     public boolean addMissileLauncherDestructor(MissileLauncherDestructor temp){
+    	dbManager.addNewDb_MissileLauncherDestructor(temp);
         return missileLauncherDestructors.addMissileLauncherDestructor(temp);
     }
     public boolean addMissileDestructor(MissileDestructor temp){
+    	dbManager.addNewDb_MissileDestructor(temp);
         return missileDestructors.addMissileDestructor(temp);
     }
     public boolean addMissile(String launcherId, Missile temp){

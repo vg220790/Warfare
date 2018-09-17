@@ -4,6 +4,9 @@ import SharedInterface.WarInterface;
 import com.afekawar.bl.base.Interface.Communication.WarEvent;
 import com.afekawar.bl.base.Interface.Communication.WarEventListener;
 import com.afekawar.bl.base.Interface.Time.SystemTime;
+
+import Database.DBDestructionAttempt_Info;
+import Database.DBInfo_MissileLauncherDestructor;
 import javafx.geometry.Point2D;
 
 import java.util.*;
@@ -24,6 +27,8 @@ public class MissileLauncherDestructor extends WarEntity {
     private TreeMap<Integer,WarEntity> targetMissileLaunchers; // Will try to destroy target Missile Launcher if not null
 
 
+    private DBInfo_MissileLauncherDestructor infoRef;
+    
     private MissileLauncher activeDestLauncher;                        // To check which Missile Launcher is destroyed right now
     private Missile antiMissileLauncher;                                // If used to destroy missiles
     private float angle;
@@ -32,7 +37,6 @@ public class MissileLauncherDestructor extends WarEntity {
     public MissileLauncherDestructor(){                        // Builder for GSON
         super("LD30" + (1 + idInc++));
         targetMissileLaunchers = new TreeMap<>();
-
         setCoordinates(new Point2D(ThreadLocalRandom.current().nextInt(300, 680 + 1),ThreadLocalRandom.current().nextInt(26, 150 + 1)));  // Set Random coordinate Outside Gaza Strip Border
         destructLength = 2;
         activeDestLauncher = null;
@@ -67,6 +71,17 @@ public class MissileLauncherDestructor extends WarEntity {
     public Type getType(){
         return destType;
     }
+    public String getStrType(){
+        return this.type;
+    }
+    public DBInfo_MissileLauncherDestructor getInfoRef() {
+    	return this.infoRef;
+    }
+
+    public void setInfoRef(DBInfo_MissileLauncherDestructor infoRef) {
+		this.infoRef = infoRef;
+	}
+    
     public List<DestLauncher> getDestLauncher(){
         return destructedLanucher;
     }
@@ -95,7 +110,19 @@ public class MissileLauncherDestructor extends WarEntity {
 
                 if (launcher.getAlive()) {
                     try {
-                        activeDestLauncher = launcher;                             // Our trigger to let graphics content to know it should launch a Missile at target launcher.
+                        activeDestLauncher = launcher;             
+                        
+                        ///////////////////////////////////////////////////
+                        ////updating data for DB - attempting destruction
+                        this.infoRef.incrementTotalNumOfDestructionAttempts();
+                        this.infoRef.setCurrentDestructionAttempt(new DBDestructionAttempt_Info(
+                        		getId(), 
+                        		"missile launcher destructor", 
+                        		launcher.getId(), 
+                        		"missile launcher"));
+                        ///////////////////////////////////////////////////
+                        
+                        // Our trigger to let graphics content to know it should launch a Missile at target launcher.
                         launchAntiMissileLauncher(launcher.getId());
                         while (antiMissileLauncher.getState() == Missile.State.INAIR) {
                             Thread.sleep(1000 / 60);
@@ -110,14 +137,22 @@ public class MissileLauncherDestructor extends WarEntity {
 
                     if (launcher.getAlive() && !launcher.getHidden()) {
                         activeDestLauncher.stopThread();
-                        getLogger().info("Launcher Destructor " + getId() + " destroyed Missile Launcher n` " + launcher.getId() + " at " + getTime().getTime() + " seconds.");
+                        int destruction_attempt_end_time = getTime().getTime();
+                        getLogger().info("Launcher Destructor " + getId() + " destroyed Missile Launcher n` " + launcher.getId() + " at " + destruction_attempt_end_time + " seconds.");
+                        ///////////////////////////////////////////////
+                        ////updating data for DB - hit target launcher
+                        this.infoRef.incrementNumOfDestructedLaunchers();
+                        this.infoRef.getCurrent_destruction_attempt().setDestruction_successful(true);
+                        this.infoRef.getCurrent_destruction_attempt().setEnd_time(destruction_attempt_end_time);
+                        ///////////////////////////////////////////////
                         getStatistics().addDestroyedLauncher();
                     }
                     else {
-                        getLogger().info("Launcher Destructor " + getId() + " failed to destroy Missile Launcher n` " + launcher.getId() + " at " + getTime().getTime() + " seconds.");
-
+                    	 int destruction_attempt_end_time = getTime().getTime();
+                        getLogger().info("Launcher Destructor " + getId() + " failed to destroy Missile Launcher n` " + launcher.getId() + " at " + destruction_attempt_end_time + " seconds.");
+                        this.infoRef.getCurrent_destruction_attempt().setEnd_time(destruction_attempt_end_time);
                     }
-
+                    this.infoRef.endCurrentDestructionAttempt();
                 }
 
 
@@ -172,7 +207,9 @@ public class MissileLauncherDestructor extends WarEntity {
         antiMissileLauncherThread.start();
         antiMissileLauncher.setWarEventListeners(getListeners());
         fireLaunchAntiMissileLauncherMissileEvent();
-        getLogger().info(destType + " n` " + getId() + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + getTime().getTime() + " seconds..");
+        int destruction_attempt_satrt_time = getTime().getTime();
+        this.infoRef.getCurrent_destruction_attempt().setStart_time(destruction_attempt_satrt_time);
+        getLogger().info(destType + " n` " + getId() + " Launched anti Launcher rocket towards Launcher n` " + id + " at " + destruction_attempt_satrt_time + " seconds..");
     }
 
     public synchronized void addWarEventListener(WarEventListener listener){

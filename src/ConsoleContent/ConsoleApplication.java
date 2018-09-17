@@ -194,6 +194,10 @@ public class ConsoleApplication implements Runnable  {
                 success = false;
                 break;
             case 4:
+            	if (!isWarRunning) {
+            		System.out.println("You cant do this before starting the game! Choose '0' to start the war");
+            		break;
+            	}
                 boolean launcherExist;
                launcherId = "";
                 while(!isNumeric(launcherId)){
@@ -293,6 +297,10 @@ public class ConsoleApplication implements Runnable  {
                 decision = -1;
                 break;
             case 5:
+            	if (!isWarRunning) {
+            		System.out.println("You cant do this before starting the game! Choose '0' to start the war");
+            		break;
+            	}
                 while(!success) {
                     System.out.println("Missile Launcher Destructor Id to launch from: ONLY NUMBERS ALLOWED!!");
                     launcherId = scanner.next();
@@ -323,6 +331,10 @@ public class ConsoleApplication implements Runnable  {
                 decision = -1;
                 break;
             case 6:
+            	if (!isWarRunning) {
+            		System.out.println("You cant do this before starting the game! Choose '0' to start the war");
+            		break;
+            	}
                 while(!success) {
                     System.out.println("Missile Destructor Id to launch from: ONLY NUMBERS ALLOWED!!");
                     launcherId = scanner.next();

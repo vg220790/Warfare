@@ -1,6 +1,6 @@
-20/06/2018 22:33:38 INFO	-->	BATTLESHIP n` LD302 Launched anti Launcher rocket towards Launcher n` L102 at 6 seconds..
-20/06/2018 22:33:39 INFO	-->	AIRCRAFT n` LD301 Launched anti Launcher rocket towards Launcher n` L101 at 7 seconds..
-20/06/2018 22:33:40 INFO	-->	Launcher Destructor LD302 destroyed Missile Launcher n` L102 at 8 seconds.
-20/06/2018 22:33:41 INFO	-->	Launcher Destructor LD301 destroyed Missile Launcher n` L101 at 9 seconds.
-20/06/2018 22:33:43 INFO	-->	AIRCRAFT n` LD301 Launched anti Launcher rocket towards Launcher n` L103 at 11 seconds..
-20/06/2018 22:33:45 INFO	-->	Launcher Destructor LD301 destroyed Missile Launcher n` L103 at 13 seconds.
+17/09/2018 13:29:00 INFO	-->	BATTLESHIP n` LD302 Launched anti Launcher rocket towards Launcher n` L102 at 6 seconds..
+17/09/2018 13:29:02 INFO	-->	Launcher Destructor LD302 destroyed Missile Launcher n` L102 at 8 seconds.
+17/09/2018 13:29:07 INFO	-->	AIRCRAFT n` LD301 Launched anti Launcher rocket towards Launcher n` L101 at 13 seconds..
+17/09/2018 13:29:09 INFO	-->	Launcher Destructor LD301 failed to destroy Missile Launcher n` L101 at 15 seconds.
+17/09/2018 13:29:11 INFO	-->	AIRCRAFT n` LD301 Launched anti Launcher rocket towards Launcher n` L103 at 17 seconds..
+17/09/2018 13:29:13 INFO	-->	Launcher Destructor LD301 destroyed Missile Launcher n` L103 at 19 seconds.
