@@ -1,8 +1,5 @@
 package Database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -13,7 +10,6 @@ import com.afekawar.bl.base.Entities.BaseEntities.MissileLauncherDestructor;
 
 public class DBManager {
 	
-	private MySQLDB_Connection sqldb_connection;
 	private Queryable connection;
 	
 	private HashMap<String,DBInfo_MissileLauncher> db_MissileLaunchers;

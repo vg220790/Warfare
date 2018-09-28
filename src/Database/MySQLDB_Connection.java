@@ -330,7 +330,7 @@ public class MySQLDB_Connection implements Queryable {
 //			statement = (PreparedStatement) sql_connection.prepareStatement(query);
 //	        rs = statement.executeQuery();
 //	        if(rs.next()){
-//	        	int res_count =rs.getInt("count");//this will get the two value in each row.
+//	        	int res_count =rs.getInt("count");
 //	        	String res_weapon_type =rs.getString("weapon_type");
 //	        	String res_weapon_id =rs.getString("weapon_id");
 //	        	String res_target_type =rs.getString("target_type");

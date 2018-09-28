@@ -273,9 +273,9 @@ public class ConsoleApplication implements Runnable  {
                     }
                     System.out.println("Missile's potential damage: ONLY NUMBERS ALLOWED!!");
                     String damageStr = scanner.next();
-                    while(!isNumeric(flyTimeStr)) {
+                    while(!isNumeric(damageStr)) {
                         System.out.println("Missile's potential damage: ONLY NUMBERS ALLOWED!!");
-                        flyTimeStr = scanner.next();
+                        damageStr = scanner.next();
                     }
                     Point2D coordinates = warInterface.getTargetByName(destinationStr).getCoordinates();
                     int launchTime = Integer.parseInt(launchTimeStr);
